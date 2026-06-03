@@ -1,0 +1,32 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SqlManagementClient
+@base https://management.azure.com
+@version 2015-05-01-preview
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector/{encryptionProtectorName}/revalidate
+@desc Revalidates an existing encryption protector.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., serverName: any # The name of the server., encryptionProtectorName: any # The name of the encryption protector to be updated., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully revalidated the encryption protector.
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector
+@desc Gets a list of server encryption protectors
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., serverName: any # The name of the server., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully retrieved the list of server encryption protector.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector/{encryptionProtectorName}
+@desc Gets a server encryption protector.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., serverName: any # The name of the server., encryptionProtectorName: any # The name of the encryption protector to be retrieved., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully retrieved the specified server encryption protector.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector/{encryptionProtectorName}
+@desc Updates an existing encryption protector.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., serverName: any # The name of the server., encryptionProtectorName: any # The name of the encryption protector to be updated., parameters: map # The requested encryption protector resource state., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully updated the encryption protector.
+@returns(202) Accepted
+
+@end

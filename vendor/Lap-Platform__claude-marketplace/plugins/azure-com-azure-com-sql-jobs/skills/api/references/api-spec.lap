@@ -1,0 +1,206 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SqlManagementClient
+@base https://management.azure.com
+@version 2017-03-01-preview
+@auth OAuth2
+@common_fields {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., serverName: any # The name of the server., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request., jobAgentName: any # The name of the job agent to be retrieved.}
+@endpoints 36
+@hint download_for_search
+@toc subscriptions(36)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents
+@desc Gets a list of job agents in a server.
+@returns(200) Successfully retrieved the list of job agents.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}
+@desc Gets a job agent.
+@returns(200) Successfully retrieved the specified job agent.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}
+@desc Creates or updates a job agent.
+@required {parameters: map # The requested job agent resource state.}
+@returns(200) Successfully updated the job agent.
+@returns(202) Accepted
+@returns(201) Successfully created the job agent.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}
+@desc Deletes a job agent.
+@returns(200) Successfully deleted the job agent.
+@returns(202) Accepted
+@returns(204) The specified job agent does not exist.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}
+@desc Updates a job agent.
+@required {parameters: map # The update to the job agent.}
+@returns(200) Successfully updated the job agent.
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials
+@desc Gets a list of jobs credentials.
+@returns(200) Successfully retrieved the list of job credentials.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}
+@desc Gets a jobs credential.
+@required {credentialName: any # The name of the credential.}
+@returns(200) Successfully retrieved the job credential.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}
+@desc Creates or updates a job credential.
+@required {credentialName: any # The name of the credential., parameters: map # The requested job credential state.}
+@returns(200) Successfully updated the credential.
+@returns(201) Successfully created the credential.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}
+@desc Deletes a job credential.
+@required {credentialName: any # The name of the credential.}
+@returns(200) Successfully deleted the credential.
+@returns(204) A credential with the specified name does not exist.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/executions
+@desc Lists all executions in a job agent.
+@optional {createTimeMin: any # If specified, only job executions created at or after the specified time are included., createTimeMax: any # If specified, only job executions created before the specified time are included., endTimeMin: any # If specified, only job executions completed at or after the specified time are included., endTimeMax: any # If specified, only job executions completed before the specified time are included., isActive: any # If specified, only active or only completed job executions are included., $skip: any # The number of elements in the collection to skip., $top: any # The number of elements to return from the collection.}
+@returns(200) Successfully retrieved job executions.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/cancel
+@desc Requests cancellation of a job execution.
+@required {jobName: any # The name of the job., jobExecutionId: any # The id of the job execution to cancel.}
+@returns(200) Successfully requested cancellation of the job execution.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/start
+@desc Starts an elastic job execution.
+@required {jobName: any # The name of the job to get.}
+@returns(200) Successfully started an execution for the job.
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions
+@desc Lists a job's executions.
+@required {jobName: any # The name of the job to get.}
+@optional {createTimeMin: any # If specified, only job executions created at or after the specified time are included., createTimeMax: any # If specified, only job executions created before the specified time are included., endTimeMin: any # If specified, only job executions completed at or after the specified time are included., endTimeMax: any # If specified, only job executions completed before the specified time are included., isActive: any # If specified, only active or only completed job executions are included., $skip: any # The number of elements in the collection to skip., $top: any # The number of elements to return from the collection.}
+@returns(200) Successfully retrieved job executions.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}
+@desc Gets a job execution.
+@required {jobName: any # The name of the job., jobExecutionId: any # The id of the job execution}
+@returns(200) Successfully retrieved the job.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}
+@desc Creates or updates a job execution.
+@required {jobName: any # The name of the job to get., jobExecutionId: any # The job execution id to create the job execution under.}
+@returns(200) A job execution for the job with the given id already existed.
+@returns(202) Accepted
+@returns(201) Successfully started an execution for the job.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs
+@desc Gets a list of jobs.
+@returns(200) Successfully retrieved the list of jobs.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}
+@desc Gets a job.
+@required {jobName: any # The name of the job to get.}
+@returns(200) Successfully retrieved the job.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}
+@desc Creates or updates a job.
+@required {jobName: any # The name of the job to get., parameters: map # The requested job state.}
+@returns(200) Successfully updated the job.
+@returns(201) Successfully created the job.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}
+@desc Deletes a job.
+@required {jobName: any # The name of the job to delete.}
+@returns(200) Successfully deleted the job.
+@returns(204) The specified job does not exist.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/steps
+@desc Lists the step executions of a job execution.
+@required {jobName: any # The name of the job to get., jobExecutionId: any # The id of the job execution}
+@optional {createTimeMin: any # If specified, only job executions created at or after the specified time are included., createTimeMax: any # If specified, only job executions created before the specified time are included., endTimeMin: any # If specified, only job executions completed at or after the specified time are included., endTimeMax: any # If specified, only job executions completed before the specified time are included., isActive: any # If specified, only active or only completed job executions are included., $skip: any # The number of elements in the collection to skip., $top: any # The number of elements to return from the collection.}
+@returns(200) Successfully retrieved the step executions.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/steps/{stepName}
+@desc Gets a step execution of a job execution.
+@required {jobName: any # The name of the job to get., jobExecutionId: any # The unique id of the job execution, stepName: any # The name of the step.}
+@returns(200) Successfully retrieved the step execution.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}/steps
+@desc Gets all job steps in the specified job version.
+@required {jobName: any # The name of the job to get., jobVersion: any # The version of the job to get.}
+@returns(200) Successfully retrieved the list of job steps.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}/steps/{stepName}
+@desc Gets the specified version of a job step.
+@required {jobName: any # The name of the job., jobVersion: any # The version of the job to get., stepName: any # The name of the job step.}
+@returns(200) Successfully retrieved the job step.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps
+@desc Gets all job steps for a job's current version.
+@required {jobName: any # The name of the job to get.}
+@returns(200) Successfully retrieved the list of job steps.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}
+@desc Gets a job step in a job's current version.
+@required {jobName: any # The name of the job., stepName: any # The name of the job step.}
+@returns(200) Successfully retrieved the job step.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}
+@desc Creates or updates a job step. This will implicitly create a new job version.
+@required {jobName: any # The name of the job., stepName: any # The name of the job step., parameters: map # The requested state of the job step.}
+@returns(200) Successfully updated the job step.
+@returns(201) Successfully added the job step.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}
+@desc Deletes a job step. This will implicitly create a new job version.
+@required {jobName: any # The name of the job., stepName: any # The name of the job step to delete.}
+@returns(200) Successfully deleted the job step.
+@returns(204) The specified job step does not exist.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/targets
+@desc Lists target executions for all steps of a job execution.
+@required {jobName: any # The name of the job to get., jobExecutionId: any # The id of the job execution}
+@optional {createTimeMin: any # If specified, only job executions created at or after the specified time are included., createTimeMax: any # If specified, only job executions created before the specified time are included., endTimeMin: any # If specified, only job executions completed at or after the specified time are included., endTimeMax: any # If specified, only job executions completed before the specified time are included., isActive: any # If specified, only active or only completed job executions are included., $skip: any # The number of elements in the collection to skip., $top: any # The number of elements to return from the collection.}
+@returns(200) Successfully retrieved the target executions.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/steps/{stepName}/targets
+@desc Lists the target executions of a job step execution.
+@required {jobName: any # The name of the job to get., jobExecutionId: any # The id of the job execution, stepName: any # The name of the step.}
+@optional {createTimeMin: any # If specified, only job executions created at or after the specified time are included., createTimeMax: any # If specified, only job executions created before the specified time are included., endTimeMin: any # If specified, only job executions completed at or after the specified time are included., endTimeMax: any # If specified, only job executions completed before the specified time are included., isActive: any # If specified, only active or only completed job executions are included., $skip: any # The number of elements in the collection to skip., $top: any # The number of elements to return from the collection.}
+@returns(200) Successfully retrieved the target executions.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/steps/{stepName}/targets/{targetId}
+@desc Gets a target execution.
+@required {jobName: any # The name of the job to get., jobExecutionId: any # The unique id of the job execution, stepName: any # The name of the step., targetId: any # The target id.}
+@returns(200) Successfully retrieved the target execution.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups
+@desc Gets all target groups in an agent.
+@returns(200) Successfully retrieved the list of target groups.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups/{targetGroupName}
+@desc Gets a target group.
+@required {targetGroupName: any # The name of the target group.}
+@returns(200) Successfully retrieved the target group.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups/{targetGroupName}
+@desc Creates or updates a target group.
+@required {targetGroupName: any # The name of the target group., parameters: map # The requested state of the target group.}
+@returns(200) Successfully updated the target group.
+@returns(201) Successfully created the target group.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups/{targetGroupName}
+@desc Deletes a target group.
+@required {targetGroupName: any # The name of the target group.}
+@returns(200) Successfully deleted the target group.
+@returns(204) A target group with the specified name does not exist.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions
+@desc Gets all versions of a job.
+@required {jobName: any # The name of the job to get.}
+@returns(200) Successfully retrieved the list of versions.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}
+@desc Gets a job version.
+@required {jobName: any # The name of the job., jobVersion: any # The version of the job to get.}
+@returns(200) Successfully retrieved the job version.
+
+@end

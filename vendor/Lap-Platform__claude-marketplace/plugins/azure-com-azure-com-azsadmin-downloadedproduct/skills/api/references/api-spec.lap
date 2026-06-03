@@ -1,0 +1,30 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AzureBridgeAdminClient
+@base https://management.azure.com
+@version 2016-01-01
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureBridge.Admin/activations/{activationName}/downloadedProducts
+@desc Get a list of downloaded products.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureBridge.Admin/activations/{activationName}/downloadedProducts/{productName}
+@desc Get a downloaded product.
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureBridge.Admin/activations/{activationName}/downloadedProducts/{productName}
+@desc Delete a downloaded product.
+@returns(200) Accepted
+@returns(202) Accepted
+@returns(204) No Content
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureBridge.Admin/activations/{activationName}/downloadedProducts/{productName}
+@desc Creates a downloaded product.
+@required {downloadedProduct: any # Downloaded product resource definition.}
+@returns(200) OK
+@returns(202) Accepted
+
+@end

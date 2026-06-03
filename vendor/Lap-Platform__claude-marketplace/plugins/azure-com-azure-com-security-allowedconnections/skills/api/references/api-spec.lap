@@ -1,0 +1,23 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Microsoft Defender for Cloud
+@base https://management.azure.com
+@version 2015-06-01-preview
+@auth OAuth2
+@endpoints 3
+@toc subscriptions(3)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/allowedConnections
+@desc Gets the list of all possible traffic between resources for the subscription
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/allowedConnections
+@desc Gets the list of all possible traffic between resources for the subscription and location.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/allowedConnections/{connectionType}
+@desc Gets the list of all possible traffic between resources for the subscription and location, based on connection type.
+@required {connectionType: any # The type of allowed connections (Internal, External)}
+@returns(200) OK
+
+@end

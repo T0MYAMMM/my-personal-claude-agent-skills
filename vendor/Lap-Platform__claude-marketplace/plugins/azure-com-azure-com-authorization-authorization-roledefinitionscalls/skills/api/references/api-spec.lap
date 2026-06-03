@@ -1,0 +1,47 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AuthorizationManagementClient
+@base https://management.azure.com
+@version 2018-01-01-preview
+@auth OAuth2
+@endpoints 6
+@toc subscriptions(2), {scope}(4)
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Authorization/permissions
+@desc Gets all permissions the caller has for a resource group.
+@returns(200) OK - Returns an array of permissions.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/permissions
+@desc Gets all permissions the caller has for a resource.
+@required {parentResourcePath: any # The parent resource identity., resourceType: any # The resource type of the resource., resourceName: any # The name of the resource to get the permissions for.}
+@returns(200) OK - Returns an array of permissions.
+
+@endgroup
+
+@group {scope}
+@endpoint DELETE /{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}
+@desc Deletes a role definition.
+@required {scope: any # The scope of the role definition., roleDefinitionId: any # The ID of the role definition to delete.}
+@returns(200) OK - Returns information about the role definition.
+@returns(204) Role definition already deleted or does not exist.
+
+@endpoint GET /{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}
+@desc Get role definition by name (GUID).
+@required {scope: any # The scope of the role definition., roleDefinitionId: any # The ID of the role definition.}
+@returns(200) OK - Returns information about the role definition.
+
+@endpoint PUT /{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}
+@desc Creates or updates a role definition.
+@required {scope: any # The scope of the role definition., roleDefinitionId: any # The ID of the role definition., roleDefinition: map # The values for the role definition.}
+@returns(201) OK - Returns information about the role definition.
+
+@endpoint GET /{scope}/providers/Microsoft.Authorization/roleDefinitions
+@desc Get all role definitions that are applicable at scope and above.
+@required {scope: any # The scope of the role definition.}
+@optional {$filter: any # The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well.}
+@returns(200) OK - Returns an array of role definitions.
+
+@endgroup
+
+@end

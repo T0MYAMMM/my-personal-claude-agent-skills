@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Azure Metrics
+@base https://monitoring.azure.com
+@version 2018-09-01-preview
+@auth ApiKey Authorization in header
+@endpoints 1
+@toc subscriptions(1)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProvider}/{resourceTypeName}/{resourceName}/metrics
+@desc **Post the metric values for a resource**.
+@required {Content-Type: any # Supports application/json and application/x-ndjson, Content-Length: any # Content length of the payload, Authorization: any # Authorization token issue for issued for audience "https:\\monitoring.azure.com\", subscriptionId: any # The azure subscription id, resourceGroupName: any # The ARM resource group name, resourceProvider: any # The ARM resource provider name, resourceTypeName: any # The ARM resource type name, resourceName: any # The ARM resource name, body: map # The Azure metrics document json payload}
+@returns(200) The azure metrics publish succeeded
+
+@end

@@ -1,0 +1,20 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Security Center
+@base https://management.azure.com
+@version 2019-01-01
+@auth OAuth2
+@endpoints 2
+@toc {resourceId}(2)
+
+@endpoint GET /{resourceId}/providers/Microsoft.Security/advancedThreatProtectionSettings/{settingName}
+@desc Gets the Advanced Threat Protection settings for the specified resource.
+@required {settingName: any # Advanced Threat Protection setting name.}
+@returns(200) Successful request to get Advanced Threat Protection settings.
+
+@endpoint PUT /{resourceId}/providers/Microsoft.Security/advancedThreatProtectionSettings/{settingName}
+@desc Creates or updates the Advanced Threat Protection settings on a specified resource.
+@required {settingName: any # Advanced Threat Protection setting name., advancedThreatProtectionSetting: map # Advanced Threat Protection Settings}
+@returns(200) Successful request to put Advanced Threat Protection settings.
+
+@end

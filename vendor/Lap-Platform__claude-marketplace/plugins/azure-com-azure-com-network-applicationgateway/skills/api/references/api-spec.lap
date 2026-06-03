@@ -1,0 +1,97 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api NetworkManagementClient
+@base https://management.azure.com
+@version 2019-07-01
+@auth OAuth2
+@endpoints 17
+@toc subscriptions(17)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}
+@desc Deletes the specified application gateway.
+@required {resourceGroupName: any # The name of the resource group., applicationGatewayName: any # The name of the application gateway.}
+@returns(202) Accepted and the operation will complete asynchronously.
+@returns(204) Request successful. Resource with the specified name does not exist.
+@returns(200) Delete successful.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}
+@desc Gets the specified application gateway.
+@required {resourceGroupName: any # The name of the resource group., applicationGatewayName: any # The name of the application gateway.}
+@returns(200) Request successful. The operation returns an ApplicationGateway resource.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}
+@desc Creates or updates the specified application gateway.
+@required {resourceGroupName: any # The name of the resource group., applicationGatewayName: any # The name of the application gateway., parameters: any # Parameters supplied to the create or update application gateway operation.}
+@returns(201) Create successful. The operation returns the resulting ApplicationGateway resource.
+@returns(200) Update successful. The operation returns the resulting ApplicationGateway resource.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}
+@desc Updates the specified application gateway tags.
+@required {resourceGroupName: any # The name of the resource group., applicationGatewayName: any # The name of the application gateway., parameters: any # Parameters supplied to update application gateway tags.}
+@returns(200) Update successful. The operation returns the resulting ApplicationGateway resource.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways
+@desc Lists all application gateways in a resource group.
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200) Success. The operation returns a list of ApplicationGateway resources.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGateways
+@desc Gets all the application gateways in a subscription.
+@returns(200) Success. The operation returns a list of ApplicationGateway resources.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start
+@desc Starts the specified application gateway.
+@required {resourceGroupName: any # The name of the resource group., applicationGatewayName: any # The name of the application gateway.}
+@returns(200) Request successful. The operation starts the ApplicationGateway resource.
+@returns(202) Accepted and the operation will complete asynchronously.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/stop
+@desc Stops the specified application gateway in a resource group.
+@required {resourceGroupName: any # The name of the resource group., applicationGatewayName: any # The name of the application gateway.}
+@returns(200) Request successful. The operation stops the ApplicationGateway resource.
+@returns(202) Accepted and the operation will complete asynchronously.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth
+@desc Gets the backend health of the specified application gateway in a resource group.
+@required {resourceGroupName: any # The name of the resource group., applicationGatewayName: any # The name of the application gateway.}
+@optional {$expand: any # Expands BackendAddressPool and BackendHttpSettings referenced in backend health.}
+@returns(200) Request successful.
+@returns(202) Accepted and the operation will complete asynchronously.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand
+@desc Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+@required {resourceGroupName: any # The name of the resource group., applicationGatewayName: any # The name of the application gateway., probeRequest: any # Request body for on-demand test probe operation.}
+@optional {$expand: any # Expands BackendAddressPool and BackendHttpSettings referenced in backend health.}
+@returns(200) Request successful.
+@returns(202) Accepted and the operation will complete asynchronously.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableServerVariables
+@desc Lists all available server variables.
+@returns(200) Success. The operation returns a list of all available server variables.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableRequestHeaders
+@desc Lists all available request headers.
+@returns(200) Success. The operation returns a list of all available request headers.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableResponseHeaders
+@desc Lists all available response headers.
+@returns(200) Success. The operation returns a list of all available response headers.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets
+@desc Lists all available web application firewall rule sets.
+@returns(200) Success. The operation returns a list of all available web application firewall rule sets.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default
+@desc Lists available Ssl options for configuring Ssl policy.
+@returns(200) Success. The operation returns all available Ssl options for configuring Ssl policy.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies
+@desc Lists all SSL predefined policies for configuring Ssl policy.
+@returns(200) Success. The operation returns a lists of all Ssl predefined policies for configuring Ssl policy.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies/{predefinedPolicyName}
+@desc Gets Ssl predefined policy with the specified policy name.
+@required {predefinedPolicyName: any # Name of Ssl predefined policy.}
+@returns(200) Success. The operation returns a Ssl predefined policy with the specified policy name.
+
+@end

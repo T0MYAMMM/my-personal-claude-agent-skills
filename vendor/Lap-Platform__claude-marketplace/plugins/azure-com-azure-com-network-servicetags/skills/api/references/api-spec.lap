@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api NetworkManagementClient
+@base https://management.azure.com
+@version 2019-07-01
+@auth OAuth2
+@endpoints 1
+@toc subscriptions(1)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTags
+@desc Gets a list of service tag information resources.
+@required {location: any # The location that will be used as a reference for version (not as a filter based on location, you will get the list of service tags with prefix details across all regions but limited to the cloud that your subscription belongs to).}
+@returns(200) Request successful. Returns a list of service tag information resources.
+
+@end

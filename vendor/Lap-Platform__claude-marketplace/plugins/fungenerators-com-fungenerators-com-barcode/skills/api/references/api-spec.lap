@@ -1,0 +1,32 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Barcode API
+@base http://api.fungenerators.com
+@version 1.5
+@auth Bearer bearer
+@endpoints 4
+@toc barcode(4)
+
+@endpoint GET /barcode/encode/types
+@desc Get the supported barcode types for encoding / image generation.
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /barcode/encode
+@desc Get a Bar Code image for the given barcode number
+@required {number: str(string) # Barcode number}
+@optional {barcodeformat: str(string) # Barcode format default C39. Valid values are the keys to those returned from /barcode/encode/types., outputformat: str(string) # Output image format. Must be one of png/html/jpg/svg, widthfactor: int(integer) # Width factor of the image, totalheight: int(integer) # Total height of the image}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /barcode/decode/types
+@desc Get the supported barcode types for the decoding process.
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint POST /barcode/decode
+@desc Decode a Barcode image and return the cotents if successful
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@end

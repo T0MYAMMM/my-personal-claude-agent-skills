@@ -1,0 +1,99 @@
+{
+  "name": "claude-skills-engineering",
+  "owner": {
+    "name": "Don Jacobsmeyer",
+    "email": "hello@donjacobsmeyer.com"
+  },
+  "description": "Engineering-focused Claude Code skills for software development, DevOps, testing, git workflows, and development tools",
+  "homepage": "https://github.com/djacobsmeyer/claude-skills-engineering",
+  "plugins": [
+    {
+      "name": "manage-worktrees-skill",
+      "source": "./plugins/manage-worktrees-skill",
+      "description": "Comprehensive git worktree management for creating, listing, and removing worktrees. Use when the user wants to create new development environments, view worktree status, or manage the lifecycle of parallel development environments. Provides slash commands /create_worktree, /list_worktrees, and /remove_worktree.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Don Jacobsmeyer",
+        "email": "hello@donjacobsmeyer.com"
+      },
+      "keywords": ["git", "worktree", "management", "create", "list", "remove", "parallel-development"]
+    },
+    {
+      "name": "directory-tree-viewer",
+      "source": "./plugins/directory-tree-viewer",
+      "description": "Display directory structure as a formatted tree with visual hierarchy. Use when the user needs to visualize a directory structure, analyze folder organization, or share a file tree view. Provides the /tree slash command for viewing any directory with custom depth arguments.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Don Jacobsmeyer",
+        "email": "hello@donjacobsmeyer.com"
+      },
+      "keywords": ["directory", "tree", "visualization", "file-structure", "folder", "organization"]
+    },
+    {
+      "name": "xano-backend-builder",
+      "source": "./plugins/xano-backend-builder",
+      "description": "Build and manage no-code backend services with Xano using MCP server integration. Create database tables, API endpoints, custom functions, and business logic using XanoScript. Use when building backend APIs, database schemas, serverless functions, webhooks, or integrating with Xano workspace.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Don Jacobsmeyer",
+        "email": "hello@donjacobsmeyer.com"
+      },
+      "keywords": ["xano", "backend", "no-code", "api", "database", "xanoscript", "mcp", "serverless", "functions"]
+    },
+    {
+      "name": "sandbox-manager",
+      "source": "./plugins/sandbox-manager",
+      "description": "Configure and manage Claude Code sandboxing for secure code execution. Use when user mentions sandboxing, security isolation, untrusted code, network restrictions, filesystem permissions, or wants to configure Claude Code security settings. Helps enable/disable sandbox mode, configure permissions, troubleshoot compatibility issues, and provide scenario-based configurations.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Don Jacobsmeyer",
+        "email": "hello@donjacobsmeyer.com"
+      },
+      "keywords": ["sandbox", "security", "isolation", "permissions", "network-restrictions", "filesystem", "untrusted-code", "configuration"]
+    },
+    {
+      "name": "prime-skill",
+      "source": "./plugins/prime-skill",
+      "description": "Quickly understand and load a codebase by examining repository structure, README, and AI documentation. Use when starting work on a new project, need to refresh context about how a project is organized, or want to get a quick overview of a codebase's architecture and purpose.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Don Jacobsmeyer",
+        "email": "hello@donjacobsmeyer.com"
+      },
+      "keywords": ["codebase", "context", "documentation", "readme", "understanding", "project-setup"]
+    },
+    {
+      "name": "build-skill",
+      "source": "./plugins/build-skill",
+      "description": "Implement features and changes from implementation plans. Takes a plan file path as input and executes the implementation steps, then reports changes. Use when you have a detailed plan document and need to code it up, or want to implement specifications written in markdown format.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Don Jacobsmeyer",
+        "email": "hello@donjacobsmeyer.com"
+      },
+      "keywords": ["implementation", "plan", "coding", "features", "specifications", "development"]
+    },
+    {
+      "name": "quick-plan-skill",
+      "source": "./plugins/quick-plan-skill",
+      "description": "Create detailed engineering implementation plans for features or fixes based on user requirements. Generates comprehensive specifications with technical approach, step-by-step implementation, and testing strategy. Use when you need to plan before building, create detailed specs for complex features, or document the approach to solve a problem.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Don Jacobsmeyer",
+        "email": "hello@donjacobsmeyer.com"
+      },
+      "keywords": ["planning", "specifications", "engineering", "design", "architecture", "strategy"]
+    },
+    {
+      "name": "output-styles-skill",
+      "source": "./plugins/output-styles-skill",
+      "description": "Configure and understand different output formatting styles for Claude Code responses. Provides templates for bullet-points, markdown, YAML, HTML, and specialized formats like TTS summaries and observable tool diffs. Use when you want to control output formatting, need structured data output, or want specialized rendering for specific use cases.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Don Jacobsmeyer",
+        "email": "hello@donjacobsmeyer.com"
+      },
+      "keywords": ["output", "formatting", "styles", "templates", "structured-data", "tts", "yaml", "markdown"]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AzureStack Azure Bridge Client
+@base https://management.azure.com
+@version 2017-06-01
+@auth OAuth2
+@endpoints 7
+@toc subscriptions(7)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products
+@desc Returns a list of products.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}
+@desc Returns the specified product.
+@required {productName: any # Name of the product.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/listDetails
+@desc Returns the extended properties of a product.
+@required {productName: any # Name of the product.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/listProducts
+@desc Returns a list of products.
+@required {productName: any # Name of the product.}
+@optional {deviceConfiguration: any # Device configuration.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/getProducts
+@desc Returns a list of products.
+@required {productName: any # Name of the product.}
+@optional {deviceConfiguration: any # Device configuration.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/getProduct
+@desc Returns the specified product.
+@required {productName: any # Name of the product.}
+@optional {deviceConfiguration: any # Device configuration.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/uploadProductLog
+@desc Returns the specified product.
+@required {productName: any # Name of the product.}
+@optional {marketplaceProductLogUpdate: any # Update details for product log.}
+@returns(200) OK
+
+@end

@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api TimesTags API
+@base http://api.nytimes.com/svc/suggest/v1
+@version 1.0.0
+@auth ApiKey api-key in query
+@endpoints 1
+@toc timestags(1)
+
+@endpoint GET /timestags
+@required {query: any # Your search query}
+@optional {filter: any # If you do not specify a value for filter (see the Optional Parameters), your query will be matched to tags in all four Times dictionaries: subject, geographic location, organization and person. To use more than one, separate with commas., max: any # Sets the maximum number of results}
+@returns(200) An array of tags
+
+@end

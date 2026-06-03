@@ -1,0 +1,31 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api DeploymentAdminClient
+@base https://management.azure.com
+@version 2019-01-01
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/fileContainers
+@desc Returns an array of file containers.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/fileContainers/{fileContainerId}
+@desc Retrieves the specific file container details.
+@required {fileContainerId: any # The file container identifier.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/fileContainers/{fileContainerId}
+@desc Creates a new file container.
+@required {fileContainerParameters: map # The parameters required to create a new file container., fileContainerId: any # The file container identifier.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint DELETE /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/fileContainers/{fileContainerId}
+@desc Deletes specified file container.
+@required {fileContainerId: any # The file container identifier.}
+@returns(200) OK
+@returns(204) No Content
+
+@end

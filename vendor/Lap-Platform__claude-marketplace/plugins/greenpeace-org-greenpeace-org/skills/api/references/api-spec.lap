@@ -1,0 +1,54 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Greenwire Public API
+@base https://greenwire.greenpeace.org/api/public
+@version 1.0.0
+@endpoints 6
+@toc volunteers(2), groups(2), events(2)
+
+@group volunteers
+@endpoint GET /volunteers
+@desc Gets an array of `Volunteer` object. Mandatory query param of **domain** determines the site / country the volunteers are from.
+@required {domain: any # the site the users are registered on, example: netherlands}
+@optional {limit: any # the number of desired records. Default is 5., must_have_default_avatar: any # 1 or 0. filter on people that have the default avatar or not.}
+@returns(200) Successful response
+
+@endpoint GET /volunteers/{UUID}
+@desc Get one specific `Volunteer` object by specifying its UUID in the url path.
+@required {UUID: any}
+@returns(200) Successful response
+@errors {400: Not found}
+
+@endgroup
+
+@group groups
+@endpoint GET /groups
+@desc Gets an array of `Group` object. Mandatory query param of **domain** determines the site / country the group belongs to.
+@required {domain: any # the site the groups belongs to, example: netherlands}
+@optional {limit: any # the number of desired records}
+@returns(200) Successful response
+
+@endpoint GET /groups/{UUID}
+@desc Get one `Group` object by specifying its UUID in the url path.
+@required {UUID: any}
+@returns(200) Successful response
+@errors {400: Not found}
+
+@endgroup
+
+@group events
+@endpoint GET /events
+@desc Return the upcoming events (e.g. start date >= today). Gets an array of `Event` object. Mandatory query param of **domain** determines the site / country the event belongs to.
+@required {domain: any # the site the groups belongs to, example: netherlands}
+@optional {limit: any # the number of desired records}
+@returns(200) Successful response
+
+@endpoint GET /events/{UUID}
+@desc Get one `Event` object by specifying its UUID in the url path.
+@required {UUID: any}
+@returns(200) Successful response
+@errors {400: Not found}
+
+@endgroup
+
+@end

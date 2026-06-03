@@ -1,0 +1,245 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api ApiDapp
+@base https://ethereum.apidapp.com/1
+@version 2019-02-14T16:47:01Z
+@auth ApiKey X-Api-Key in header
+@endpoints 54
+@hint download_for_search
+@toc root(1), account(4), block(8), blockchain(4), contract(5), echo(1), erc20(6), key(5), transaction(6), version(2), wallet(12)
+
+@group root
+@endpoint OPTIONS /
+@returns(200) 200 response
+
+@endgroup
+
+@group account
+@endpoint POST /account
+@desc Create new account
+@returns(200) 200 response
+
+@endpoint OPTIONS /account
+@returns(200) 200 response
+
+@endpoint GET /account/{id}
+@desc Get account balance
+@required {id: any}
+@returns(200) 200 response
+
+@endpoint OPTIONS /account/{id}
+@returns(200) 200 response
+
+@endgroup
+
+@group block
+@endpoint GET /block
+@desc Access detailed block information
+@returns(200) 200 response
+
+@endpoint OPTIONS /block
+@returns(200) 200 response
+
+@endpoint GET /block/{id}
+@desc Get information about particular block
+@required {id: any}
+@returns(200) 200 response
+
+@endpoint OPTIONS /block/{id}
+@returns(200) 200 response
+
+@endpoint GET /block/{id}/transaction
+@desc Get transaction count within block
+@required {id: any}
+@returns(200) 200 response
+
+@endpoint OPTIONS /block/{id}/transaction
+@returns(200) 200 response
+
+@endpoint GET /block/{id}/transaction/{index}
+@desc Get information about particular transaction within block
+@required {index: any, id: any}
+@returns(200) 200 response
+
+@endpoint OPTIONS /block/{id}/transaction/{index}
+@returns(200) 200 response
+
+@endgroup
+
+@group blockchain
+@endpoint GET /blockchain
+@desc Get a list of supported blockchains
+@returns(200) 200 response
+
+@endpoint OPTIONS /blockchain
+@returns(200) 200 response
+
+@endpoint GET /blockchain/{id}
+@desc Get information about blockchain woth given id
+@required {id: any}
+@returns(200) 200 response
+
+@endpoint OPTIONS /blockchain/{id}
+@returns(200) 200 response
+
+@endgroup
+
+@group contract
+@endpoint POST /contract
+@desc Create a new smart contract
+@returns(200) 200 response
+
+@endpoint OPTIONS /contract
+@returns(200) 200 response
+
+@endpoint GET /contract/{id}
+@desc Get contract balance
+@required {id: any}
+@returns(200) 200 response
+
+@endpoint POST /contract/{id}
+@desc Call the contract
+@required {id: any}
+@returns(200) 200 response
+
+@endpoint OPTIONS /contract/{id}
+@returns(200) 200 response
+
+@endgroup
+
+@group echo
+@endpoint OPTIONS /echo
+@returns(200) 200 response
+
+@endgroup
+
+@group erc20
+@endpoint GET /erc20
+@desc Get token information such as name, total amount in circulation, etc
+@returns(200) 200 response
+
+@endpoint POST /erc20
+@returns(200) 200 response
+
+@endpoint OPTIONS /erc20
+@returns(200) 200 response
+
+@endpoint GET /erc20/{address}
+@desc Get information amout token balance in the account
+@required {address: any}
+@returns(200) 200 response
+
+@endpoint POST /erc20/{address}
+@desc Transfer tokens to another account
+@required {address: any}
+@returns(200) 200 response
+
+@endpoint OPTIONS /erc20/{address}
+@returns(200) 200 response
+
+@endgroup
+
+@group key
+@endpoint GET /key
+@optional {token: any}
+@returns(200) 200 response
+
+@endpoint POST /key
+@returns(200) 200 response
+
+@endpoint OPTIONS /key
+@returns(200) 200 response
+
+@endpoint DELETE /key/{key}
+@required {key: any}
+@returns(200) 200 response
+
+@endpoint OPTIONS /key/{key}
+@returns(200) 200 response
+
+@endgroup
+
+@group transaction
+@endpoint POST /transaction
+@desc Create a new transaction. Transfer Ether between accounts
+@returns(200) 200 response
+
+@endpoint OPTIONS /transaction
+@returns(200) 200 response
+
+@endpoint GET /transaction/{hash}
+@desc Get information about transaction by the transaction hash value
+@required {hash: any}
+@returns(200) 200 response
+
+@endpoint OPTIONS /transaction/{hash}
+@returns(200) 200 response
+
+@endpoint GET /transaction/{hash}/receipt
+@desc Get receipt detail information
+@required {hash: any}
+@returns(200) 200 response
+
+@endpoint OPTIONS /transaction/{hash}/receipt
+@returns(200) 200 response
+
+@endgroup
+
+@group version
+@endpoint GET /version
+@desc Get API version info
+@returns(200) 200 response
+
+@endpoint OPTIONS /version
+@returns(200) 200 response
+
+@endgroup
+
+@group wallet
+@endpoint GET /wallet
+@desc Get current account balance
+@returns(200) 200 response
+
+@endpoint POST /wallet
+@desc Create personal wallet
+@returns(200) 200 response
+
+@endpoint OPTIONS /wallet
+@returns(200) 200 response
+
+@endpoint GET /wallet/account
+@returns(200) 200 response
+
+@endpoint POST /wallet/account
+@returns(200) 200 response
+
+@endpoint OPTIONS /wallet/account
+@returns(200) 200 response
+
+@endpoint GET /wallet/account/{id}
+@desc Get account balance
+@required {id: any}
+@returns(200) 200 response
+
+@endpoint OPTIONS /wallet/account/{id}
+@returns(200) 200 response
+
+@endpoint POST /wallet/account/{id}/contract
+@required {id: any}
+@returns(200) 200 response
+
+@endpoint POST /wallet/account/{id}/erc20
+@required {id: any}
+@returns(200) 200 response
+
+@endpoint POST /wallet/account/{id}/pay
+@desc Send payment from the account held within the wallet
+@required {id: any}
+@returns(200) 200 response
+
+@endpoint OPTIONS /wallet/account/{id}/pay
+@returns(200) 200 response
+
+@endgroup
+
+@end

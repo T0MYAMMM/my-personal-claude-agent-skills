@@ -1,0 +1,30 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Azure SQL Database
+@base https://management.azure.com
+@version 2014-04-01
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/metrics
+@desc Returns database metrics.
+@required {serverName: any # The name of the server., databaseName: any # The name of the database., $filter: any # An OData filter expression that describes a subset of metrics to return.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/metricDefinitions
+@desc Returns database metric definitions.
+@required {serverName: any # The name of the server., databaseName: any # The name of the database.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/metrics
+@desc Returns elastic pool  metrics.
+@required {serverName: any # The name of the server., elasticPoolName: any # The name of the elastic pool., $filter: any # An OData filter expression that describes a subset of metrics to return.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/metricDefinitions
+@desc Returns elastic pool metric definitions.
+@required {serverName: any # The name of the server., elasticPoolName: any # The name of the elastic pool.}
+@returns(200) OK
+
+@end

@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api agentOS API V3, Maintenance Call Group
+@base https://live-api.letmc.com
+@version v3-maintenance
+@auth basic | ApiKey ApiKey in header
+@endpoints 1
+@toc maintenance(1)
+
+@endpoint POST /v3/maintenance/{shortName}/maintenance/{branchID}/createmaintenancejob
+@desc Create a maintenance job for a specific branch
+@required {shortName: any # The unique client short-name, branchID: any # The unique ID of the Branch, issue: map # A JSON object containing details of the maintenance job}
+@returns(200) OK
+
+@end

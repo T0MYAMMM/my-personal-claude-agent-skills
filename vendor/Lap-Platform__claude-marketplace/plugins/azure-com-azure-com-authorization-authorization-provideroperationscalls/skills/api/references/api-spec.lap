@@ -1,0 +1,21 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AuthorizationManagementClient
+@base https://management.azure.com
+@version 2018-01-01-preview
+@auth OAuth2
+@endpoints 2
+@toc providers(2)
+
+@endpoint GET /providers/Microsoft.Authorization/providerOperations/{resourceProviderNamespace}
+@desc Gets provider operations metadata for the specified resource provider.
+@required {resourceProviderNamespace: any # The namespace of the resource provider.}
+@optional {$expand: any # Specifies whether to expand the values.}
+@returns(200) OK - Returns the operations metadata.
+
+@endpoint GET /providers/Microsoft.Authorization/providerOperations
+@desc Gets provider operations metadata for all resource providers.
+@optional {$expand: any # Specifies whether to expand the values.}
+@returns(200) OK - Returns an array of the operations metadata.
+
+@end

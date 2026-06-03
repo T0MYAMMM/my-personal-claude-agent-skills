@@ -1,0 +1,62 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SimpliVPNAPI
+@version 1.0
+@auth ApiKey Authorization in header
+@endpoints 7
+@toc servers(1), server-summaries(1), register(1), login(1), enable-user(1), disable-user(1), username-available(1)
+
+@group servers
+@endpoint GET /servers
+@returns(200) Success
+
+@endgroup
+
+@group server-summaries
+@endpoint GET /server-summaries
+@returns(200) Success
+
+@endgroup
+
+@group register
+@endpoint POST /register
+@desc Register
+@required {username: str, password: str}
+@optional {await: bool}
+@returns(200) Success
+
+@endgroup
+
+@group login
+@endpoint POST /login
+@desc Login
+@required {username: str, password: str}
+@returns(200) Success
+
+@endgroup
+
+@group enable-user
+@endpoint POST /enable-user
+@desc EnableUser
+@required {username: str}
+@returns(200) Success
+
+@endgroup
+
+@group disable-user
+@endpoint POST /disable-user
+@desc DisableUser
+@required {username: str}
+@returns(200) Success
+
+@endgroup
+
+@group username-available
+@endpoint POST /username-available
+@desc UsernameAvailable
+@required {username: str}
+@returns(200) Success
+
+@endgroup
+
+@end

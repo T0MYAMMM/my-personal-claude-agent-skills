@@ -1,0 +1,716 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SiteRecoveryManagementClient
+@base https://management.azure.com
+@version 2018-07-10
+@auth OAuth2
+@common_fields {api-version: any # Client Api Version., resourceGroupName: any # The name of the resource group where the recovery services vault is present., subscriptionId: any # The subscription Id., resourceName: any # The name of the recovery services vault.}
+@endpoints 129
+@hint download_for_search
+@toc Subscriptions(126), subscriptions(3)
+
+@group Subscriptions
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/operations
+@desc Returns the list of available operations.
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings
+@desc Gets the list of configured email notification(alert) configurations.
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}
+@desc Gets an email notification(alert) configuration.
+@required {alertSettingName: any # The name of the email notification configuration.}
+@returns(200) OK
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}
+@desc Configures email notifications for this vault.
+@required {alertSettingName: any # The name of the email notification(alert) configuration., request: map # The input to configure the email notification(alert).}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults
+@desc Gets the validation errors in case the VM is unsuitable for protection.
+@required {virtualMachineName: any # Virtual Machine name.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults/default
+@desc Gets the validation errors in case the VM is unsuitable for protection.
+@required {virtualMachineName: any # Virtual Machine name.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents
+@desc Gets the list of Azure Site Recovery events.
+@optional {$filter: any # OData filter options.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents/{eventName}
+@desc Get the details of an Azure Site recovery event.
+@required {eventName: any # The name of the Azure Site Recovery event.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics
+@desc Gets the list of ASR fabrics
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}
+@desc Gets the details of an ASR fabric.
+@required {fabricName: any # Fabric name.}
+@returns(200) OK
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}
+@desc Creates an Azure Site Recovery fabric.
+@required {fabricName: any # Name of the ASR fabric., input: map # Fabric creation input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint DELETE /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}
+@desc Purges the site.
+@required {fabricName: any # ASR fabric to purge.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/checkConsistency
+@desc Checks the consistency of the ASR fabric.
+@required {fabricName: any # Fabric name.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/migratetoaad
+@desc Migrates the site to AAD.
+@required {fabricName: any # ASR fabric to migrate.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/reassociateGateway
+@desc Perform failover of the process server.
+@required {fabricName: any # The name of the fabric containing the process server., failoverProcessServerRequest: map # The input to the failover process server operation.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/remove
+@desc Deletes the site.
+@required {fabricName: any # ASR fabric to delete}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/renewCertificate
+@desc Renews certificate for the fabric.
+@required {fabricName: any # fabric name to renew certs for., renewCertificate: map # Renew certificate input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationLogicalNetworks
+@desc Gets the list of logical networks under a fabric.
+@required {fabricName: any # Server Id.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationLogicalNetworks/{logicalNetworkName}
+@desc Gets a logical network with specified server id and logical network name.
+@required {fabricName: any # Server Id., logicalNetworkName: any # Logical network name.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks
+@desc Gets the list of networks under a fabric.
+@required {fabricName: any # Fabric name}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}
+@desc Gets a network with specified server id and network name.
+@required {fabricName: any # Server Id., networkName: any # Primary network name.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings
+@desc Gets all the network mappings under a network.
+@required {fabricName: any # Primary fabric name., networkName: any # Primary network name.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}
+@desc Gets network mapping by name.
+@required {fabricName: any # Primary fabric name., networkName: any # Primary network name., networkMappingName: any # Network mapping name.}
+@returns(200) OK
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}
+@desc Creates network mapping.
+@required {fabricName: any # Primary fabric name., networkName: any # Primary network name., networkMappingName: any # Network mapping name., input: map # Create network mapping input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint DELETE /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}
+@desc Delete network mapping.
+@required {fabricName: any # Primary fabric name., networkName: any # Primary network name., networkMappingName: any # ARM Resource Name for network mapping.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint PATCH /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}
+@desc Updates network mapping.
+@required {fabricName: any # Primary fabric name., networkName: any # Primary network name., networkMappingName: any # Network mapping name., input: map # Update network mapping input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers
+@desc Gets the list of protection container for a fabric.
+@required {fabricName: any # Fabric name.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}
+@desc Gets the protection container details.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name.}
+@returns(200) OK
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}
+@desc Create a protection container.
+@required {fabricName: any # Unique fabric ARM name., protectionContainerName: any # Unique protection container ARM name., creationInput: map # Creation input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/discoverProtectableItem
+@desc Adds a protectable item to the replication protection container.
+@required {fabricName: any # The name of the fabric., protectionContainerName: any # The name of the protection container., discoverProtectableItemRequest: map # The request object to add a protectable item.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/remove
+@desc Removes a protection container.
+@required {fabricName: any # Unique fabric ARM name., protectionContainerName: any # Unique protection container ARM name.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems
+@desc Gets the list of migration items in the protection container.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}
+@desc Gets the details of a migration item.
+@required {fabricName: any # Fabric unique name., protectionContainerName: any # Protection container name., migrationItemName: any # Migration item name.}
+@returns(200) OK
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}
+@desc Enables migration.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., migrationItemName: any # Migration item name., input: map # Enable migration input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint DELETE /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}
+@desc Delete the migration item.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., migrationItemName: any # Migration item name.}
+@optional {deleteOption: any # The delete option.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint PATCH /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}
+@desc Updates migration item.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., migrationItemName: any # Migration item name., input: map # Update migration item input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrate
+@desc Migrate item.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., migrationItemName: any # Migration item name., migrateInput: map # Migrate input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrationRecoveryPoints
+@desc Gets the recovery points for a migration item.
+@required {fabricName: any # Fabric unique name., protectionContainerName: any # Protection container name., migrationItemName: any # Migration item name.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrationRecoveryPoints/{migrationRecoveryPointName}
+@desc Gets a recovery point for a migration item.
+@required {fabricName: any # Fabric unique name., protectionContainerName: any # Protection container name., migrationItemName: any # Migration item name., migrationRecoveryPointName: any # The migration recovery point name.}
+@returns(200) OK
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/testMigrate
+@desc Test migrate item.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., migrationItemName: any # Migration item name., testMigrateInput: map # Test migrate input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/testMigrateCleanup
+@desc Test migrate cleanup.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., migrationItemName: any # Migration item name., testMigrateCleanupInput: map # Test migrate cleanup input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectableItems
+@desc Gets the list of protectable items.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name.}
+@optional {$filter: any # OData filter options.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectableItems/{protectableItemName}
+@desc Gets the details of a protectable item.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., protectableItemName: any # Protectable item name.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems
+@desc Gets the list of Replication protected items.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}
+@desc Gets the details of a Replication protected item.
+@required {fabricName: any # Fabric unique name., protectionContainerName: any # Protection container name., replicatedProtectedItemName: any # Replication protected item name.}
+@returns(200) OK
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}
+@desc Enables protection.
+@required {fabricName: any # Name of the fabric., protectionContainerName: any # Protection container name., replicatedProtectedItemName: any # A name for the replication protected item., input: map # Enable Protection Input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint DELETE /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}
+@desc Purges protection.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., replicatedProtectedItemName: any # Replication protected item name.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint PATCH /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}
+@desc Updates protection.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., replicatedProtectedItemName: any # Replication protected item name., updateProtectionInput: map # Update protection input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/addDisks
+@desc Add disk(s) for protection.
+@required {fabricName: any # Unique fabric name., protectionContainerName: any # Protection container name., replicatedProtectedItemName: any # Replication protected item name., addDisksInput: map # Add disks input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/applyRecoveryPoint
+@desc Change or apply recovery point.
+@required {fabricName: any # The ARM fabric name., protectionContainerName: any # The protection container name., replicatedProtectedItemName: any # The replicated protected item's name., applyRecoveryPointInput: map # The ApplyRecoveryPointInput.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/failoverCommit
+@desc Execute commit failover
+@required {fabricName: any # Unique fabric name., protectionContainerName: any # Protection container name., replicatedProtectedItemName: any # Replication protected item name.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/plannedFailover
+@desc Execute planned failover
+@required {fabricName: any # Unique fabric name., protectionContainerName: any # Protection container name., replicatedProtectedItemName: any # Replication protected item name., failoverInput: map # Disable protection input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/recoveryPoints
+@desc Get recovery points for a replication protected item.
+@required {fabricName: any # The fabric name., protectionContainerName: any # The protection container name., replicatedProtectedItemName: any # The replication protected item's name.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/recoveryPoints/{recoveryPointName}
+@desc Get a recovery point.
+@required {fabricName: any # The fabric name., protectionContainerName: any # The protection container name., replicatedProtectedItemName: any # The replication protected item's name., recoveryPointName: any # The recovery point name.}
+@returns(200) OK
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/remove
+@desc Disables protection.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., replicatedProtectedItemName: any # Replication protected item name., disableProtectionInput: map # Disable protection input.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/removeDisks
+@desc Removes disk(s).
+@required {fabricName: any # Unique fabric name., protectionContainerName: any # Protection container name., replicatedProtectedItemName: any # Replication protected item name., removeDisksInput: map # Remove disks input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/repairReplication
+@desc Resynchronize or repair replication.
+@required {fabricName: any # The name of the fabric., protectionContainerName: any # The name of the container., replicatedProtectedItemName: any # The name of the replication protected item.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/reProtect
+@desc Execute Reverse Replication\Reprotect
+@required {fabricName: any # Unique fabric name., protectionContainerName: any # Protection container name., replicatedProtectedItemName: any # Replication protected item name., rrInput: map # Disable protection input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/ResolveHealthErrors
+@desc Resolve health errors.
+@required {fabricName: any # Unique fabric name., protectionContainerName: any # Protection container name., replicatedProtectedItemName: any # Replication protected item name., resolveHealthInput: map # Health issue input object.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/targetComputeSizes
+@desc Gets the list of target compute sizes for the replication protected item.
+@required {fabricName: any # Fabric name., protectionContainerName: any # protection container name., replicatedProtectedItemName: any # Replication protected item name.}
+@returns(200) OK
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/testFailover
+@desc Execute test failover
+@required {fabricName: any # Unique fabric name., protectionContainerName: any # Protection container name., replicatedProtectedItemName: any # Replication protected item name., failoverInput: map # Test failover input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/testFailoverCleanup
+@desc Execute test failover cleanup.
+@required {fabricName: any # Unique fabric name., protectionContainerName: any # Protection container name., replicatedProtectedItemName: any # Replication protected item name., cleanupInput: map # Test failover cleanup input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/unplannedFailover
+@desc Execute unplanned failover
+@required {fabricName: any # Unique fabric name., protectionContainerName: any # Protection container name., replicatedProtectedItemName: any # Replication protected item name., failoverInput: map # Disable protection input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicationProtectedItemName}/updateMobilityService
+@desc Update the mobility service on a protected item.
+@required {fabricName: any # The name of the fabric containing the protected item., protectionContainerName: any # The name of the container containing the protected item., replicationProtectedItemName: any # The name of the protected item on which the agent is to be updated., updateMobilityServiceRequest: map # Request to update the mobility service on the protected item.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings
+@desc Gets the list of protection container mappings for a protection container.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name.}
+@returns(200) OK
+
+@endgroup
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents
+@desc Gets the list of replication protection intent objects.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents/{intentObjectName}
+@desc Gets the details of a Replication protection intent item.
+@required {intentObjectName: any # Replication protection intent name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents/{intentObjectName}
+@desc Create protection intent Resource.
+@required {intentObjectName: any # A name for the replication protection item., input: map # Create Protection Intent Input.}
+@returns(200) OK
+
+@endgroup
+
+@group Subscriptions
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}
+@desc Gets a protection container mapping/
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., mappingName: any # Protection Container mapping name.}
+@returns(200) OK
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}
+@desc Create protection container mapping.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., mappingName: any # Protection container mapping name., creationInput: map # Mapping creation input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint DELETE /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}
+@desc Purge protection container mapping.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., mappingName: any # Protection container mapping name.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint PATCH /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}
+@desc Update protection container mapping.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., mappingName: any # Protection container mapping name., updateInput: map # Mapping update input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}/remove
+@desc Remove protection container mapping.
+@required {fabricName: any # Fabric name., protectionContainerName: any # Protection container name., mappingName: any # Protection container mapping name., removalInput: map # Removal input.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/switchprotection
+@desc Switches protection from one container to another or one replication provider to another.
+@required {fabricName: any # Unique fabric name., protectionContainerName: any # Protection container name., switchInput: map # Switch protection input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationRecoveryServicesProviders
+@desc Gets the list of registered recovery services providers for the fabric.
+@required {fabricName: any # Fabric name}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationRecoveryServicesProviders/{providerName}
+@desc Gets the details of a recovery services provider.
+@required {fabricName: any # Fabric name., providerName: any # Recovery services provider name}
+@returns(200) OK
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationRecoveryServicesProviders/{providerName}
+@desc Adds a recovery services provider.
+@required {fabricName: any # Fabric name., providerName: any # Recovery services provider name., addProviderInput: map # Add provider input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint DELETE /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationRecoveryServicesProviders/{providerName}
+@desc Purges recovery service provider from fabric
+@required {fabricName: any # Fabric name., providerName: any # Recovery services provider name.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationRecoveryServicesProviders/{providerName}/refreshProvider
+@desc Refresh details from the recovery services provider.
+@required {fabricName: any # Fabric name., providerName: any # Recovery services provider name.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationRecoveryServicesProviders/{providerName}/remove
+@desc Deletes provider from fabric. Note: Deleting provider for any fabric other than SingleHost is unsupported. To maintain backward compatibility for released clients the object "deleteRspInput" is used (if the object is empty we assume that it is old client and continue the old behavior).
+@required {fabricName: any # Fabric name., providerName: any # Recovery services provider name.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications
+@desc Gets the list of storage classification objects under a fabric.
+@required {fabricName: any # Site name of interest.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}
+@desc Gets the details of a storage classification.
+@required {fabricName: any # Fabric name., storageClassificationName: any # Storage classification name.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings
+@desc Gets the list of storage classification mappings objects under a storage.
+@required {fabricName: any # Fabric name., storageClassificationName: any # Storage classification name.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings/{storageClassificationMappingName}
+@desc Gets the details of a storage classification mapping.
+@required {fabricName: any # Fabric name., storageClassificationName: any # Storage classification name., storageClassificationMappingName: any # Storage classification mapping name.}
+@returns(200) OK
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings/{storageClassificationMappingName}
+@desc Create storage classification mapping.
+@required {fabricName: any # Fabric name., storageClassificationName: any # Storage classification name., storageClassificationMappingName: any # Storage classification mapping name., pairingInput: map # Pairing input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint DELETE /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings/{storageClassificationMappingName}
+@desc Delete a storage classification mapping.
+@required {fabricName: any # Fabric name., storageClassificationName: any # Storage classification name., storageClassificationMappingName: any # Storage classification mapping name.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters
+@desc Gets the list of vCenter registered under a fabric.
+@required {fabricName: any # Fabric name.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vCenterName}
+@desc Gets the details of a vCenter.
+@required {fabricName: any # Fabric name., vCenterName: any # vCenter name.}
+@returns(200) OK
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vCenterName}
+@desc Add vCenter.
+@required {fabricName: any # Fabric name., vCenterName: any # vCenter name., addVCenterRequest: map # The input to the add vCenter operation.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint DELETE /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vCenterName}
+@desc Remove vCenter operation.
+@required {fabricName: any # Fabric name., vCenterName: any # vCenter name.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint PATCH /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vCenterName}
+@desc Update vCenter operation.
+@required {fabricName: any # Fabric name., vCenterName: any # vCenter name, updateVCenterRequest: map # The input to the update vCenter operation.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs
+@desc Gets the list of jobs.
+@optional {$filter: any # OData filter options.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}
+@desc Gets the job details.
+@required {jobName: any # Job identifier}
+@returns(200) OK
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/cancel
+@desc Cancels the specified job.
+@required {jobName: any # Job identifier.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/restart
+@desc Restarts the specified job.
+@required {jobName: any # Job identifier.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/resume
+@desc Resumes the specified job.
+@required {jobName: any # Job identifier., resumeJobParams: map # Resume rob comments.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/export
+@desc Exports the details of the Azure Site Recovery jobs of the vault.
+@required {jobQueryParameter: map # job query filter.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationMigrationItems
+@desc Gets the list of migration items in the vault.
+@optional {skipToken: any # The pagination token., $filter: any # OData filter options.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationNetworkMappings
+@desc Gets all the network mappings under a vault.
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationNetworks
+@desc Gets the list of networks. View-only API.
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies
+@desc Gets the list of replication policies
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}
+@desc Gets the requested policy.
+@required {policyName: any # Replication policy name.}
+@returns(200) OK
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}
+@desc Creates the policy.
+@required {policyName: any # Replication policy name, input: map # Create policy input}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint DELETE /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}
+@desc Delete the policy.
+@required {policyName: any # Replication policy name.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint PATCH /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}
+@desc Updates the policy.
+@required {policyName: any # Policy Id., input: map # Update Policy Input}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectedItems
+@desc Gets the list of replication protected items.
+@optional {skipToken: any # The pagination token. Possible values: "FabricId" or "FabricId_CloudId" or null, $filter: any # OData filter options.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionContainerMappings
+@desc Gets the list of all protection container mappings in a vault.
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionContainers
+@desc Gets the list of all protection containers in a vault.
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans
+@desc Gets the list of recovery plans.
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}
+@desc Gets the requested recovery plan.
+@required {recoveryPlanName: any # Name of the recovery plan.}
+@returns(200) OK
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}
+@desc Creates a recovery plan with the given details.
+@required {recoveryPlanName: any # Recovery plan name., input: map # Recovery Plan creation input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint DELETE /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}
+@desc Deletes the specified recovery plan.
+@required {recoveryPlanName: any # Recovery plan name.}
+@returns(202) Accepted
+@returns(204) NoContent
+
+@endpoint PATCH /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}
+@desc Updates the given recovery plan.
+@required {recoveryPlanName: any # Recovery plan name., input: map # Update recovery plan input}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/failoverCommit
+@desc Execute commit failover of the recovery plan.
+@required {recoveryPlanName: any # Recovery plan name.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/plannedFailover
+@desc Execute planned failover of the recovery plan.
+@required {recoveryPlanName: any # Recovery plan name., input: map # Failover input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/reProtect
+@desc Execute reprotect of the recovery plan.
+@required {recoveryPlanName: any # Recovery plan name.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/testFailover
+@desc Execute test failover of the recovery plan.
+@required {recoveryPlanName: any # Recovery plan name., input: map # Failover input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/testFailoverCleanup
+@desc Execute test failover cleanup of the recovery plan.
+@required {recoveryPlanName: any # Recovery plan name., input: map # Test failover cleanup input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/unplannedFailover
+@desc Execute unplanned failover of the recovery plan.
+@required {recoveryPlanName: any # Recovery plan name., input: map # Failover input.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryServicesProviders
+@desc Gets the list of registered recovery services providers in the vault. This is a view only api.
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationStorageClassificationMappings
+@desc Gets the list of storage classification mappings objects under a vault.
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationStorageClassifications
+@desc Gets the list of storage classification objects under a vault.
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationSupportedOperatingSystems
+@desc Gets the data of supported OSes by SRS.
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth
+@desc Gets the health summary for the vault.
+@returns(200) OK
+
+@endpoint POST /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth/default/refresh
+@desc Refreshes health summary of the vault.
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultSettings
+@desc Gets the list of vault setting.
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultSettings/{vaultSettingName}
+@desc Gets the vault setting.
+@required {vaultSettingName: any # Vault setting name.}
+@returns(200) OK
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultSettings/{vaultSettingName}
+@desc Updates vault setting. A vault setting object is a singleton per vault and it is always present by default.
+@required {vaultSettingName: any # Vault setting name., input: map # Vault setting creation input.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationvCenters
+@desc Gets the list of vCenter registered under the vault.
+@returns(200) OK
+
+@endgroup
+
+@end

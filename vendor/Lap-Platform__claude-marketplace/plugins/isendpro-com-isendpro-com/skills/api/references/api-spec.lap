@@ -1,0 +1,129 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api API iSendPro
+@base https://apirest.isendpro.com/cgi-bin
+@version 1.1.1
+@endpoints 14
+@toc campagne(1), comptage(1), credit(1), hlr(1), repertoire(2), getlistenoire(1), setlistenoire(1), dellistenoire(1), shortlink(1), subaccount(2), sms(1), smsmulti(1)
+
+@group campagne
+@endpoint POST /campagne
+@desc Retourne les SMS envoyés sur une période donnée
+@required {getcampagnerequest: map # get campagne request}
+@returns(200) Successful response
+@errors {400: Erreur}
+
+@endgroup
+
+@group comptage
+@endpoint POST /comptage
+@desc Compter le nombre de caractère
+@required {comptagerequest: map # sms request}
+@returns(200) Reponse OK
+@errors {400: Dysfonctionnement}
+
+@endgroup
+
+@group credit
+@endpoint POST /credit
+@desc Interrogation credit
+@required {creditrequest: map # credit request}
+@returns(200) Successful response
+@errors {400: Erreur}
+
+@endgroup
+
+@group hlr
+@endpoint POST /hlr
+@desc Vérifier la validité d'un numéro
+@required {hlrrequest: map}
+@returns(200) Reponse OK
+@errors {400: Dysfonctionnement}
+
+@endgroup
+
+@group repertoire
+@endpoint POST /repertoire
+@desc Gestion repertoire (creation)
+@required {repertoirecreaterequest: map # Creation repertoire}
+@returns(200) Successful response
+@errors {400: Erreur}
+
+@endpoint PUT /repertoire
+@desc Gestion repertoire (modification)
+@required {repertoiremodifrequest: map # Requête de creation repertoire}
+@returns(200) Successful response
+@errors {400: Erreur}
+
+@endgroup
+
+@group getlistenoire
+@endpoint POST /getlistenoire
+@desc Retourne le liste noire
+@required {getListeNoire: map # get liste noire parameter}
+@returns(200) Successful response
+@errors {400: Erreur}
+
+@endgroup
+
+@group setlistenoire
+@endpoint POST /setlistenoire
+@desc Ajoute un numero en liste noire
+@required {setlistenoirerequest: map # set liste noire request}
+@returns(200) Successful response
+@errors {400: Erreur}
+
+@endgroup
+
+@group dellistenoire
+@endpoint POST /dellistenoire
+@desc Ajoute un numero en liste noire
+@optional {dellistenoirerequest: map # dellistenoire request}
+@returns(200) Successful response
+@errors {400: Erreur}
+
+@endgroup
+
+@group shortlink
+@endpoint POST /shortlink
+@desc add a shortlink
+@required {addshortlinkrequest: map # add sub account request}
+@returns(200) Reponse OK
+@errors {400: Dysfonctionnement}
+
+@endgroup
+
+@group subaccount
+@endpoint POST /subaccount
+@desc Ajoute un sous compte
+@required {addsubaccountrequest: map # add sub account request}
+@returns(200) Reponse OK
+@errors {400: Dysfonctionnement}
+
+@endpoint PUT /subaccount
+@desc Edit a subaccount
+@required {editsubaccountrequest: map # edit sub account request}
+@returns(200) Reponse OK
+@errors {400: Dysfonctionnement}
+
+@endgroup
+
+@group sms
+@endpoint POST /sms
+@desc Envoyer un sms
+@required {smsrequest: map # sms request}
+@returns(200) Reponse OK
+@errors {400: Dysfonctionnement}
+
+@endgroup
+
+@group smsmulti
+@endpoint POST /smsmulti
+@desc Envoyer des SMS
+@required {smsrequest: map # sms request}
+@returns(200) Reponse OK
+@errors {400: Dysfonctionnement}
+
+@endgroup
+
+@end

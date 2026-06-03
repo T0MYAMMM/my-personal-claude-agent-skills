@@ -1,0 +1,27 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Tours and Activities
+@base https://test.api.amadeus.com/v1
+@version 1.0.2
+@endpoints 3
+@toc shopping(3)
+
+@endpoint GET /shopping/activities
+@desc Returns Activities around a given location
+@required {latitude: any # Latitude (decimal coordinates), longitude: any # Longitude (decimal coordinates)}
+@optional {radius: any # radius of the search in Kilometer. Can be from 0 to 20, default value is 1 Km.}
+@returns(200) Successful Operation
+@errors {400: Code   | Title -------|---------------- 477    | INVALID FORMAT 572    | INVALID OPTION 4926   | INVALID DATA RECEIVED 32171  | MANDATORY DATA MISSING}
+
+@endpoint GET /shopping/activities/by-square
+@desc Returns Activities around a given location
+@required {north: any # Latitude north of bounding box (decimal coordinates), west: any # Longitude west of bounding box (decimal coordinates), south: any # Latitude south of bounding box (decimal coordinates), east: any # Longitude east of bounding box (decimal coordinates)}
+@returns(200) Successful Operation
+@errors {400: Code   | Title -------|---------------- 477    | INVALID FORMAT 572    | INVALID OPTION 4926   | INVALID DATA RECEIVED 32171  | MANDATORY DATA MISSING}
+
+@endpoint GET /shopping/activities/{activityId}
+@desc Retrieve one activity by its id
+@returns(200) Successful Operation
+@errors {400: Code   | Title -------|---------------- 572    | INVALID OPTION, 404: Not Found}
+
+@end

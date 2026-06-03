@@ -1,0 +1,31 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SubscriptionsManagementClient
+@base https://management.azure.com
+@version 2015-11-01
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/directoryTenants
+@desc Lists all the directory tenants under the current subscription and given resource group name.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/directoryTenants/{tenant}
+@desc Get a directory tenant by name.
+@required {tenant: any # Directory tenant name.}
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/directoryTenants/{tenant}
+@desc Delete a directory tenant under a resource group.
+@required {tenant: any # Directory tenant name.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/directoryTenants/{tenant}
+@desc Create or updates a directory tenant.
+@required {tenant: any # Directory tenant name., tenantDefinition: map # New directory tenant properties.}
+@returns(200) OK
+@returns(201) Created
+
+@end

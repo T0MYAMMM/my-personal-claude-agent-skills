@@ -1,0 +1,23 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Taunt as a service
+@base https://api.fungenerators.com/
+@version 1.5
+@auth ApiKey X-Fungenerators-Api-Secret in header
+@endpoints 2
+@toc taunt(2)
+
+@endpoint GET /taunt/categories
+@desc Get available taunt generation categories.
+@optional {start: int(integer) # start, limit: int(integer) # limit}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /taunt/generate
+@desc Generated taunts in the given category
+@required {category: str(string) # Category to generator taunt from}
+@optional {limit: int(integer) # Limit. Controls number of taunts generated. Max of 5-10 based on the plan}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@end

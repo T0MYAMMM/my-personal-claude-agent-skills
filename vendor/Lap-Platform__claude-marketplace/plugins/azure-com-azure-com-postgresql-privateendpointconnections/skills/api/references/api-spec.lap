@@ -1,0 +1,38 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api PostgreSQLManagementClient
+@base https://management.azure.com
+@version 2018-06-01-privatepreview
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(5)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/privateEndpointConnections/{privateEndpointConnectionName}
+@desc Gets a private endpoint connection.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., serverName: any # The name of the server., privateEndpointConnectionName: any # The name of the private endpoint connection., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully retrieved a specified private endpoint connection.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/privateEndpointConnections/{privateEndpointConnectionName}
+@desc Approve or reject a private endpoint connection with a given name.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., serverName: any # The name of the server., privateEndpointConnectionName: any, parameters: map, subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully approved or rejected private endpoint connection.
+@returns(202) Accepted
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/privateEndpointConnections/{privateEndpointConnectionName}
+@desc Deletes a private endpoint connection with a given name.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., serverName: any # The name of the server., privateEndpointConnectionName: any, subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully deleted private endpoint connection.
+@returns(202) Accepted
+@returns(204) Private endpoint connection does not exist.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/privateEndpointConnections/{privateEndpointConnectionName}
+@desc Updates tags on private endpoint connection.
+@required {api-version: any # The API version to use for the request., subscriptionId: any # The subscription ID that identifies an Azure subscription., resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., serverName: any # The name of the server., privateEndpointConnectionName: any, parameters: any # Parameters supplied to the Update private endpoint connection Tags operation.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/privateEndpointConnections
+@desc Gets all private endpoint connections on a server.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., serverName: any # The name of the server., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully retrieved private endpoint connections.
+
+@end

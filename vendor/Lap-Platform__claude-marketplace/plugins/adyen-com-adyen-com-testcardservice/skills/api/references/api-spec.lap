@@ -1,0 +1,16 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Adyen Test Cards API
+@base https://pal-test.adyen.com/pal/services/TestCard/v1
+@version 1
+@auth ApiKey X-API-Key in header | Bearer basic
+@endpoints 1
+@toc createTestCardRanges(1)
+
+@endpoint POST /createTestCardRanges
+@desc Creates one or more test card ranges.
+@required {accountCode: str # The code of the account, for which the test card ranges should be created., accountTypeCode: str # The type of the account, for which the test card ranges should be created.  Permitted values: * Company * MerchantAccount > These values are case-sensitive., testCardRanges: [any] # A list of test card ranges to create.}
+@returns(200) {rangeCreationResults: [any]} # OK - the request has succeeded.
+@errors {400: Bad Request - a problem reading or understanding the request., 401: Unauthorized - authentication required., 403: Forbidden - insufficient permissions to process the request., 422: Unprocessable Entity - a request validation error., 500: Internal Server Error - the server could not process the request.}
+
+@end

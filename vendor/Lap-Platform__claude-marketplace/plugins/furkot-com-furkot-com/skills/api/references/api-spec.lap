@@ -1,0 +1,24 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Furkot Trips
+@base https://trips.furkot.com/pub/api
+@version 1.0.0
+@auth OAuth2 | OAuth2
+@endpoints 3
+@toc trip(3)
+
+@endpoint GET /trip
+@desc list user's trips
+@returns(200) Successful response
+
+@endpoint GET /trip/{trip_id}/stop
+@desc list stops for a trip identified by {trip_id}
+@required {trip_id: str # id of the trip}
+@returns(200) Successful response
+
+@endpoint GET /trip/{trip_id}/skipped
+@desc list of skipped stops for a trip identified by {trip_id}
+@required {trip_id: str # id of the trip}
+@returns(200) Successful response
+
+@end

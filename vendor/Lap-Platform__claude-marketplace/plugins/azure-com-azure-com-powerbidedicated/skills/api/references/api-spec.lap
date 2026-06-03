@@ -1,0 +1,85 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api PowerBIDedicated
+@base https://management.azure.com
+@version 2017-10-01
+@auth OAuth2
+@common_fields {api-version: any # The client API version.}
+@endpoints 12
+@toc subscriptions(11), providers(1)
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}
+@desc Gets details about the specified dedicated capacity.
+@required {resourceGroupName: any # The name of the Azure Resource group of which a given PowerBIDedicated capacity is part. This name must be at least 1 character in length, and no more than 90., dedicatedCapacityName: any # The name of the dedicated capacity. It must be a minimum of 3 characters, and a maximum of 63., subscriptionId: any # A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK. The operation was successful.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}
+@desc Provisions the specified dedicated capacity based on the configuration specified in the request. You can’t create a capacity with a name that’s used by another capacity in another tenant in the target location.
+@required {resourceGroupName: any # The name of the Azure Resource group of which a given PowerBIDedicated capacity is part. This name must be at least 1 character in length, and no more than 90., dedicatedCapacityName: any # The name of the Dedicated capacity. It must be a minimum of 3 characters, and a maximum of 63., capacityParameters: map # Contains the information used to provision the Dedicated capacity., subscriptionId: any # A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK. The operation completed successfully.
+@returns(201) InProgress. The operation is still in progress.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}
+@desc Deletes the specified Dedicated capacity.
+@required {resourceGroupName: any # The name of the Azure Resource group of which a given PowerBIDedicated capacity is part. This name must be at least 1 character in length, and no more than 90., dedicatedCapacityName: any # The name of the Dedicated capacity. It must be at least 3 characters in length, and no more than 63., subscriptionId: any # A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK.
+@returns(204) No Content.
+@returns(202) Accepted.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}
+@desc Updates the current state of the specified Dedicated capacity.
+@required {resourceGroupName: any # The name of the Azure Resource group of which a given PowerBIDedicated capacity is part. This name must be at least 1 character in length, and no more than 90., dedicatedCapacityName: any # The name of the Dedicated capacity. It must be at least 3 characters in length, and no more than 63., capacityUpdateParameters: map # Request object that contains the updated information for the capacity., subscriptionId: any # A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/suspend
+@desc Suspends operation of the specified dedicated capacity instance.
+@required {resourceGroupName: any # The name of the Azure Resource group of which a given PowerBIDedicated capacity is part. This name must be at least 1 character in length, and no more than 90., dedicatedCapacityName: any # The name of the Dedicated capacity. It must be at least 3 characters in length, and no more than 63., subscriptionId: any # A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK.
+@returns(202) Accepted.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/resume
+@desc Resumes operation of the specified Dedicated capacity instance.
+@required {resourceGroupName: any # The name of the Azure Resource group of which a given PowerBIDedicated capacity is part. This name must be at least 1 character in length, and no more than 90., dedicatedCapacityName: any # The name of the Dedicated capacity. It must be at least 3 characters in length, and no more than 63., subscriptionId: any # A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities
+@desc Gets all the Dedicated capacities for the given resource group.
+@required {resourceGroupName: any # The name of the Azure Resource group of which a given PowerBIDedicated capacity is part. This name must be at least 1 character in length, and no more than 90., subscriptionId: any # A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/capacities
+@desc Lists all the Dedicated capacities for the given subscription.
+@required {subscriptionId: any # A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/skus
+@desc Lists eligible SKUs for PowerBI Dedicated resource provider.
+@required {subscriptionId: any # A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/skus
+@desc Lists eligible SKUs for a PowerBI Dedicated resource.
+@required {resourceGroupName: any # The name of the Azure Resource group of which a given PowerBIDedicated capacity is part. This name must be at least 1 character in length, and no more than 90., dedicatedCapacityName: any # The name of the Dedicated capacity. It must be at least 3 characters in length, and no more than 63., subscriptionId: any # A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK
+
+@endgroup
+
+@group providers
+@endpoint GET /providers/Microsoft.PowerBIDedicated/operations
+@desc Lists all of the available PowerBIDedicated REST API operations.
+@returns(200) OK. The request has succeeded.
+
+@endgroup
+
+@group subscriptions
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/locations/{location}/checkNameAvailability
+@desc Check the name availability in the target location. The name isn’t available if it’s used by another capacity in another tenant in the target location.
+@required {location: any # The region name which the operation will lookup into., capacityParameters: map # The name of the capacity., subscriptionId: any # A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK. The request has succeeded.
+
+@endgroup
+
+@end

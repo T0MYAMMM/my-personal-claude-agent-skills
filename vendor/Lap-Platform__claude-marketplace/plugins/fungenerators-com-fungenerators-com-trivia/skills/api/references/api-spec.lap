@@ -1,0 +1,46 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Trivia API
+@base https://api.fungenerators.com/
+@version 1.5
+@auth ApiKey X-Fungenerators-Api-Secret in header
+@endpoints 6
+@toc trivia(6)
+
+@endpoint GET /trivia
+@desc Get a Trivia entry for a given id. Retrieves a trivia question and answer based on the id.
+@optional {id: str(string) # ID of the trivia to fetch}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint PUT /trivia
+@desc Create a random Trivia entry.
+@required {question: str(string) # Trivia Question, category: str(string) # Category of the trivia, answer: str(string) # Answer(s) to the trivia question}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint DELETE /trivia
+@desc Create a random Trivia entry.
+@required {id: str(string) # Trivia ID}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /trivia/random
+@desc Get a random trivia for a given category(optional)
+@optional {category: str(string) # Category to get the trivia from}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /trivia/search
+@desc Search for random trivia which has the text in the query, for a given category(optional).
+@optional {query: str(string) # Text to search for in the trivia, category: str(string) # Category to get the trivia from}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /trivia/categories
+@desc Get a random Trivia.
+@optional {start: int(integer) # start}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@end

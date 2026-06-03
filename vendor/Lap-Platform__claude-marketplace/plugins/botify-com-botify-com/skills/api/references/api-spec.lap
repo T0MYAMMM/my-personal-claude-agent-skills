@@ -1,0 +1,139 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Botify API
+@base https://api.botify.com/v1
+@version 1.0.0
+@auth ApiKey Authorization in header
+@endpoints 26
+@hint download_for_search
+@toc analyses(21), projects(5)
+
+@group analyses
+@endpoint GET /analyses/{username}/{project_slug}
+@desc List all analyses for a project
+@optional {page: any # Page Number, size: any # Page Size}
+@returns(200) Successful operation
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}
+@desc Get an Analysis detail
+@returns(200) Successful operation
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/crawl_statistics
+@desc Return global statistics for an analysis
+@returns(200) Successful operation
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/crawl_statistics/time
+@desc Return crawl statistics grouped by time frequency (1 min, 5 mins or 60 min)
+@required {frequency: any # Aggregation frequency}
+@optional {limit: any # max number of elements to retrieve}
+@returns(200) Successful operation
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/crawl_statistics/urls/{list_type}
+@desc Return a list of 1000 latest URLs crawled (all crawled URLs or only URLS with HTTP errors)
+@returns(200)
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/features/ganalytics/orphan_urls/{medium}/{source}
+@desc List of Orphan URLs
+@optional {page: any # Page Number, size: any # Page Size}
+@returns(200) Successful operation
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/features/links/percentiles
+@desc Get inlinks percentiles
+@returns(200) Successful operation
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/features/pagerank/lost
+@desc Lost pagerank
+@returns(200) Successful operation
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/features/sitemaps/report
+@desc Get global information of the sitemaps found (sitemaps indexes, invalid sitemaps urls, etc
+@returns(200) Successful operation
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/features/sitemaps/samples/out_of_config
+@desc Sample list of URLs which were found in your sitemaps but outside of the
+@optional {page: any # Page Number, size: any # Page Size}
+@returns(200) Successful operation
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/features/sitemaps/samples/sitemap_only
+@desc Sample list of URLs which were found in your sitemaps, within the project
+@optional {page: any # Page Number, size: any # Page Size}
+@returns(200) Successful operation
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/features/top_domains/domains
+@desc Top domains
+@optional {page: any # Page Number, size: any # Page Size}
+@returns(200) Successful operation
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/features/top_domains/subdomains
+@desc Top subddomains
+@optional {page: any # Page Number, size: any # Page Size}
+@returns(200) Successful operation
+
+@endpoint POST /analyses/{username}/{project_slug}/{analysis_slug}/urls
+@desc Executes a query and returns a paginated response
+@optional {UrlsQuery: map, area: any # Analysis context to execute the query, page: any # Page Number, size: any # Page Size}
+@returns(200) Successful operation
+
+@endpoint POST /analyses/{username}/{project_slug}/{analysis_slug}/urls/aggs
+@desc Query aggregator
+@optional {UrlsAggsQueries: [map], area: any}
+@returns(200)
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/urls/datamodel
+@desc Gets an Analysis datamodel
+@optional {area: any}
+@returns(200) Successful operation
+
+@endpoint POST /analyses/{username}/{project_slug}/{analysis_slug}/urls/export
+@desc Creates a new UrlExport object and starts a task that will export the results into a csv
+@optional {UrlsQuery: map, area: any}
+@returns(201) Successful operation
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/urls/export
+@desc A list of the CSV Exports requests and their current status
+@optional {page: any # Page Number, size: any # Page Size}
+@returns(200) Successful operation
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/urls/export/{url_export_id}
+@desc Checks the status of an CSVUrlExportJob object
+@returns(200) Successful operation
+
+@endpoint POST /analyses/{username}/{project_slug}/{analysis_slug}/urls/suggested_filters
+@desc Return most frequent segments (= suggested patterns in the previous version)
+@optional {UrlsAggsQuery: map, area: any}
+@returns(201) Successful operation
+
+@endpoint GET /analyses/{username}/{project_slug}/{analysis_slug}/urls/{url}
+@desc Gets the detail of an URL for an analysis
+@optional {fields: any # comma separated list of fields to return (c.f. URLs Datamodel)}
+@returns(200) Successful operation
+
+@endgroup
+
+@group projects
+@endpoint GET /projects/{username}
+@desc List all active projects for the user
+@optional {page: any # Page Number, size: any # Page Size}
+@returns(200) Successful operation
+
+@endpoint POST /projects/{username}/{project_slug}/features/url_rewriting/rules_validator
+@desc Match and replace parts of a URL based on rules passed in POST data
+@returns(201) Successful operation
+
+@endpoint GET /projects/{username}/{project_slug}/filters
+@desc List all the project's saved filters (each filter's name, ID and filter value)
+@optional {page: any # Page Number, size: any # Page Size}
+@returns(200) Successful operation
+
+@endpoint GET /projects/{username}/{project_slug}/filters/{identifier}
+@desc Retrieves a specific saved filter's name, ID and filter value
+@returns(200) Successful operation
+
+@endpoint POST /projects/{username}/{project_slug}/urls/aggs
+@desc Project Query aggregator
+@optional {UrlsAggsQueries: [map], area: any # Analysis context to execute the queries, last_analysis_slug: any # Last analysis on the trend, nb_analyses: any # Max number of analysis to return}
+@returns(201) Successful operation
+
+@endgroup
+
+@end

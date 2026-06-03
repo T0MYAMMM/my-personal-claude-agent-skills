@@ -1,0 +1,16 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api IP2WHOIS Domain Lookup
+@base https://api.ip2whois.com/v2
+@version 1.0
+@auth ApiKey key in query
+@endpoints 1
+@toc root(1)
+
+@endpoint GET /
+@desc Lookup WHOIS information
+@required {domain: str # Domain name for lookup purpose., key: str # API key.}
+@optional {format: str # Returns the API response in json (default) or xml format.}
+@returns(200) Get response from IP2WHOIS
+
+@end

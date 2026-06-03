@@ -1,0 +1,60 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Security Insights
+@base https://management.azure.com
+@version 2020-01-01
+@auth OAuth2
+@common_fields {api-version: any # API version for the operation}
+@endpoints 8
+@toc providers(1), subscriptions(7)
+
+@group providers
+@endpoint GET /providers/Microsoft.SecurityInsights/operations
+@desc Lists all operations available Azure Security Insights Resource Provider.
+@returns(200) OK. Successfully retrieved operations list.
+
+@endgroup
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents
+@desc Gets all incidents.
+@required {subscriptionId: any # Azure subscription ID, resourceGroupName: any # The name of the resource group within the user's subscription. The name is case insensitive., workspaceName: any # The name of the workspace.}
+@optional {$filter: any # Filters the results, based on a Boolean condition. Optional., $orderby: any # Sorts the results. Optional., $top: any # Returns only the first n results. Optional., $skipToken: any # Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional.}
+@returns(200) OK, Operation successfully completed
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}
+@desc Gets an incident.
+@required {subscriptionId: any # Azure subscription ID, resourceGroupName: any # The name of the resource group within the user's subscription. The name is case insensitive., workspaceName: any # The name of the workspace., incidentId: any # Incident ID}
+@returns(200) OK, Operation successfully completed
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}
+@desc Creates or updates the incident.
+@required {subscriptionId: any # Azure subscription ID, resourceGroupName: any # The name of the resource group within the user's subscription. The name is case insensitive., workspaceName: any # The name of the workspace., incidentId: any # Incident ID, incident: map # The incident}
+@returns(200) OK, Operation successfully completed
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}
+@desc Delete the incident.
+@required {subscriptionId: any # Azure subscription ID, resourceGroupName: any # The name of the resource group within the user's subscription. The name is case insensitive., workspaceName: any # The name of the workspace., incidentId: any # Incident ID}
+@returns(200) OK, Operation successfully completed
+@returns(204) No Content
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments
+@desc Gets all incident comments.
+@required {subscriptionId: any # Azure subscription ID, resourceGroupName: any # The name of the resource group within the user's subscription. The name is case insensitive., workspaceName: any # The name of the workspace., incidentId: any # Incident ID}
+@optional {$filter: any # Filters the results, based on a Boolean condition. Optional., $orderby: any # Sorts the results. Optional., $top: any # Returns only the first n results. Optional., $skipToken: any # Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional.}
+@returns(200) OK, Operation successfully completed
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments/{incidentCommentId}
+@desc Gets an incident comment.
+@required {subscriptionId: any # Azure subscription ID, resourceGroupName: any # The name of the resource group within the user's subscription. The name is case insensitive., workspaceName: any # The name of the workspace., incidentId: any # Incident ID, incidentCommentId: any # Incident comment ID}
+@returns(200) OK, Operation successfully completed
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments/{incidentCommentId}
+@desc Creates the incident comment.
+@required {subscriptionId: any # Azure subscription ID, resourceGroupName: any # The name of the resource group within the user's subscription. The name is case insensitive., workspaceName: any # The name of the workspace., incidentId: any # Incident ID, incidentCommentId: any # Incident comment ID, incidentComment: map # The incident comment}
+@returns(201) Created
+
+@endgroup
+
+@end

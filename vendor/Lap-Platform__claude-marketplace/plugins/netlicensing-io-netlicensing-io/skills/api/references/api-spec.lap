@@ -1,0 +1,287 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Labs64 NetLicensing RESTful API Test Center
+@base https://go.netlicensing.io/core/v2/rest
+@version 2.x
+@auth basic
+@endpoints 40
+@hint download_for_search
+@toc product(5), productmodule(5), licensetemplate(5), licensee(7), license(5), transaction(4), token(4), paymentmethod(3), utility(2)
+
+@group product
+@endpoint GET /product
+@desc List Products
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /product
+@desc Create Product
+@required {active: any # If set to 'false', the Product is disabled. No new Licensees can be registered for the Product, existing Licensees can not obtain new Licenses., name: any # Product name. Together with the version identifies the Product for the end customer., version: any # Product version. Convenience parameter, additional to the Product name.}
+@optional {number: any # Unique number that identifies the Product. Vendor can assign this number when creating a Product or let NetLicensing generate one., licenseeAutoCreate: any # If set to 'true', non-existing Licensees will be created at first validation attempt., description: any # Product description., licensingInfo: any # Licensing information., vatMode: any # Vat mode for Product. Supported types: GROSS, NET}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 402: Quota exceeded, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint GET /product/{productNumber}
+@desc Get Product
+@required {productNumber: any # Unique number that identifies the Product.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /product/{productNumber}
+@desc Update Product
+@required {productNumber: any # Unique number that identifies the Product.}
+@optional {number: any # New Product number (update), active: any # If set to 'false', the Product is disabled. No new Licensees can be registered for the Product, existing Licensees can not obtain new Licenses., name: any # Product name. Together with the version identifies the Product for the end customer., version: any # Product version. Convenience parameter, additional to the Product name., licenseeAutoCreate: any # If set to 'true', non-existing Licensees will be created at first validation attempt., description: any # Product description., licensingInfo: any # Licensing information., vatMode: any # Vat mode for Product. Supported types: GROSS, NET}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 402: Quota exceeded, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint DELETE /product/{productNumber}
+@desc Delete Product
+@required {productNumber: any # Unique number that identifies the Product.}
+@optional {forceCascade: any # Force object deletion and all descendants.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endgroup
+
+@group productmodule
+@endpoint GET /productmodule
+@desc List Product Modules
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /productmodule
+@desc Create Product Module
+@required {productNumber: any # Unique number (across all Products of a Vendor) that identifies the Product Module. Vendor can assign this number when creating a Product Module or let NetLicensing generate one. Read-only after creation of the first Licensee for the Product., active: any # If set to 'false', the Product Module is disabled. Licensees can not obtain any new Licenses for this Product Module., name: any # Product Module name that is visible to the end customers in NetLicensing Shop., licensingModel: any # Licensing model applied to this Product Module. Defines what License Templates can be configured for the Product Module and how Licenses for this Product Module are processed during validation.}
+@optional {number: any # Unique number (across all Products of a Vendor) that identifies the Product Module. Vendor can assign this number when creating a Product Module or let NetLicensing generate one. Read-only after creation of the first Licensee for the Product., maxCheckoutValidity: any # Maximum checkout validity (days). Mandatory for 'Floating' licensing model., yellowThreshold: any # Remaining time volume for yellow level. Mandatory for 'Rental' licensing model., redThreshold: any # Remaining time volume for red level. Mandatory for 'Rental' licensing model., nodeSecretMode: any # Secret Mode. Mandatory for 'Node-Locked' licensing model., licenseTemplate: any # License Template. Mandatory for 'Try &amp; Buy' licensing model.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 402: Quota exceeded, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint GET /productmodule/{productModuleNumber}
+@desc Get Product Module
+@required {productModuleNumber: any # Unique number (across all Products of a Vendor) that identifies the Product Module. Vendor can assign this number when creating a Product Module or let NetLicensing generate one. Read-only after creation of the first Licensee for the Product.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /productmodule/{productModuleNumber}
+@desc Update Product Module
+@required {productModuleNumber: any # Unique number (across all Products of a Vendor) that identifies the Product Module. Vendor can assign this number when creating a Product Module or let NetLicensing generate one. Read-only after creation of the first Licensee for the Product.}
+@optional {number: any # New Product Module number (update)., active: any # If set to 'false', the Product Module is disabled. Licensees can not obtain any new Licenses for this Product Module., name: any # Product Module name that is visible to the end customers in NetLicensing Shop., licensingModel: any # Licensing model applied to this Product Module. Defines what License Templates can be configured for the Product Module and how Licenses for this Product Module are processed during validation., maxCheckoutValidity: any # Maximum checkout validity (days). Mandatory for 'Floating' licensing model., yellowThreshold: any # Remaining time volume for yellow level. Mandatory for 'Rental' licensing model., redThreshold: any # Remaining time volume for red level. Mandatory for 'Rental' licensing model., licenseTemplate: any # License Template. Mandatory for 'Try &amp; Buy' licensing model., nodeSecretMode: any # Secret Mode. Mandatory for 'Node-Locked' licensing model.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 402: Quota exceeded, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint DELETE /productmodule/{productModuleNumber}
+@desc Delete Product Module
+@required {productModuleNumber: any # Unique number (across all Products of a Vendor) that identifies the Product Module.}
+@optional {forceCascade: any # Force object deletion and all descendants.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endgroup
+
+@group licensetemplate
+@endpoint GET /licensetemplate
+@desc List License Templates
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /licensetemplate
+@desc Create License Template
+@required {productModuleNumber: any # Number of Product Module to create License Template object, name: any # License Template name to create License Template object, active: any # If set to 'false', the License Template is disabled. Licensee can not obtain any new Licenses off this License Template., licenseType: any # Type of Licenses created from this License Template. Supported types: FEATURE, TIMEVOLUME, FLOATING, QUANTITY}
+@optional {number: any # Unique number (across all Products of a Vendor) that identifies the License Template. Vendor can assign this number when creating a License Template or let NetLicensing generate one. Read-only after creation of the first License from this License Template., timeVolume: any # Mandatory for 'TIMEVOLUME' License Type., timeVolumePeriod: any # For 'TIMEVOLUME' License Type., maxSessions: any # Mandatory for 'FLOATING' License Type., price: any # Price for the License. If >0, it must always be accompanied by the currency specification., currency: any # Specifies currency for the License price. Check data types to discover which currencies are supported., automatic: any # If set to 'true', every new Licensee automatically gets one License out of this License Template on creation. Automatic Licenses must have their price set to 0., hidden: any # If set to 'true', this License Template is not shown in NetLicensing Shop as offered for purchase., hideLicenses: any # If set to 'true', Licenses from this License Template are not visible to the end customer, but participate in validation., quantity: any # Mandatory for 'Pay-per-Use' and 'Node-Locked' License Model., quota: any # Mandatory for 'Quota' License Model.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint GET /licensetemplate/{licenseTemplateNumber}
+@desc Get License Template
+@required {licenseTemplateNumber: any # Unique number (across all Products of a Vendor) that identifies the License Template. Vendor can assign this number when creating a License Template or let NetLicensing generate one. Read-only after creation of the first License from this License Template.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /licensetemplate/{licenseTemplateNumber}
+@desc Update License Template
+@required {licenseTemplateNumber: any # Unique number (across all Products of a Vendor) that identifies the License Template. Vendor can assign this number when creating a License Template or let NetLicensing generate one. Read-only after creation of the first License from this License Template.}
+@optional {number: any # New License Template number (update)., name: any # Name for the Licensed item, active: any # If set to 'false', the License Template is disabled. Licensee can not obtain any new Licenses off this License Template., licenseType: any # Type of Licenses created from this License Template. Supported types: FEATURE, TIMEVOLUME, FLOATING, QUANTITY, timeVolume: any # Mandatory for 'TIMEVOLUME' License Type., timeVolumePeriod: any # For 'TIMEVOLUME' License Type., maxSessions: any # Mandatory for 'FLOATING' License Type., price: any # Price for the License. If >0, it must always be accompanied by the currency specification., currency: any # Specifies currency for the License price. Check data types to discover which currencies are supported., automatic: any # If set to 'true', every new Licensee automatically gets one License out of this License Template on creation. Automatic Licenses must have their price set to 0., hidden: any # If set to 'true', this License Template is not shown in NetLicensing Shop as offered for purchase., hideLicenses: any # If set to 'true', Licenses from this License Template are not visible to the end customer, but participate in validation., quantity: any # Mandatory for 'Pay-per-Use' and 'Node-Locked' License Model., quota: any # Mandatory for 'Quota' License Model.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint DELETE /licensetemplate/{licenseTemplateNumber}
+@desc Delete License Template
+@required {licenseTemplateNumber: any # Unique number (across all Products of a Vendor) that identifies the License Template.}
+@optional {forceCascade: any # Force object deletion and all descendants.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endgroup
+
+@group licensee
+@endpoint GET /licensee
+@desc List Licensees
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /licensee
+@desc Create Licensee
+@required {productNumber: any # 'productNumber' to assign new Licensee object, active: any # If set to 'false', the Licensee is disabled. Licensee can not obtain new Licenses, and validation is disabled}
+@optional {number: any # Unique number (across all Products of a Vendor) that identifies the Licensee. Vendor can assign this number when creating a Licensee or let NetLicensing generate one. Read-only after creation of the first License for the Licensee, name: any, markedForTransfer: any # Mark Licensee for transfer.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 402: Quota exceeded, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint GET /licensee/{licenseeNumber}
+@desc Get Licensee
+@required {licenseeNumber: any # Unique number (across all Products of a Vendor) that identifies the Licensee. Vendor can assign this number when creating a Licensee or let NetLicensing generate one. Read-only after creation of the first License for the Licensee.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /licensee/{licenseeNumber}
+@desc Update Licensee
+@required {licenseeNumber: any # Unique number (across all Products of a Vendor) that identifies the Licensee. Vendor can assign this number when creating a Licensee or let NetLicensing generate one. Read-only after creation of the first License for the Licensee.}
+@optional {number: any # New Licensee number (update)., active: any # If set to 'false', the Licensee is disabled. Licensee can not obtain new Licenses, and validation is disabled, name: any, markedForTransfer: any # Mark Licensee for transfer.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 402: Quota exceeded, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint DELETE /licensee/{licenseeNumber}
+@desc Delete Licensee
+@required {licenseeNumber: any # Unique number (across all Products of a Vendor) that identifies the Licensee.}
+@optional {forceCascade: any # Force object deletion and all descendants.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /licensee/{licenseeNumber}/validate
+@desc Validate Licensee
+@required {licenseeNumber: any # Licensee number with a maximum length of 1000 characters}
+@optional {licenseeName: any # Human-readable name for the auto-created Licensee (will be set as custom Licensee property), productNumber: any # Product number, must be provided when 'Licensee auto-create' is enabled (see also Product JavaDoc). Identifies the Product to which new Licensee should be added, productModuleNumber: any # 'Node-Locked' licensing model: product module number, nodeSecret: any # 'Node-Locked' licensing model: specifies unique secret, sessionId: any # 'Floating' licensing model: specifies unique session identifier, action: any # 'Floating' licensing model: check-out or check-in session action, to allocate or return it from/to the pool of available sessions}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /licensee/{licenseeNumber}/transfer
+@desc Transfer Licenses
+@required {licenseeNumber: any # Licensee number with a maximum length of 1000 characters, sourceLicenseeNumber: any # Licensee number which Licenses to be transferred}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endgroup
+
+@group license
+@endpoint GET /license
+@desc List Licenses
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /license
+@desc Create License
+@required {licenseeNumber: any, licenseTemplateNumber: any, active: any}
+@optional {number: any, name: any # Name for the Licensed item. Set from License Template on creation, if not specified explicitly., parentfeature: any # Mandatory for 'TIMEVOLUME' License Type and 'RENTAL' licensing model, timeVolume: any # Mandatory for 'TIMEVOLUME' License Type., timeVolumePeriod: any # For 'TIMEVOLUME' License Type., startDate: any # Mandatory for 'TIMEVOLUME' License Type., price: any # Price for the License. If >0, it must always be accompanied by the currency specification. Read-only, set from License Template on creation, currency: any # Specifies currency for the License price. Check data types to discover which currencies are supported. Read-only, set from License Template on creation, hidden: any # If set to 'true', this License is not shown in NetLicensing Shop as purchased License. Set from License Template on creation, if not specified explicitly, quantity: any # Mandatory for 'Pay-per-Use' License Model., usedQuantity: any # Mandatory for 'Pay-per-Use' License Model.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint GET /license/{licenseNumber}
+@desc Get License
+@required {licenseNumber: any # Unique number (across all Products/Licensees of a Vendor) that identifies the License. Vendor can assign this number when creating a License or let NetLicensing generate one. Read-only after corresponding creation Transaction status is set to closed.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /license/{licenseNumber}
+@desc Update License
+@required {licenseNumber: any # Unique number (across all Products/Licensees of a Vendor) that identifies the License. Vendor can assign this number when creating a License or let NetLicensing generate one. Read-only after corresponding creation Transaction status is set to closed.}
+@optional {number: any # Unique number (across all Products/Licensees of a Vendor) that identifies the License. Vendor can assign this number when creating a License or let NetLicensing generate one. Read-only after corresponding creation Transaction status is set to closed., active: any, name: any # Name for the Licensed item. Set from License Template on creation, if not specified explicitly., startDate: any # For 'TIMEVOLUME' License type, parentfeature: any, timeVolume: any # Mandatory for 'TIMEVOLUME' License Type., timeVolumePeriod: any # For 'TIMEVOLUME' License Type., price: any # Price for the License. If > 0, it must always be accompanied by the currency specification. Read-only, set from License Template on creation, currency: any # Specifies currency for the License price. Check data types to discover which currencies are supported. Read-only, set from License Template on creation, hidden: any # If set to 'true', this License is not shown in NetLicensing Shop as purchased License. Set from License Template on creation, if not specified explicitly, quantity: any # Mandatory for 'Pay-per-Use' License Model., usedQuantity: any # Mandatory for 'Pay-per-Use' License Model.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint DELETE /license/{licenseNumber}
+@desc Delete License
+@required {licenseNumber: any # Unique number (across all Products/Licensees of a Vendor) that identifies the License. Vendor can assign this number when creating a License or let NetLicensing generate one. Read-only after corresponding creation Transaction status is set to closed.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endgroup
+
+@group transaction
+@endpoint GET /transaction
+@desc List Transactions
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /transaction
+@desc Create Transaction
+@required {active: any # Always 'true' for Transactions, status: any, source: any # AUTO Transaction for internal use only}
+@optional {licenseeNumber: any, number: any # Unique number (across all Products of a Vendor) that identifies the Transaction, dateCreated: any, dateClosed: any, paymentMethod: any}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint GET /transaction/{transactionNumber}
+@desc Get Transaction
+@required {transactionNumber: any # Unique number (across all Products of a Vendor) that identifies the Transaction}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /transaction/{transactionNumber}
+@desc Update Transaction
+@required {transactionNumber: any # Unique number (across all Products of a Vendor) that identifies the Transaction}
+@optional {number: any # Unique number (across all Products of a Vendor) that identifies the Transaction, active: any # Always 'true' for Transactions, status: any, source: any # AUTO Transaction for internal use only, dateCreated: any, dateClosed: any, paymentMethod: any}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endgroup
+
+@group token
+@endpoint GET /token
+@desc List Tokens
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /token
+@desc Create token
+@required {tokenType: any # Token type to be generated}
+@optional {apiKeyRole: any # For <i>tokenType=APIKEY</i> only (default: ROLE_APIKEY_LICENSEE); defines token RoleID, type: any # For <i>tokenType=DEFAULT</i> only; action type to be set, action: any # For <i>type=ACTION</i> only; defines token action to be perfromed, licenseeNumber: any # For <i>tokenType=SHOP</i> or <i>type=ACTION</i> only (mandatory); identifies Licensee that will be assigned to the shop token, privateKey: any # For <i>tokenType=APIKEY</i> only (optional); defines PrivateKey to be used with the validate method<br/><strong>Please Note:</strong> PrivateKey need to be provided as one line without spaces, productNumber: any # For <i>tokenType=SHOP</i> only (mandatory); identifies Product that will be assigned to the shop token, licenseTemplateNumber: any # For <i>tokenType=SHOP</i> only; identifies LicenseTemplate that will be assigned to the shop token, predefinedShoppingItem: any # For <i>tokenType=SHOP</i> only; identifies Shopping Item name that will be shown to the customer, successURL: any # For <i>tokenType=SHOP</i> only; take customers to this URL when they finish checkout, successURLTitle: any # For <i>tokenType=SHOP</i> only; shop link title for successful checkout process, cancelURL: any # For <i>tokenType=SHOP</i> only; take customers to this URL when they cancel their checkout, cancelURLTitle: any # For <i>tokenType=SHOP</i> only; shop link title for cancel checkout process}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint GET /token/{tokenNumber}
+@desc Get token
+@required {tokenNumber: any # Token number}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint DELETE /token/{tokenNumber}
+@desc Delete token
+@required {tokenNumber: any # Token number}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endgroup
+
+@group paymentmethod
+@endpoint GET /paymentmethod
+@desc List Payment Methods
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint GET /paymentmethod/{paymentMethodNumber}
+@desc Get Payment Method
+@required {paymentMethodNumber: any # Payment method number}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint POST /paymentmethod/{paymentMethodNumber}
+@desc Update Payment Method
+@required {paymentMethodNumber: any # Payment method number}
+@optional {active: any # If set to 'false', the Payment Method is disabled., paypal.subject: any # The e-mail address of the PayPal account for which you are making the API calls.}
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endgroup
+
+@group utility
+@endpoint GET /utility/licensingModels
+@desc List Licensing Models
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endpoint GET /utility/licenseTypes
+@desc List License Types
+@returns(200) Successful request
+@errors {400: Malformed or illegal request, 403: Access is denied, 404: Resource not found, 500: Internal service error}
+
+@endgroup
+
+@end

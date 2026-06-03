@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api ApiManagementClient
+@base https://management.azure.com
+@version 2019-12-01-preview
+@auth OAuth2
+@endpoints 1
+@toc subscriptions(1)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apisByTags
+@desc Lists a collection of apis associated with tags.
+@optional {$filter: any # | Field       | Supported operators    | Supported functions               | |-------------|------------------------|-----------------------------------|  |name | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith| |displayName | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith| |apiRevision | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith| |path | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith| |description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith| |serviceUrl | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith| |isCurrent | eq |    |, includeNotTaggedApis: any # Include not tagged APIs.}
+@returns(200) Lists a collection of TagResource entities.
+
+@end

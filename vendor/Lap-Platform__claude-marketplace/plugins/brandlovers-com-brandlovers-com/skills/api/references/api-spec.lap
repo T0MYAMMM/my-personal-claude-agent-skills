@@ -1,0 +1,256 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api BrandLovers Marketplace API V1
+@base https://api.brandlovers.com/marketplace/v1
+@version 1.0.0
+@auth ApiKey authorization in header
+@common_fields {authorization: any # Authorization token. The Authorization token can be found in your Admin console.}
+@endpoints 36
+@hint download_for_search
+@toc products(7), product(6), orders(12), order(6), tickets(1), ticket(4)
+
+@group products
+@endpoint POST /products
+@desc Allows new products from the seller to be loaded into the marketplace
+@required {products: [any] # JSON with a list of new products to be updloaded to the platform}
+@returns(200) Sucess! Server received your request and will start background processing.
+@errors {400: Bad Request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required.}
+
+@endpoint GET /products
+@desc Returns a list of products loaded into BrandLovers Marketplace
+@optional {offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number of items to retun. Defaults to 100. Max alowed is 200. Use this conjuction with `offset` to paginate across the results.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endgroup
+
+@group product
+@endpoint GET /product/{skuSellerId}
+@desc Returns details of a single product using the seller `skuSellerId`
+@required {skuSellerId: any # SKU ID do Lojista.}
+@returns(200) Success!
+@errors {401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second., 404: Object not found. In general this means a invalid skuSellerId.}
+
+@endpoint PUT /product/{skuSellerId}
+@desc Update product details
+@required {skuSellerId: any # Unique Product Id (SKU) in the seller system that will be updated., body: any # New product information.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second., 404: Object not found.}
+
+@endpoint POST /product
+@desc Create a new product to the marketplace
+@required {product: any # New Produt that will be create}
+@returns(200) Sucess! Server received your request and will start background processing.
+@errors {400: Bad Request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required.}
+
+@endgroup
+
+@group products
+@endpoint GET /products/status
+@desc Returns seller products status in the marketplace
+@optional {offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number of items to return in this query. Defaults to 250. Maximum 1000. Use this conjuction with `offset` to paginate across the results.}
+@returns(200) Success fetching results.
+@errors {403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endpoint PUT /products/status
+@desc Bulk enable/disable products in the marketplace
+@required {body: [any] # List of seller products with new status information}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required.}
+
+@endpoint PUT /products/prices
+@desc Allows bulk update of product prices.
+@required {body: [any] # Data for bulk product price update}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required.}
+
+@endpoint PUT /products/stocks
+@desc Bulk product stock update
+@required {body: [any] # Array of product SKUs.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required.}
+
+@endgroup
+
+@group product
+@endpoint PUT /product/{skuSellerId}/status
+@desc Enable/disable a single product in the Marketplace
+@required {skuSellerId: any # Unique Product Id (SKU) in the seller system, body: any # Seller SKU that will be enabled or disabled}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required.}
+
+@endpoint PUT /product/{skuSellerId}/stock
+@desc Update a single product stock
+@required {skuSellerId: any # Unique Product Id (SKU) in the seller system that will be updated, body: any # New product inventory information}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required.}
+
+@endpoint PUT /product/{skuSellerId}/prices
+@desc Allows seller to update prices of a single SKU
+@required {skuSellerId: any # Product SKU, body: any # JSON document with the SKU price}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required.}
+
+@endgroup
+
+@group products
+@endpoint GET /products/status/selling
+@desc Returns products that are successfully listed for sale.
+@optional {offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number or items to return when executing query. Defaults to 10. Use this conjuction with `offset` to paginate across the results.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endgroup
+
+@group orders
+@endpoint GET /orders
+@desc Returns orders details
+@optional {offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number or items to return when executing query. Defaults to 10. Use this conjuction with `offset` to paginate across the results.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endpoint POST /orders/shipments/delivered
+@desc Bulk update of order shipments
+@required {ordersshipments: any # JSON body with list of shipments to be updated.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endpoint GET /orders/shipments/delivered
+@desc Returns list of shipments
+@optional {status: any # Query by shippment status., offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number or items to return when executing query. Defaults to 10. Use this conjuction with `offset` to paginate across the results.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endpoint POST /orders/shipments/shipped
+@desc Bulk update of order shipments
+@required {ordersshipments: any # JSON payload with list of shippments of orders.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endpoint GET /orders/shipments/shipped
+@desc Returns a list of shipments shipped
+@optional {status: any # Product status., offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number or items to return when executing query. Defaults to 10. Use this conjuction with `offset` to paginate across the results.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endpoint GET /orders/status/approved
+@desc Return list of approved orders
+@optional {offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number or items to return when executing query. Defaults to 100, max 200. Use this in conjuction with `offset` to paginate across the results.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endpoint GET /orders/status/canceled
+@desc Returns lists of canceled orders
+@optional {offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number or items to return when executing query. Default 100, max 250. Use this conjuction with `offset` to paginate across the results.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endpoint GET /orders/status/delivered
+@desc Returns a list of orders successfully delivered associated with this seller.
+@optional {offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number or items to return when executing query. Defaults to 10. Use this conjuction with `offset` to paginate across the results.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endpoint GET /orders/status/new
+@desc Returns a list of orders flagged as new.
+@optional {offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number or items to return when executing query. Defaults to 100. Max 250. Use this conjuction with `offset` to paginate across the results.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endpoint GET /orders/status/partiallyDelivered
+@desc Returns a list of partially deliverd orders
+@optional {offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number or items to return when executing query. Defaults to 100. Max 250. Use this conjuction with `offset` to paginate across the results.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endpoint GET /orders/status/partiallySent
+@desc Returns a list of orders partially fullfiled
+@optional {offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number or items to return when executing query. Defaults to 100. Use this conjuction with `offset` to paginate across the results.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endpoint GET /orders/status/sent
+@desc Returns a list with orders fully sent
+@optional {offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number or items to return when executing query. Defaults to 10. Use this conjuction with `offset` to paginate across the results.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second.}
+
+@endgroup
+
+@group order
+@endpoint GET /order/{orderId}
+@desc Returns all details of a order
+@required {orderId: any # Unique Id of this order.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second., 404: Object not found. Was not able to find orderId}
+
+@endpoint POST /order/{orderId}/shipment/cancel
+@desc Confirm shipment canceletion (when requested by the customer) or failure to deliver
+@required {body: any, orderId: any # Unique Order Id}
+@returns(200) success.
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 404: Object not found. Was not able to find orderId}
+
+@endpoint POST /order/{orderId}/shipment/delivered
+@desc Confirms that a shipment was delivered
+@required {body: any, orderId: any # Unique Order Id}
+@returns(200) Sucess!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 404: Object not found. Was not able to find orderId}
+
+@endpoint POST /order/{orderId}/shipment/exchange
+@desc Confirm item exchange
+@required {body: any, orderId: any # Unique Order Id}
+@returns(200) Sucess!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 404: Object not found. Was not able to find orderId}
+
+@endpoint POST /order/{orderId}/shipment/return
+@desc Confirm order item return and refund
+@required {body: any, orderId: any # Order unique Id}
+@returns(200) Sucess!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 404: Object not found. Was not able to find orderId}
+
+@endpoint POST /order/{orderId}/shipment/sent
+@desc Update new order to include shipment information
+@required {body: any, orderId: any # Unique Order Id}
+@returns(200) Sucess!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 404: Object not found. Was not able to find orderId}
+
+@endgroup
+
+@group tickets
+@endpoint GET /tickets
+@desc Get customers trouble tickets
+@optional {status: any # Query by trouble ticket status, offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number or items to return when executing query. Defaults to 10. Use this conjuction with `offset` to paginate across the results.}
+@returns(200) Success!
+@errors {400: Bad request.}
+
+@endgroup
+
+@group ticket
+@endpoint POST /ticket
+@desc Creates a new trouble ticket
+@required {newTicket: any # JSON object with new trouble ticket}
+@returns(200) Success!
+@errors {400: Bad request.}
+
+@endpoint GET /ticket/{ticketId}/messages
+@desc Get trouble ticket messages
+@required {ticketId: any # Trouble ticket ID.}
+@optional {offset: any # Number or items to skip when executing query. List starts at zero. If omitted will default to zero. Use this conjuction with `limit` to paginate across the results., limit: any # Number or items to return when executing query. Defaults to 10. Use this conjuction with `offset` to paginate across the results.}
+@returns(200) Success!
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Access denied. You can only access your trouble tickets}
+
+@endpoint POST /ticket/{ticketId}/message
+@desc Add new message to trouble ticket
+@required {ticketId: any # Trouble ticket ID., message: any # New message object to append to trouble ticket.}
+@returns(200) Success!
+@errors {400: Bad request., 404: Object not found.}
+
+@endpoint PUT /ticket/{ticketId}/status
+@desc Update trouble ticket status
+@required {ticketId: any # Trouble ticket unique identification, body: any # New trouble ticket status}
+@returns(200) successfully received transaction
+@errors {400: Bad request., 401: Access denied. You're not authenticated or token expired. Check your request header the `authorization` field is required., 403: Server refused to process your request. Please check the API SLA and reduce number of requests per second., 404: Object not found.}
+
+@endgroup
+
+@end

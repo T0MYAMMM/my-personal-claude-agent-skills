@@ -1,0 +1,38 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Mtaa API Documentation
+@base https://mtaa-api.herokuapp.com/api
+@version 1.0
+@endpoints 5
+@toc {country}(5)
+
+@endpoint GET /{country}
+@desc Returns all regions present in Tanzania
+@required {country: str # Country name in lowercase eg (Tanzania)}
+@returns(200) Successful response
+
+@endpoint GET /{country}/{region}
+@desc Returns all districts in region
+@required {country: str # Country name in lowercase eg( tanzania), region: str # Name of the region eg (Mbeya)}
+@returns(200) Successful response
+@errors {404: Resource not Found}
+
+@endpoint GET /{country}/{region}/{district}
+@desc Returns all wards in a district
+@required {country: str # Country name in lowercase eg( tanzania), region: str # Name of the region eg (Mbeya), district: str # Name of the District eg (Rungwe)}
+@returns(200) Successful response
+@errors {404: Resource not Found}
+
+@endpoint GET /{country}/{region}/{district}/{ward}
+@desc Returns all streets in a ward
+@required {country: str # Country name in lowercase eg( tanzania), region: str # Name of the region eg (Mbeya), district: str # Name of the District eg (Rungwe), ward: str # Name of the Ward eg (Kiwira)}
+@returns(200) Successful response
+@errors {404: Resource not Found}
+
+@endpoint GET /{country}/{region}/{district}/{ward}/{street}
+@desc Returns all neighborhood in a street
+@required {country: str # Country name in lowercase eg( tanzania), region: str # Name of the region eg (Mbeya), district: str # Name of the District eg (Rungwe), ward: str # Name of the Ward eg (Kiwira), street: str # Name of the Street eg (Ilundo)}
+@returns(200) Successful response
+@errors {404: Resource not Found}
+
+@end

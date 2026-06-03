@@ -1,0 +1,114 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Azure Log Analytics
+@base https://management.azure.com
+@version 2015-11-01-preview
+@auth OAuth2
+@common_fields {api-version: any # Client Api Version.}
+@endpoints 18
+@toc subscriptions(17), providers(1)
+
+@group subscriptions
+@endpoint PUT /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}
+@desc Create or update a data source.
+@required {resourceGroupName: any # The name of the resource group to get. The name is case insensitive., workspaceName: any # Name of the Log Analytics Workspace that will contain the datasource, dataSourceName: any # The name of the datasource resource., parameters: any # The parameters required to create or update a datasource., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK response definition.
+@returns(201) Created response definition.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}
+@desc Deletes a data source instance.
+@required {resourceGroupName: any # The name of the resource group to get. The name is case insensitive., workspaceName: any # Name of the Log Analytics Workspace that contains the datasource., dataSourceName: any # Name of the datasource., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK response definition.
+@returns(204) NoContent response definition.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}
+@desc Gets a datasource instance.
+@required {resourceGroupName: any # The name of the resource group to get. The name is case insensitive., workspaceName: any # Name of the Log Analytics Workspace that contains the datasource., dataSourceName: any # Name of the datasource, subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK response definition.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources
+@desc Gets the first page of data source instances in a workspace with the link to the next page.
+@required {resourceGroupName: any # The name of the resource group to get. The name is case insensitive., workspaceName: any # The workspace that contains the data sources., $filter: any # The filter to apply on the operation., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@optional {$skiptoken: any # Starting point of the collection of data source instances.}
+@returns(200) OK response definition.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks/{intelligencePackName}/Disable
+@desc Disables an intelligence pack for a given workspace.
+@required {resourceGroupName: any # The name of the resource group to get. The name is case insensitive., workspaceName: any # Name of the Log Analytics Workspace., intelligencePackName: any # The name of the intelligence pack to be disabled., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK response definition.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks/{intelligencePackName}/Enable
+@desc Enables an intelligence pack for a given workspace.
+@required {resourceGroupName: any # The name of the resource group to get. The name is case insensitive., workspaceName: any # Name of the Log Analytics Workspace., intelligencePackName: any # The name of the intelligence pack to be enabled., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK response definition.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks
+@desc Lists all the intelligence packs possible and whether they are enabled or disabled for a given workspace.
+@required {resourceGroupName: any # The name of the resource group to get. The name is case insensitive., workspaceName: any # Name of the Log Analytics Workspace., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK response definition.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/sharedKeys
+@desc Gets the shared keys for a workspace.
+@required {resourceGroupName: any # The name of the resource group to get. The name is case insensitive., workspaceName: any # Name of the Log Analytics Workspace., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK response definition.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/usages
+@desc Gets a list of usage metrics for a workspace.
+@required {resourceGroupName: any # The name of the resource group to get. The name is case insensitive., workspaceName: any # The name of the workspace., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK response definition.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/managementGroups
+@desc Gets a list of management groups connected to a workspace.
+@required {resourceGroupName: any # The name of the resource group to get. The name is case insensitive., workspaceName: any # The name of the workspace., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK response definition.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces
+@desc Gets workspaces in a resource group.
+@required {resourceGroupName: any # The name of the resource group to get. The name is case insensitive., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK response definition.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.OperationalInsights/workspaces
+@desc Gets the workspaces in a subscription.
+@required {subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK response definition.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}
+@desc Create or update a workspace.
+@required {resourceGroupName: any # The resource group name of the workspace., workspaceName: any # The name of the workspace., parameters: any # The parameters required to create or update a workspace., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK response definition.
+@returns(201) Created response definition.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}
+@desc Deletes a workspace instance.
+@required {resourceGroupName: any # The resource group name of the workspace., workspaceName: any # Name of the Log Analytics Workspace., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK response definition.
+@returns(204) NoContent response definition.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}
+@desc Gets a workspace instance.
+@required {resourceGroupName: any # The resource group name of the workspace., workspaceName: any # Name of the Log Analytics Workspace., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK response definition.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}
+@desc Updates a workspace.
+@required {resourceGroupName: any # The resource group name of the workspace., workspaceName: any # The name of the workspace., parameters: any # The parameters required to patch a workspace., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) The existing workspace was successfully updated. Check provisioningStatus to see detailed status.
+
+@endgroup
+
+@group providers
+@endpoint GET /providers/Microsoft.OperationalInsights/operations
+@desc Lists all of the available OperationalInsights Rest API operations.
+@returns(200) OK response definition.
+
+@endgroup
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.OperationalInsights/locations/{location}/operationStatuses/{asyncOperationId}
+@desc Get the status of an azure asynchronous operation.
+@required {location: any # The region name of operation., asyncOperationId: any # The operation Id., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK. Operation status.
+
+@endgroup
+
+@end

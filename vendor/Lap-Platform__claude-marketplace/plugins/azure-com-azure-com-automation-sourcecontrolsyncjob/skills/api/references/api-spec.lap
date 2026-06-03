@@ -1,0 +1,26 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AutomationManagement
+@base https://management.azure.com
+@version 2017-05-15-preview
+@auth OAuth2
+@endpoints 3
+@toc subscriptions(3)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs/{sourceControlSyncJobId}
+@desc Creates the sync job for a source control.
+@required {sourceControlName: any # The source control name., sourceControlSyncJobId: any # The source control sync job id., parameters: any # The parameters supplied to the create source control sync job operation.}
+@returns(201) Created
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs/{sourceControlSyncJobId}
+@desc Retrieve the source control sync job identified by job id.
+@required {sourceControlName: any # The source control name., sourceControlSyncJobId: any # The source control sync job id.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs
+@desc Retrieve a list of source control sync jobs.
+@required {sourceControlName: any # The source control name.}
+@optional {$filter: any # The filter to apply on the operation.}
+@returns(200) OK
+
+@end

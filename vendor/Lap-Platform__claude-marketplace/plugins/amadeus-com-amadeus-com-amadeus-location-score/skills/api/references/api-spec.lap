@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Location Score
+@base https://test.api.amadeus.com/v1
+@version 1.0.3
+@endpoints 1
+@toc location(1)
+
+@endpoint GET /location/analytics/category-rated-areas
+@desc GET category rated areas
+@required {latitude: num # Latitude in decimal coordinates, longitude: num # Longitude in decimal coordinates}
+@returns(200) Successful Reply
+@errors {400: code    | title                                  ------- | -------------------------------------  477     | INVALID FORMAT 572     | INVALID OPTION                             32171   | MANDATORY DATA MISSING, 500: Internal Server Error}
+
+@end

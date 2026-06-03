@@ -1,0 +1,40 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api NetworkAdminManagementClient
+@base https://management.azure.com
+@version 2015-06-15
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(1), providers(4)
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network.Admin/adminOverview
+@desc Get an overview of the state of the network resource provider.
+@returns(200) OK
+
+@endgroup
+
+@group providers
+@endpoint GET /providers/Microsoft.Network.Admin/operations
+@desc Returns the list of support REST operations.
+@required {api-version: any # Client API Version.}
+@returns(200) OK
+
+@endpoint GET /providers/Microsoft.Network.Admin/locations
+@desc Returns the list of supported locations
+@required {api-version: any # Client API Version.}
+@returns(200) OK
+
+@endpoint GET /providers/Microsoft.Network.Admin/locations/{location}/operationResults
+@desc Returns the list of operation results for a location
+@required {api-version: any # Client API Version., location: any # Location of the resource.}
+@returns(200) OK
+
+@endpoint GET /providers/Microsoft.Network.Admin/locations/{location}/operations
+@desc Returns the list of support REST operations.
+@required {api-version: any # Client API Version., location: any # Location of the resource.}
+@returns(200) OK
+
+@endgroup
+
+@end

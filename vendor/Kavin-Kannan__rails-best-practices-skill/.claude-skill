@@ -1,0 +1,33 @@
+{
+  "name": "rails-best-practices",
+  "version": "1.0.0",
+  "description": "Rails best practices skill - Comprehensive best practices for reviewing, analyzing, and generating Ruby on Rails code",
+  "author": "Kavin Kannan",
+  "repository": "https://github.com/yourusername/rails-best-practices-skill",
+  "categories": ["code-review", "code-generation", "coding", "rails", "ruby", "best-practices"],
+  "tags": ["code-review", "code-generation", "rails", "ruby", "best-practices", "refactoring", "code-analysis", "ruby-on-rails"],
+  "useCases": ["code-review", "code-generation"],
+  "triggers": [
+    "review rails code",
+    "review ruby on rails",
+    "code review",
+    "analyze rails code",
+    "rails best practices",
+    "rails code review",
+    "review this rails",
+    "check rails code",
+    "write rails code",
+    "generate rails code",
+    "create rails",
+    "build rails",
+    "rails controller",
+    "rails model",
+    "rails migration",
+    "rails helper",
+    "ruby on rails"
+  ],
+  "requires": {
+    "claude": ">=3.5"
+  }
+}
+

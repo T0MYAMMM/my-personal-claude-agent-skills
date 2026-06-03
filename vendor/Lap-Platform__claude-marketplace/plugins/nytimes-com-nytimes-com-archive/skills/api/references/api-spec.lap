@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Archive API
+@base http://api.nytimes.com/svc/archive/v1
+@version 1.0.0
+@auth ApiKey api-key in query
+@endpoints 1
+@toc {year}(1)
+
+@endpoint GET /{year}/{month}.json
+@desc Archive API
+@required {year: any # The year (e.g. 2016)., month: any # The month number (e.g. 1 for January).}
+@returns(200) The docs requested.
+
+@end

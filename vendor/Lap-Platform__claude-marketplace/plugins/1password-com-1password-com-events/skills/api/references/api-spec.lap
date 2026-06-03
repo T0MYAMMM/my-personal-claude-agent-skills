@@ -1,0 +1,38 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Events API
+@base https://events.1password.com
+@version 1.2.0
+@auth Bearer bearer
+@endpoints 5
+@toc api(5)
+
+@endpoint GET /api/auth/introspect
+@desc Performs introspection of the provided Bearer JWT token
+@returns(200) {UUID: str, IssuedAt: str(date-time), Features: [str]} # Introspection object
+@errors {401: Unauthorized, 500: Internal Server Error}
+
+@endpoint GET /api/v2/auth/introspect
+@desc Performs introspection of the provided Bearer JWT token
+@returns(200) {uuid: str, issued_at: str(date-time), features: [str]} # Introspection v2 object
+@errors {401: Unauthorized, 500: Internal Server Error}
+
+@endpoint POST /api/v1/signinattempts
+@desc Retrieves events for both successful and failed attempts to sign into a 1Password account
+@returns(200) Sign-in attempts response object
+@errors {401: Unauthorized, 500: Internal Server Error}
+@example_request {"cursor":"aGVsbG8hIGlzIGl0IG1lIHlvdSBhcmUgbG9va2luZyBmb3IK"}
+
+@endpoint POST /api/v1/itemusages
+@desc Retrieves events for each usage of an item stored in a shared vault within a 1Password account
+@returns(200) Item usages response object
+@errors {401: Unauthorized, 500: Internal Server Error}
+@example_request {"cursor":"aGVsbG8hIGlzIGl0IG1lIHlvdSBhcmUgbG9va2luZyBmb3IK"}
+
+@endpoint POST /api/v1/auditevents
+@desc Retrieves audit events for actions performed by team members within a 1Password account
+@returns(200) Audit events response object
+@errors {401: Unauthorized, 500: Internal Server Error}
+@example_request {"cursor":"aGVsbG8hIGlzIGl0IG1lIHlvdSBhcmUgbG9va2luZyBmb3IK"}
+
+@end

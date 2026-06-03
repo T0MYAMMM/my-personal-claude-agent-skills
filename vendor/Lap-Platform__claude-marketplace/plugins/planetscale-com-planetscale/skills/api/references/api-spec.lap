@@ -1,0 +1,964 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api PlanetScale API
+@base https://api.planetscale.com/v1
+@version v1
+@auth OAuth2
+@common_fields {organization: any # Organization name slug from `list_organizations`. Example: `acme`.}
+@endpoints 148
+@hint download_for_search
+@toc organizations(146), regions(1), user(1)
+
+@group organizations
+@endpoint GET /organizations
+@desc List organizations
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Gets the organizations for the current user
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}
+@desc Get an organization
+@returns(200) Returns an organization
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}
+@desc Update an organization
+@optional {body: map}
+@returns(200) Returns the updated organization
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/audit-log
+@desc List audit logs
+@returns(200) Returns the audit log events
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/cluster-size-skus
+@desc List available cluster sizes
+@optional {engine: any # The database engine to filter by. Defaults to 'mysql'., rates: any # Whether to include pricing rates in the response. Defaults to false., region: any # The region slug to get rates for. If not specified, uses the organization's default region.}
+@returns(200) Returns available cluster sizes with optional pricing rates
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases
+@desc List databases
+@optional {q: any # Search term to filter databases by name, page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Retrieves the databases for an organization
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases
+@desc Create a database
+@optional {body: map}
+@returns(201) Returns the created database
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}
+@desc Get a database
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`.}
+@returns(200) Returns a database
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}
+@desc Update database settings
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`.}
+@optional {body: map}
+@returns(200) Returns the updated database
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/databases/{database}
+@desc Delete a database
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`.}
+@returns(204) Deletes a database
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches
+@desc List branches
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`.}
+@optional {q: any # Search branches by name, production: any # Filter branches by production status, safe_migrations: any # Filter branches by safe migrations (DDL protection), order: any # Order branches by created_at time, page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns database branches
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches
+@desc Create a branch
+@required {database: any # The name of the database the branch belongs to}
+@optional {body: map}
+@returns(201) Returns the created branch
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}
+@desc Get a branch
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`.}
+@returns(200) Returns information about a branch
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/branches/{branch}
+@desc Update a branch
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@optional {body: map}
+@returns(200) Returns the updated branch
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/databases/{database}/branches/{branch}
+@desc Delete a branch
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@returns(204) Delete a branch
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/backups
+@desc List backups
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@optional {all: any # Whether to include all backups, including deleted ones, state: any # Filter backups by state, policy: any # Filter backups by backup policy ID, from: any # Filter backups started after this date (e.g. 2023-01-01T00:00:00Z), to: any # Filter backups started before this date (e.g. 2023-01-31T23:59:59Z), running_at: any # Filter backups that are running during a specific time (e.g. 2023-01-01T00:00:00Z..2023-01-01T23:59:59Z), production: any # Filter backups by production branch, page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns database branch backups
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches/{branch}/backups
+@desc Create a backup
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@optional {body: map}
+@returns(201) Returns the created database branch backup
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/backups/{id}
+@desc Get a backup
+@required {id: any # The ID for the backup, database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@returns(200) Returns a database branch backup
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/branches/{branch}/backups/{id}
+@desc Update a backup
+@required {id: any # The ID of the backup, database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@optional {body: map}
+@returns(200) Returns the backup
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/databases/{database}/branches/{branch}/backups/{id}
+@desc Delete a backup
+@required {id: any # The ID of the backup, database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@returns(204) Delete a backup
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/bouncer-resizes
+@desc Get bouncer resize requests
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`.}
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns bouncer resize requests
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/bouncers
+@desc List bouncers
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`.}
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns bouncers
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches/{branch}/bouncers
+@desc Create a bouncer
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`.}
+@optional {body: map}
+@returns(200) Returns the new bouncer
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/bouncers/{bouncer}
+@desc Get a bouncer
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`., bouncer: any # The name of the bouncer}
+@returns(200) Returns a bouncer
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/databases/{database}/branches/{branch}/bouncers/{bouncer}
+@desc Delete a bouncer
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`., bouncer: any # The name of the bouncer}
+@returns(204) Deletes the bouncer
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/bouncers/{bouncer}/resizes
+@desc Get bouncer resize requests
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`., bouncer: any # The name of the bouncer}
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns bouncer resize requests
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/branches/{branch}/bouncers/{bouncer}/resizes
+@desc Upsert a bouncer resize request
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`., bouncer: any # The name of the bouncer}
+@optional {body: map}
+@returns(200) Returns bouncer resize request
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/databases/{database}/branches/{branch}/bouncers/{bouncer}/resizes
+@desc Cancel a resize request
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`., bouncer: any # The name of the bouncer}
+@returns(204) Cancels a resize request
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/changes
+@desc Get branch change requests
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`.}
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns branch change requests
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/branches/{branch}/changes
+@desc Upsert a change request
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`.}
+@optional {body: map}
+@returns(200) Returns the branch change request
+@returns(204) No changes to apply
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/changes/{id}
+@desc Get a branch change request
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`., id: any # The ID of the change request}
+@returns(200) Returns a branch change request
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/branches/{branch}/cluster
+@desc Change a branch cluster configuration
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch to configure}
+@optional {body: map}
+@returns(204) Returns an empty response body
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches/{branch}/demote
+@desc Demote a branch
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@returns(200) Returns a development branch
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/extensions
+@desc List cluster extensions
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`.}
+@returns(200) Returns cluster extensions
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/keyspaces
+@desc Get keyspaces
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns keyspaces
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches/{branch}/keyspaces
+@desc Create a keyspace
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@optional {body: map}
+@returns(200) Returns a created keyspace
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/keyspaces/{keyspace}
+@desc Get a keyspace
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch, keyspace: any # The name of the keyspace}
+@returns(200) Returns information about a keyspace
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/branches/{branch}/keyspaces/{keyspace}
+@desc Configure keyspace settings
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch, keyspace: any # The name of the keyspace}
+@returns(200) Returns the keyspace
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/databases/{database}/branches/{branch}/keyspaces/{keyspace}
+@desc Delete a keyspace
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch, keyspace: any # The name of the keyspace}
+@returns(204) Delete a keyspace
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/keyspaces/{keyspace}/rollout-status
+@desc Get keyspace rollout status
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch, keyspace: any # The name of the keyspace}
+@returns(200) Returns information about a keyspace's rollout
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/keyspaces/{keyspace}/vschema
+@desc Get the VSchema for the keyspace
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch, keyspace: any # The name of the keyspace}
+@returns(200) Returns the VSchema for the keyspace
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/branches/{branch}/keyspaces/{keyspace}/vschema
+@desc Update the VSchema for the keyspace
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch, keyspace: any # The name of the keyspace}
+@optional {body: map}
+@returns(200) Returns the VSchema for the keyspace
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error, 422: Unprocessable Content}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/parameters
+@desc List cluster parameters
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`.}
+@returns(200) Returns cluster parameters
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/passwords
+@desc List passwords
+@required {database: any # The name of the database the password belongs to, branch: any # The name of the branch the password belongs to}
+@optional {read_only_region_id: any # A read-only region of the database branch. If present, the password results will be filtered to only those in the region, page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns passwords for the branch
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches/{branch}/passwords
+@desc Create a password
+@required {database: any # The name of the database the password belongs to, branch: any # The name of the branch the password belongs to}
+@optional {body: map}
+@returns(201) Returns the new credentials
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error, 422: Unprocessable Content}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/passwords/{id}
+@desc Get a password
+@required {database: any # The name of the database the password belongs to, branch: any # The name of the branch the password belongs to, id: any # The ID of the password}
+@returns(200) Returns a password
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/branches/{branch}/passwords/{id}
+@desc Update a password
+@required {database: any # The name of the database the password belongs to, branch: any # The name of the branch the password belongs to, id: any # The ID of the password}
+@optional {body: map}
+@returns(200) Returns the updated password
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/databases/{database}/branches/{branch}/passwords/{id}
+@desc Delete a password
+@required {database: any # The name of the database the password belongs to, branch: any # The name of the branch the password belongs to, id: any # The ID of the password}
+@returns(204) Deletes the password
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches/{branch}/passwords/{id}/renew
+@desc Renew a password
+@required {database: any # The name of the database the password belongs to, branch: any # The name of the branch the password belongs to, id: any # The ID of the password}
+@returns(200) Returns the renewed password
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches/{branch}/promote
+@desc Promote a branch
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@returns(200) Returns a production branch
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/query-patterns
+@desc List generated query patterns reports
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@returns(200) Returns the generated query patterns reports
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches/{branch}/query-patterns
+@desc Create a new query patterns report
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@returns(201) The created query patterns download
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/query-patterns/{id}
+@desc Show the status of a query patterns report
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch, id: any # The ID of the query patterns report}
+@returns(200) The retrieved query patterns download
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/databases/{database}/branches/{branch}/query-patterns/{id}
+@desc Delete a query patterns report
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch, id: any # The ID of the query patterns report}
+@returns(204) Delete a query patterns report
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/query-patterns/{id}/download
+@desc Download a finished query patterns report
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch, id: any # The ID of the query patterns report}
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error, 302: Redirect to the query patterns download}
+
+@endpoint DELETE /organizations/{organization}/databases/{database}/branches/{branch}/resizes
+@desc Cancel a change request
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`.}
+@returns(204) Cancels a change request
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/roles
+@desc List roles
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`.}
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns roles
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches/{branch}/roles
+@desc Create role credentials
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`.}
+@optional {body: map}
+@returns(200) Returns the new credentials
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/roles/default
+@desc Get the default postgres role
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`.}
+@returns(200) Returns the default postgres role
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches/{branch}/roles/reset-default
+@desc Reset default credentials
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`.}
+@returns(200) Returns the new credentials
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/roles/{id}
+@desc Get a role
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`., id: any # The ID of the role}
+@returns(200) Returns a role
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/branches/{branch}/roles/{id}
+@desc Update role name
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`., id: any # The ID of the role}
+@optional {body: map}
+@returns(200) Returns the updated role
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/databases/{database}/branches/{branch}/roles/{id}
+@desc Delete role credentials
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`., id: any # The ID of the role}
+@optional {body: map}
+@returns(204) Deletes the role credentials
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches/{branch}/roles/{id}/reassign
+@desc Reassign objects owned by one role to another role
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`., id: any # The ID of the role}
+@optional {body: map}
+@returns(204) Objects reassigned successfully
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches/{branch}/roles/{id}/renew
+@desc Renew role expiration
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`., id: any # The ID of the role}
+@returns(200) Returns the renewed role
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches/{branch}/roles/{id}/reset
+@desc Reset a role's password
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., branch: any # Branch name from `list_branches`. Example: `main`., id: any # The ID of the role}
+@returns(200) Returns the role with new password
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/branches/{branch}/safe-migrations
+@desc Enable safe migrations for a branch
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@returns(200) Returns the branch with safe migrations enabled
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/databases/{database}/branches/{branch}/safe-migrations
+@desc Disable safe migrations for a branch
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@returns(200) Returns the branch with safe migrations disabled
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/schema
+@desc Get a branch schema
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@optional {keyspace: any # Return the schema for a single Vitess keyspace, namespace: any # Return the schema for a PostgreSQL catalog namespace in `<database>.<schema>` format (e.g. public.schema1)}
+@returns(200) Gets the schema for the branch
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/branches/{branch}/schema/lint
+@desc Lint a branch schema
+@required {database: any # The name of the database the branch belongs to, branch: any # The name of the branch}
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns a list of schema errors for a branch
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/cidrs
+@desc List IP restriction entries
+@required {database: any # The name of the database}
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns IP restriction entries for the database
+@errors {404: Not Found, 422: Unprocessable Entity - Invalid parameters or validation errors, 401: Unauthorized, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/cidrs
+@desc Create an IP restriction entry
+@required {database: any # The name of the database}
+@optional {body: map}
+@returns(201) Returns the created IP restriction entry
+@errors {404: Not Found, 422: Unprocessable Entity - Invalid parameters or validation errors, 401: Unauthorized, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/cidrs/{id}
+@desc Get an IP restriction entry
+@required {database: any # The name of the database, id: any # The ID of the IP restriction entry}
+@returns(200) Returns an IP restriction entry
+@errors {404: Not Found, 422: Unprocessable Entity - Invalid parameters or validation errors, 401: Unauthorized, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PUT /organizations/{organization}/databases/{database}/cidrs/{id}
+@desc Update an IP restriction entry
+@required {database: any # The name of the database, id: any # The ID of the IP restriction entry}
+@optional {body: map}
+@returns(200) Returns the updated IP restriction entry
+@errors {404: Not Found, 422: Unprocessable Entity - Invalid parameters or validation errors, 401: Unauthorized, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/databases/{database}/cidrs/{id}
+@desc Delete an IP restriction entry
+@required {database: any # The name of the database, id: any # The ID of the IP restriction entry}
+@returns(204) IP restriction entry deleted successfully. Note: This will also remove the restriction from all database branches.
+@errors {404: Not Found, 422: Unprocessable Entity - Invalid parameters or validation errors, 401: Unauthorized, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/deploy-queue
+@desc Get the deploy queue
+@required {database: any # The name of the deploy request's database}
+@returns(200) Returns the deploy queue for a database
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/deploy-requests
+@desc List deploy requests
+@required {database: any # The name of the deploy request's database}
+@optional {state: any # Filter by state of the deploy request (open, closed, deployed), branch: any # Filter by the name of the branch the deploy request is created from, into_branch: any # Filter by the name of the branch the deploy request will be merged into, deployed_at: any # Filter deploy requests by the date they were deployed. (e.g. 2023-01-01T00:00:00Z..2023-01-31T23:59:59Z), running_at: any # Filter deploy requests by the date they were running. (e.g. 2023-01-01T00:00:00Z..2023-01-31T23:59:59Z), page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns a list of deploy requests
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/deploy-requests
+@desc Create a deploy request
+@required {database: any # The name of the deploy request's database}
+@optional {body: map}
+@returns(201) Returns the created deploy request
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/deploy-requests/{number}
+@desc Get a deploy request
+@required {database: any # The name of the deploy request's database, number: any # The number of the deploy request}
+@returns(200) Returns information about a deploy request
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/deploy-requests/{number}
+@desc Close a deploy request
+@required {database: any # The name of the deploy request's database, number: any # The number of the deploy request}
+@optional {body: map}
+@returns(200) Returns the updated deploy request
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/deploy-requests/{number}/apply-deploy
+@desc Complete a gated deploy request
+@required {database: any # The name of the deploy request's database, number: any # The number of the deploy request}
+@returns(200) Returns the deploy request whose deployment has been completed
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PUT /organizations/{organization}/databases/{database}/deploy-requests/{number}/auto-apply
+@desc Update auto-apply for deploy request
+@required {database: any # The name of the deploy request's database, number: any # The number of the deploy request}
+@optional {body: map}
+@returns(200) Returns the deploy request whose auto-apply setting was updated
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PUT /organizations/{organization}/databases/{database}/deploy-requests/{number}/auto-delete-branch
+@desc Update auto-delete branch for deploy request
+@required {database: any # The name of the deploy request's database, number: any # The number of the deploy request}
+@optional {body: map}
+@returns(200) Returns the deploy request whose auto-delete branch setting was updated
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/deploy-requests/{number}/cancel
+@desc Cancel a queued deploy request
+@required {database: any # The name of the deploy request's database, number: any # The number of the deploy request}
+@returns(200) Returns the deploy request whose deployment was canceled
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/deploy-requests/{number}/complete-deploy
+@desc Complete an errored deploy
+@required {database: any # The name of the deploy request's database, number: any # The number of the deploy request}
+@returns(200) Returns the completed deploy request
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/deploy-requests/{number}/deploy
+@desc Queue a deploy request
+@required {database: any # The name of the deploy request's database, number: any # The number of the deploy request}
+@optional {body: map}
+@returns(200) Returns the deployed deploy request
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/deploy-requests/{number}/deployment
+@desc Get a deployment
+@required {database: any # The name of the deploy request's database, number: any # The number of the deploy request}
+@returns(200) Returns the deployment for a deploy request
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/deploy-requests/{number}/operations
+@desc List deploy operations
+@required {number: any # The number of the deploy request, database: any # The name of the deploy request's database}
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns deploy operations for the deploy request
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/deploy-requests/{number}/revert
+@desc Complete a revert
+@required {database: any # The name of the deploy request's database, number: any # The number of the deploy request}
+@returns(200) Returns the deploy request that was reverted
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/deploy-requests/{number}/reviews
+@desc List deploy request reviews
+@required {database: any # The name of the database the deploy request belongs to, number: any # The number of the deploy request}
+@returns(200) Returns an array of deploy request reviews
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/deploy-requests/{number}/reviews
+@desc Review a deploy request
+@required {database: any # The name of the database the deploy request belongs to, number: any # The number of the deploy request}
+@optional {body: map}
+@returns(201) Returns the created deploy request review
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/deploy-requests/{number}/skip-revert
+@desc Skip revert period
+@required {database: any # The name of the deploy request's database, number: any # The number of the deploy request}
+@returns(200) Returns the deploy request whose deploy revert was skipped
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/deploy-requests/{number}/throttler
+@desc Get deploy request throttler configurations
+@required {database: any # The name of the deploy request's database, number: any # The number of the deploy request}
+@returns(200) Deploy request throttler configurations
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/deploy-requests/{number}/throttler
+@desc Update deploy request throttler configurations
+@required {database: any # The name of the deploy request's database, number: any # The number of the deploy request}
+@optional {body: map}
+@returns(200) Deploy request throttler configurations
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/read-only-regions
+@desc List read-only regions
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`.}
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) List of the database's read-only regions
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/regions
+@desc List database regions
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`.}
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns the available regions for a database
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/schema-recommendations
+@desc List schema recommendations
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`.}
+@optional {state: any # Filter by recommendation state}
+@returns(200) Returns schema recommendations
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/schema-recommendations/{number}
+@desc Get a schema recommendation
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., number: any # Schema recommendation sequence number. Example: `42`.}
+@returns(200) Returns a schema recommendation
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/schema-recommendations/{number}/dismiss
+@desc Dismiss a schema recommendation
+@required {database: any # Database name slug from `list_databases`. Example: `app-db`., number: any # Schema recommendation sequence number. Example: `42`.}
+@optional {body: map}
+@returns(200) Returns the dismissed schema recommendation
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/throttler
+@desc Get database throttler configurations
+@required {database: any # The name of the database that the throttled deploy requests belong to}
+@returns(200) Database throttler configurations
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/throttler
+@desc Update database throttler configurations
+@required {database: any # The name of the database that the throttled deploy requests belong to}
+@optional {body: map}
+@returns(200) Database throttler configurations
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/webhooks
+@desc List webhooks
+@required {database: any # The name of the database}
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns a list of webhooks for a database
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/webhooks
+@desc Create a webhook
+@required {database: any # The name of the database}
+@optional {body: map}
+@returns(201) Returns the created webhook
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/webhooks/{id}
+@desc Get a webhook
+@required {database: any # The name of the database, id: any # The ID of the webhook}
+@returns(200) Returns the webhook
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/webhooks/{id}
+@desc Update a webhook
+@required {database: any # The name of the database, id: any # The ID of the webhook}
+@optional {body: map}
+@returns(200) Returns the updated webhook
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/databases/{database}/webhooks/{id}
+@desc Delete a webhook
+@required {database: any # The name of the database, id: any # The ID of the webhook}
+@returns(204) Webhook successfully deleted
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/webhooks/{id}/test
+@desc Test a webhook
+@required {database: any # The name of the database, id: any # The ID of the webhook}
+@returns(204) Webhook test event successfully triggered
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/workflows
+@desc List workflows
+@required {database: any # The name of the database the workflow belongs to}
+@optional {between: any # Filter workflows to those active during a time range (e.g. 2025-01-01T00:00:00Z..2025-01-01T23:59:59), page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns workflows
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/databases/{database}/workflows
+@desc Create a workflow
+@required {database: any # The name of the database the workflow belongs to}
+@optional {body: map}
+@returns(201) Returns the workflow
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/databases/{database}/workflows/{number}
+@desc Get a workflow
+@required {database: any # The name of the database the workflow belongs to, number: any # The sequence number of the workflow}
+@returns(200) Returns a workflow
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/databases/{database}/workflows/{number}
+@desc Cancel a workflow
+@required {database: any # The name of the database the workflow belongs to, number: any # The sequence number of the workflow}
+@returns(200) Returns a workflow
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/workflows/{number}/complete
+@desc Complete a workflow
+@required {database: any # The name of the database the workflow belongs to, number: any # The sequence number of the workflow}
+@returns(200) Returns a workflow
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/workflows/{number}/cutover
+@desc Cutover traffic
+@required {database: any # The name of the database the workflow belongs to, number: any # The sequence number of the workflow}
+@returns(200) Returns a workflow
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/workflows/{number}/retry
+@desc Retry a failed workflow
+@required {database: any # The name of the database the workflow belongs to, number: any # The sequence number of the workflow}
+@returns(200) Returns a workflow
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/workflows/{number}/reverse-cutover
+@desc Reverse traffic cutover
+@required {database: any # The name of the database the workflow belongs to, number: any # The sequence number of the workflow}
+@returns(200) Returns a workflow
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/workflows/{number}/reverse-traffic
+@desc Reverse traffic
+@required {database: any # The name of the database the workflow belongs to, number: any # The sequence number of the workflow}
+@returns(200) Returns a workflow
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/workflows/{number}/switch-primaries
+@desc Switch primary traffic
+@required {database: any # The name of the database the workflow belongs to, number: any # The sequence number of the workflow}
+@returns(200) Returns a workflow
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/workflows/{number}/switch-replicas
+@desc Switch replica traffic
+@required {database: any # The name of the database the workflow belongs to, number: any # The sequence number of the workflow}
+@returns(200) Returns a workflow
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/databases/{database}/workflows/{number}/verify-data
+@desc Verify workflow data
+@required {database: any # The name of the database the workflow belongs to, number: any # The sequence number of the workflow}
+@returns(200) Returns a workflow
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/invoices
+@desc Get invoices
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Gets the invoices for an organization
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/invoices/{id}
+@desc Get an invoice
+@required {id: any # Invoice public ID from `list_invoices`. Example: `aabb12123434`.}
+@returns(200) Returns an invoice
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/invoices/{id}/line-items
+@desc Get invoice line items
+@required {id: any # Invoice public ID from `list_invoices`. Example: `aabb12123434`.}
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Gets the line items for an invoice
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/members
+@desc List organization members
+@optional {q: any # Search term to filter members by name or email, page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns members of the organization
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/members/{id}
+@desc Get an organization member
+@required {id: any # The ID of the user}
+@returns(200) Returns the membership of the user in the organization
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/members/{id}
+@desc Update organization member role
+@required {id: any # The ID of the user}
+@optional {body: map}
+@returns(200) Returns the updated membership
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/members/{id}
+@desc Remove a member from an organization
+@required {id: any # The ID of the user}
+@optional {body: map}
+@returns(204) Member removed successfully. Note: Cannot remove the last admin or leave your only organization.
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/oauth-applications
+@desc List OAuth applications
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns a list of the organization's oauth applications
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/oauth-applications/{application_id}
+@desc Get an OAuth application
+@required {application_id: any # The ID of the OAuth application}
+@returns(200) Returns information abuot an OAuth application
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/oauth-applications/{application_id}/tokens
+@desc List OAuth tokens
+@required {application_id: any # The ID of the OAuth application}
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns the OAuth tokens issued on behalf of the OAuth application
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/oauth-applications/{application_id}/tokens/{token_id}
+@desc Get an OAuth token
+@required {application_id: any # The ID of the OAuth application, token_id: any # The ID of the OAuth application token}
+@returns(200) Returns an OAuth token that was issued on behalf of the OAuth application
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/oauth-applications/{application_id}/tokens/{token_id}
+@desc Delete an OAuth token
+@required {application_id: any # The ID of the OAuth application, token_id: any # The ID of the OAuth application token}
+@returns(204) Deletes an OAuth application's OAuth token
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/oauth-applications/{id}/token
+@desc Create or renew an OAuth token
+@required {id: any # The ID of the OAuth application}
+@optional {body: map}
+@returns(200) Returns the created OAuth token
+@errors {404: Not Found, 403: Forbidden, 422: Unprocessable Entity, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/regions
+@desc List regions for an organization
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns the organization's regions
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/service-tokens
+@desc List service tokens
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns the organization's service tokens
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/service-tokens
+@desc Create a service token
+@optional {body: map}
+@returns(200) Returns the created service token with the plaintext token
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/service-tokens/{id}
+@desc Get a service token
+@required {id: any # The ID of the service token}
+@returns(200) Returns the service token
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/service-tokens/{id}
+@desc Delete a service token
+@required {id: any # The ID of the service token}
+@returns(204) Service token deleted successfully
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/teams
+@desc List teams in an organization
+@optional {q: any # Search term to filter teams by name}
+@returns(200) Returns teams in the organization
+@errors {404: Not Found, 400: Bad Request - Invalid operation or parameters, 422: Unprocessable Entity - Validation errors or SSO-managed teams, 401: Unauthorized, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/teams
+@desc Create an organization team
+@optional {body: map}
+@returns(200) Returns the created team
+@errors {404: Not Found, 400: Bad Request - Invalid operation or parameters, 422: Unprocessable Entity - Validation errors or SSO-managed teams, 401: Unauthorized, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/teams/{team}
+@desc Get an organization team
+@required {team: any # The slug of the team}
+@returns(200) Returns the team details including members and databases
+@errors {404: Not Found, 400: Bad Request - Invalid operation or parameters, 422: Unprocessable Entity - Validation errors or SSO-managed teams, 401: Unauthorized, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint PATCH /organizations/{organization}/teams/{team}
+@desc Update an organization team
+@required {team: any # The slug of the team}
+@optional {body: map}
+@returns(200) Returns the updated team. Note: SSO-managed teams cannot be updated.
+@errors {404: Not Found, 400: Bad Request - Invalid operation or parameters, 422: Unprocessable Entity - Validation errors or SSO-managed teams, 401: Unauthorized, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/teams/{team}
+@desc Delete an organization team
+@required {team: any # The slug of the team}
+@returns(204) Team deleted successfully. Note: SSO-managed teams cannot be deleted.
+@errors {404: Not Found, 400: Bad Request - Invalid operation or parameters, 422: Unprocessable Entity - Validation errors or SSO-managed teams, 401: Unauthorized, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/teams/{team}/members
+@desc List team members
+@required {team: any # The slug of the team}
+@returns(200) Returns the list of team members
+@errors {404: Not Found, 400: Bad Request - Invalid operation or SSO-managed team, 422: Unprocessable Entity - Validation errors, 401: Unauthorized, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint POST /organizations/{organization}/teams/{team}/members
+@desc Add a member to a team
+@required {team: any # The slug of the team}
+@optional {body: map}
+@returns(200) Returns the created team membership
+@errors {404: Not Found, 400: Bad Request - Invalid operation or SSO-managed team, 422: Unprocessable Entity - Validation errors, 401: Unauthorized, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint GET /organizations/{organization}/teams/{team}/members/{id}
+@desc Get a team member
+@required {team: any # The slug of the team, id: any # The ID of the team membership or the ID of the member}
+@returns(200) Returns the team member details
+@errors {404: Not Found, 400: Bad Request - Invalid operation or SSO-managed team, 422: Unprocessable Entity - Validation errors, 401: Unauthorized, 403: Forbidden, 500: Internal Server Error}
+
+@endpoint DELETE /organizations/{organization}/teams/{team}/members/{id}
+@desc Remove a member from a team
+@required {team: any # The slug of the team, id: any # The ID of the team membership or the ID of the member to remove}
+@optional {body: map}
+@returns(204) Member removed successfully. Note: SSO-managed teams cannot have members removed.
+@errors {404: Not Found, 400: Bad Request - Invalid operation or SSO-managed team, 422: Unprocessable Entity - Validation errors, 401: Unauthorized, 403: Forbidden, 500: Internal Server Error}
+
+@endgroup
+
+@group regions
+@endpoint GET /regions
+@desc List public regions
+@optional {page: any # If provided, specifies the page offset of returned results, per_page: any # If provided, specifies the number of returned results}
+@returns(200) Returns the available public PlanetScale regions
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endgroup
+
+@group user
+@endpoint GET /user
+@desc Get current user
+@returns(200) Returns the user associated with this service token
+@errors {401: Unauthorized, 404: Not Found, 403: Forbidden, 500: Internal Server Error}
+
+@endgroup
+
+@end

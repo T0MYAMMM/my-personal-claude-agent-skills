@@ -1,0 +1,33 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api UpdateAdminClient
+@base https://management.azure.com
+@version 2016-05-01
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(5)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Update.Admin/updateLocations/{updateLocation}/updates/{updateName}/updateRuns
+@desc Get the list of update runs.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Update.Admin/updateLocations/{updateLocation}/updates/{updateName}/updateRuns/{runName}
+@desc Get an instance of update run using the ID.
+@required {runName: any # Update run identifier.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Update.Admin/updateLocations/{updateLocation}/updateRuns
+@desc Get the list of update runs.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Update.Admin/updateLocations/{updateLocation}/updateRuns/{runName}
+@desc Get an instance of update run using the ID.
+@required {runName: any # Update run identifier.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Update.Admin/updateLocations/{updateLocation}/updates/{updateName}/updateRuns/{runName}/rerun
+@desc Resume a failed update.
+@required {runName: any # Update run identifier.}
+@returns(200) OK
+
+@end

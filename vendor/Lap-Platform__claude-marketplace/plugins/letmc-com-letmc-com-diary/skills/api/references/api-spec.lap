@@ -1,0 +1,78 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api agentOS API V3, Diary Call Group
+@base https://live-api.letmc.com
+@version v3-diary
+@auth basic | ApiKey ApiKey in header
+@endpoints 13
+@toc diary(13)
+
+@endpoint GET /v3/diary/{shortname}/{branchID}/guest/search
+@desc Match Guest Parameters with existing applicants
+@required {shortname: any, branchID: any, forename: any, emailaddress: any, surname: any, offset: any, count: any}
+@returns(200) OK
+
+@endpoint GET /v3/diary/{shortName}/allocations
+@desc Get a list of all available allocations for a date + 7 days for a specified appointment type
+@required {shortName: any # The unique client short-name, preferredDate: any # The date to search from, appointmentType: any # The unique appointment type identifier}
+@optional {lettings: any # Sales or Lettings property?, propertyIdentifier: any # The unique property identifier (Sales or Lettings) determines branch and property type, branchID: any # Branch ID to check appointments (required if no property submitted)}
+@returns(200) OK
+
+@endpoint GET /v3/diary/{shortName}/appointment
+@desc Get an appointment by ID
+@required {shortName: any # Company short name, appointmentID: any # Appointment ID}
+@returns(200) OK
+
+@endpoint PUT /v3/diary/{shortName}/appointment
+@desc Update an existing appointment using its unique identifier
+@required {shortName: any # The unique client short-name, appointmentID: any # The unique appointment id, appointmentDetails: map # The appointment details model}
+@optional {lettings: any # Sales or Lettings property?, AllowMarketingCorrespondence: any # Sales or Lettings property?}
+@returns(200) OK
+
+@endpoint POST /v3/diary/{shortName}/appointment
+@desc Post an appointment into a valid diary allocation
+@required {shortName: any # The unique client short-name, propertyIdentifier: any # The unique property identifier (Sales or Lettings), appointmentDetails: map # The appointment details model}
+@optional {lettings: any # Sales or Lettings property?}
+@returns(200) OK
+
+@endpoint DELETE /v3/diary/{shortName}/appointment
+@desc Delete an existing appointment using its unique identifier
+@required {shortName: any # The unique client short-name, appointmentID: any # The unique appointment id}
+@returns(200) OK
+
+@endpoint PATCH /v3/diary/{shortName}/appointment/{appointmentID}/cancel
+@desc Cancel an existing appointment using its unique identifier
+@required {shortName: any # The unique client short-name, appointmentID: any # The unique appointment id}
+@returns(200) OK
+
+@endpoint POST /v3/diary/{shortName}/appointment/feedback
+@desc Submit appointment feedback
+@required {shortName: any # The unique client short-name, submissionModel: map # Feedback submission model}
+@returns(200) OK
+
+@endpoint GET /v3/diary/{shortName}/appointmentsbetweendates
+@desc A collection of diary appointments linked to a company filtered between specific dates and by appointment type
+@required {shortName: any # The unique client short-name, branchID: any # The unique ID of the Branch, startDate: any # The search from date, endDate: any # The search to date, appointmentTypesToSearch: any # The appointment IDs to search for, offset: any # The index of the first item to return, count: any # The maximum number of items to return (up to 1000 per request)}
+@returns(200) OK
+
+@endpoint GET /v3/diary/{shortName}/appointmenttypes
+@desc A collection of all diary appointment types
+@required {shortName: any # The unique client short-name, offset: any # The index of the first item to return, count: any # The maximum number of items to return (up to 1000 per request)}
+@returns(200) OK
+
+@endpoint GET /v3/diary/{shortName}/company/branches
+@desc All branches defined for a company
+@required {shortName: any # The unique client short-name, offset: any # The index of the first item to return, count: any # The maximum number of items to return (up to 1000 per request)}
+@returns(200) OK
+
+@endpoint GET /v3/diary/{shortName}/company/branches/{branchID}
+@desc Get a specific branch given its unique Object ID (OID)
+@required {shortName: any # The unique client short-name, branchID: any # The unique ID of the Branch}
+@returns(200) OK
+
+@endpoint GET /v3/diary/{shortName}/recurringappointment
+@desc Retrieves all recurring appointments:-
+@required {shortName: any # The unique client short-name, branchID: any # The unique ID of the Branch, appointmentTypesToSearch: any # The appointment IDs to search for, offset: any # The index of the first item to return, count: any # The maximum number of items to return (up to 1000 per request)}
+@returns(200) OK
+
+@end

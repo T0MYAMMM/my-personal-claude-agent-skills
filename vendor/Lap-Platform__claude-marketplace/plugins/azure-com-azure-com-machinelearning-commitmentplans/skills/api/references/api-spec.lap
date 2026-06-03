@@ -1,0 +1,79 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Azure ML Commitment Plans Management Client
+@base https://management.azure.com
+@version 2016-05-01-preview
+@auth OAuth2
+@endpoints 12
+@toc providers(1), subscriptions(11)
+
+@group providers
+@endpoint GET /providers/Microsoft.MachineLearning/operations
+@desc Lists all of the available Azure Machine Learning Studio Commitment Plan RP REST API operations.
+@required {api-version: any # The version of the Microsoft.MachineLearning resource provider API to use.}
+@returns(200) OK.
+
+@endgroup
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.MachineLearning/skus
+@desc Lists the available commitment plan SKUs.
+@required {subscriptionId: any # Azure Subscription ID., api-version: any # The version of the Microsoft.MachineLearning resource provider API to use.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}/commitmentAssociations/{commitmentAssociationName}
+@desc Get a commitment association.
+@required {subscriptionId: any # Azure Subscription ID., resourceGroupName: any # The resource group name., commitmentPlanName: any # The Azure ML commitment plan name., commitmentAssociationName: any # The commitment association name., api-version: any # The version of the Microsoft.MachineLearning resource provider API to use.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}/commitmentAssociations
+@desc Get all commitment associations for a parent commitment plan.
+@required {subscriptionId: any # Azure Subscription ID., resourceGroupName: any # The resource group name., commitmentPlanName: any # The Azure ML commitment plan name., api-version: any # The version of the Microsoft.MachineLearning resource provider API to use.}
+@optional {$skipToken: any # Continuation token for pagination.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}/commitmentAssociations/{commitmentAssociationName}/move
+@desc Re-parent a commitment association from one commitment plan to another.
+@required {subscriptionId: any # Azure Subscription ID., resourceGroupName: any # The resource group name., commitmentPlanName: any # The Azure ML commitment plan name., commitmentAssociationName: any # The commitment association name., api-version: any # The version of the Microsoft.MachineLearning resource provider API to use., movePayload: map # The move request payload.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}
+@desc Retrieve an Azure ML commitment plan by its subscription, resource group and name.
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}
+@desc Create a new Azure ML commitment plan resource or updates an existing one.
+@required {createOrUpdatePayload: map # The payload to create or update the Azure ML commitment plan.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}
+@desc Remove an existing Azure ML commitment plan.
+@returns(200) OK
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}
+@desc Patch an existing Azure ML commitment plan resource.
+@required {patchPayload: map # The payload to use to patch the Azure ML commitment plan. Only tags and SKU may be modified on an existing commitment plan.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.MachineLearning/commitmentPlans
+@desc Retrieve all Azure ML commitment plans in a subscription.
+@required {subscriptionId: any # Azure Subscription ID., api-version: any # The version of the Microsoft.MachineLearning resource provider API to use.}
+@optional {$skipToken: any # Continuation token for pagination.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans
+@desc Retrieve all Azure ML commitment plans in a resource group.
+@required {subscriptionId: any # Azure Subscription ID., resourceGroupName: any # The resource group name., api-version: any # The version of the Microsoft.MachineLearning resource provider API to use.}
+@optional {$skipToken: any # Continuation token for pagination.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}/usageHistory
+@desc Retrieve the usage history for an Azure ML commitment plan.
+@required {subscriptionId: any # Azure Subscription ID., resourceGroupName: any # The resource group name., commitmentPlanName: any # The Azure ML commitment plan name., api-version: any # The version of the Microsoft.MachineLearning resource provider API to use.}
+@optional {$skipToken: any # Continuation token for pagination.}
+@returns(200) OK
+
+@endgroup
+
+@end

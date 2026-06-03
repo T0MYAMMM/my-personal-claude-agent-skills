@@ -1,0 +1,21 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api 
+@base https://data.import.io/
+@version 1.0
+@endpoints 2
+@toc extractor(2)
+
+@endpoint GET /extractor/{extractorId}/json/latest
+@desc Get the latest crawl run results as json
+@required {extractorId: any # The id of the extractor to start get the latest crawl run data}
+@returns(200) OK
+@errors {404: Not found: Extractor has not been run., 401: User doesn't own this extractor, or doesn't have a valid session.}
+
+@endpoint GET /extractor/{extractorId}/csv/latest
+@desc Get the latest crawl run results as a csv
+@required {extractorId: any # the id of the extractor to start get the latest crawl run data}
+@returns(200) OK
+@errors {404: Not found: Extractor has not been run., 401: User doesn't own this extractor, or doesn't have a valid session.}
+
+@end

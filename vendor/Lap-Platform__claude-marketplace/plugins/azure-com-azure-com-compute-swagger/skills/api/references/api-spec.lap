@@ -1,0 +1,17 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api ComputeManagementConvenienceClient
+@base https://management.azure.com
+@version 2015-11-01
+@auth OAuth2
+@endpoints 1
+@toc subscriptions(1)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}
+@desc Create a named template deployment using a template.
+@required {resourceGroupName: any # The name of the resource group. The name is case insensitive., deploymentName: any # The name of the deployment., api-version: any # Client Api Version., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@optional {parameters: any # Additional parameters supplied to the operation.}
+@returns(200)
+@returns(201)
+
+@end

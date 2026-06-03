@@ -1,0 +1,16 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Event Notification API Specification - TPP Endpoints
+@base /open-banking/v4.0
+@version 4.0.0
+@auth OAuth2
+@endpoints 1
+@toc event-notifications(1)
+
+@endpoint POST /event-notifications
+@desc Send an event notification
+@required {x-fapi-financial-id: str # The unique id of the ASPSP to which the request is issued. The unique id will be issued by OB.}
+@optional {x-fapi-interaction-id: str # An RFC4122 UID used as a correlation id.}
+@returns(202) Accepted
+
+@end

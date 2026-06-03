@@ -1,0 +1,45 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api FabricAdminClient
+@base https://management.azure.com
+@version 2016-05-01
+@auth OAuth2
+@endpoints 6
+@toc subscriptions(6)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/infraRoleInstances/{infraRoleInstance}/PowerOff
+@desc Power off an infrastructure role instance.
+@required {infraRoleInstance: any # Name of an infrastructure role instance.}
+@returns(200) OK
+@returns(202) ACCEPTED
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/infraRoleInstances/{infraRoleInstance}/PowerOn
+@desc Power on an infrastructure role instance.
+@required {infraRoleInstance: any # Name of an infrastructure role instance.}
+@returns(200) OK
+@returns(202) ACCEPTED
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/infraRoleInstances/{infraRoleInstance}/Shutdown
+@desc Shut down an infrastructure role instance.
+@required {infraRoleInstance: any # Name of an infrastructure role instance.}
+@returns(200) OK
+@returns(202) ACCEPTED
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/infraRoleInstances/{infraRoleInstance}/Reboot
+@desc Reboot an infrastructure role instance.
+@required {infraRoleInstance: any # Name of an infrastructure role instance.}
+@returns(200) OK
+@returns(202) ACCEPTED
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/infraRoleInstances/{infraRoleInstance}
+@desc Return the requested infrastructure role instance.
+@required {infraRoleInstance: any # Name of an infrastructure role instance.}
+@returns(200) OK
+@errors {404: NOT FOUND}
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/infraRoleInstances
+@desc Returns a list of all infrastructure role instances at a location.
+@returns(200) OK
+@errors {404: NOT FOUND}
+
+@end

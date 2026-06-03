@@ -1,0 +1,28 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AzureBridgeAdminClient
+@base https://management.azure.com
+@version 2016-01-01
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureBridge.Admin/activations
+@desc Returns the list of activations.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureBridge.Admin/activations/{activationName}
+@desc Returns activation name.
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureBridge.Admin/activations/{activationName}
+@desc Create a new activation.
+@required {activation: map # new activation.}
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureBridge.Admin/activations/{activationName}
+@desc Delete an activation.
+@returns(200) OK
+@returns(204) No Content
+
+@end

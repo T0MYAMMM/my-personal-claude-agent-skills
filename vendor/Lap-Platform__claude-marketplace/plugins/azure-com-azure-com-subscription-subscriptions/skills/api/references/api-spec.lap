@@ -1,0 +1,25 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SubscriptionClient
+@base https://management.azure.com
+@version 2019-03-01-preview
+@auth OAuth2
+@endpoints 3
+@toc subscriptions(3)
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.Subscription/cancel
+@desc The operation to cancel a subscription
+@required {subscriptionId: any # Subscription Id., api-version: any # Version of the API to be used with the client request. Current version is 2019-03-01-preview}
+@returns(200) OK. The request has succeeded.
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.Subscription/rename
+@desc The operation to rename a subscription
+@required {subscriptionId: any # Subscription Id., body: map # Subscription Name, api-version: any # Version of the API to be used with the client request. Current version is 2019-03-01-preview}
+@returns(200) OK. The request has succeeded.
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.Subscription/enable
+@desc The operation to enable a subscription
+@required {subscriptionId: any # Subscription Id., api-version: any # Version of the API to be used with the client request. Current version is 2019-03-01-preview}
+@returns(200) OK. The request has succeeded.
+
+@end

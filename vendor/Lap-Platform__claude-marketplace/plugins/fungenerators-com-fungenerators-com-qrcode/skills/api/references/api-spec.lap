@@ -1,0 +1,72 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Fun Generators API
+@base https://api.fungenerators.com
+@version 1.5
+@auth ApiKey X-Fungenerators-Api-Secret in header
+@endpoints 9
+@toc qrcode(9)
+
+@endpoint GET /qrcode/text
+@desc Get a QR Code image for a block of text
+@required {text: any # Text value}
+@optional {format: any # Output image format. Must be one of png/eps/raw/svg}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /qrcode/raw
+@desc Get a QR Code image for a block of raw data
+@required {rawtext: any # Raw Text value}
+@optional {format: any # Output image format. Must be one of png/eps/raw/svg}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /qrcode/url
+@desc Get a QR Code image for a url
+@required {url: any # URL value}
+@optional {format: any # Output image format. Must be one of png/raw/eps/svg}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /qrcode/phone
+@desc Get a QR Code image for a phone number
+@required {number: any # Phone Number}
+@optional {format: any # Output image format. Must be one of png/eps/raw/svg}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /qrcode/sms
+@desc Get a QR Code image for a Phone number for SMS messaging
+@required {number: any # Phone Number to SMS}
+@optional {format: any # Output image format. Must be one of png/eps/raw/svg}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /qrcode/skype
+@desc Get a QR Code image for a skype user
+@required {username: any # Skype User name}
+@optional {format: any # Output image format. Must be one of png/eps/raw/svg}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /qrcode/email
+@desc Get a QR Code image for an email
+@required {email: any # Email id to send the email to}
+@optional {subject: any # Subject of the email(optional), body: any # Body of the email(optional), format: any # Output image format. Must be one of png/png/eps/raw/svg}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /qrcode/business_card
+@desc Get a QR Code image for a business card aka VCARD
+@required {firstname: any # First Name, lastname: any # Last Name, email: any # Email id}
+@optional {middlename: any # Middle Name, company: any # Company Name, phone_work: any # Work Phone Number, phone_home: any # Home Phone Number, phone_cell: any # Cell Phone Number, street1: any # Street Address, street2: any # Street Address 2, city: any # City, zip: any # Zip Code, state: any # State, country: any # Country, format: any # Output image format. Must be one of png/eps/raw/svg}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint POST /qrcode/decode
+@desc Decode a QR Code image and return the cotents if successful
+@required {qrimage: any # QR Code image to decode and get the content value}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@end

@@ -1,0 +1,63 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Hubhopper Partner Integration API(s) - Production
+@base https://apis.hubhopper.com/partner
+@version v5
+@auth ApiKey x-api-key in header | ApiKey hhPartnerId in header
+@endpoints 7
+@toc categories(3), podcasts(3), util(1)
+
+@group categories
+@endpoint GET /categories
+@desc Get the list of all content categories.
+@optional {pageSize: any # Provide the size of the page to fetch., page: any # Provide the page number to fetch.}
+@returns(200) 200 response
+@errors {500: 500 response, 404: 404 response}
+
+@endpoint GET /categories/{categoryId}
+@desc Get specific content category.
+@required {categoryId: any # Unique qualifier for a category.}
+@returns(200) 200 response
+@errors {500: 500 response, 404: 404 response}
+
+@endpoint GET /categories/{categoryId}/podcasts
+@desc Get a list of all podcasts under a category.
+@required {categoryId: any # Unique qualifier for a category.}
+@optional {page: any # Provide the page number to fetch., pageSize: any # Provide the size of the page to fetch., order: any # Order the items by 'newest' | 'random', filters: any # Takes filters like 'lang' in a url encoded json.  Example: 1)Single -> &nbsp;&nbsp;&nbsp;&nbsp; var filterJson = {"lang":["en"]}; &nbsp;&nbsp;&nbsp;&nbsp; var url = baseUrl+'?'+filters=enocdeURI(JSON.stringify(filterJson)); 2)Multiple -> &nbsp;&nbsp;&nbsp;&nbsp; var filterJson = {"lang":["en","hi"]}; &nbsp;&nbsp;&nbsp;&nbsp; var url = baseUrl+'?'+filters=enocdeURI(JSON.stringify(filterJson));}
+@returns(200) 200 response
+@errors {500: 500 response, 404: 404 response}
+
+@endgroup
+
+@group podcasts
+@endpoint GET /podcasts
+@desc Get the list of all podcasts.
+@optional {page: any # Provide the page number to fetch., pageSize: any # Provide the size of the page to fetch., order: any # Order the items by 'newest' | 'random', filters: any # Takes filters like 'lang' in a url encoded json.  Example: 1)Single -> &nbsp;&nbsp;&nbsp;&nbsp; var filterJson = {"lang":["en"]}; &nbsp;&nbsp;&nbsp;&nbsp; var url = baseUrl+'?'+filters=enocdeURI(JSON.stringify(filterJson)); 2)Multiple -> &nbsp;&nbsp;&nbsp;&nbsp; var filterJson = {"lang":["en","hi"]}; &nbsp;&nbsp;&nbsp;&nbsp; var url = baseUrl+'?'+filters=enocdeURI(JSON.stringify(filterJson));}
+@returns(200) 200 response
+@errors {500: 500 response, 404: 404 response}
+
+@endpoint GET /podcasts/{podcastId}
+@desc Get a single Podcast.
+@required {podcastId: any # Unique qualifier for a podcast.}
+@returns(200) 200 response
+@errors {500: 500 response, 404: 404 response}
+
+@endpoint GET /podcasts/{podcastId}/episodes
+@desc Get a list of all episodes under a podcast.
+@required {podcastId: any # Unique qualifier for a podcast.}
+@optional {page: any # Provide the page number to fetch., pageSize: any # Provide the size of the page to fetch., order: any # Order the items by 'newest' | 'random', filters: any # Takes filters like 'lang' in a url encoded json.  Example: 1)Single -> &nbsp;&nbsp;&nbsp;&nbsp; var filterJson = {"lang":["en"]}; &nbsp;&nbsp;&nbsp;&nbsp; var url = baseUrl+'?'+filters=enocdeURI(JSON.stringify(filterJson)); 2)Multiple -> &nbsp;&nbsp;&nbsp;&nbsp; var filterJson = {"lang":["en","hi"]}; &nbsp;&nbsp;&nbsp;&nbsp; var url = baseUrl+'?'+filters=enocdeURI(JSON.stringify(filterJson));}
+@returns(200) 200 response
+@errors {500: 500 response, 404: 404 response}
+
+@endgroup
+
+@group util
+@endpoint GET /util/languages
+@optional {pageSize: any # Provide the size of the page to fetch., page: any # Provide the page number to fetch.}
+@returns(200) 200 response
+@returns(204) 204 response
+@errors {500: 500 response, 401: 401 response, 404: 404 response}
+
+@endgroup
+
+@end

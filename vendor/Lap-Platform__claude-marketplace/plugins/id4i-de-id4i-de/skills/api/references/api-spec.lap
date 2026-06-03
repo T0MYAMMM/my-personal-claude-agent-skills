@@ -1,0 +1,804 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api ID4i API
+@base https://backend.id4i.de/
+@version 1.0.2
+@auth ApiKey Authorization in header
+@endpoints 107
+@hint download_for_search
+@toc account(5), api(99), go(1), login(1), whois(1)
+
+@group account
+@endpoint POST /account/password
+@desc Request password reset
+@required {resetRequest: map # Contains the required information to request a new password.}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PUT /account/password
+@desc Verify password reset
+@required {verificationRequest: map # Contains the new password and the verification token to set the new password.}
+@returns(200) OK
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint POST /account/registration
+@desc Register user
+@required {userRegistration: map # The user information about the new created user.}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PUT /account/registration
+@desc Complete registration
+@required {completeRegistration: map # Contains the verification token, the username and the initial password.}
+@returns(200) OK
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint POST /account/verification
+@desc Verify registration
+@required {token: map # The token for user verification.}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endgroup
+
+@group api
+@endpoint GET /api/v1/apikeys
+@desc Find API key by organization
+@optional {organizationId: any # The namespace of the organization to search in., offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint POST /api/v1/apikeys
+@desc Create API key
+@required {creationRequest: map # API key to be created.}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/apikeys/privileges
+@desc List all privileges
+@optional {id4nConcerning: any # id4nConcerning, offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/apikeys/{key}
+@desc Show API key
+@required {key: any # The API key to show.}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PUT /api/v1/apikeys/{key}
+@desc Update API keys
+@required {key: any # The API key to be updated., apiKeyChange: map # The new values to apply.}
+@returns(200) OK
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint DELETE /api/v1/apikeys/{key}
+@desc Delete API key
+@required {key: any # The API key to delete.}
+@returns(200) OK
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 500: Internal Server Error}
+
+@endpoint GET /api/v1/apikeys/{key}/privileges
+@desc List privileges
+@required {key: any # key}
+@optional {offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint POST /api/v1/apikeys/{key}/privileges
+@desc Add privilege
+@required {key: any # key, addApiKeyPrivilegeRequest: map # addApiKeyPrivilegeRequest}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint DELETE /api/v1/apikeys/{key}/privileges
+@desc Remove privilege
+@required {key: any # key, removeApiKeyPrivilegeRequest: map # removeApiKeyPrivilegeRequest}
+@returns(200) OK
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 500: Internal Server Error}
+
+@endpoint GET /api/v1/apikeys/{key}/privileges/{privilege}/id4ns
+@desc ID4ns of a privilege
+@required {key: any # key, privilege: any # privilege}
+@optional {offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint POST /api/v1/apikeys/{key}/privileges/{privilege}/id4ns
+@desc Add ID4ns of a privilege
+@required {key: any # key, privilege: any # privilege, id4ns: map # id4ns}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint DELETE /api/v1/apikeys/{key}/privileges/{privilege}/id4ns
+@desc Remove id4ns of a privilege
+@required {key: any # key, privilege: any # privilege, id4ns: map # id4ns}
+@returns(200) OK
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 500: Internal Server Error}
+
+@endpoint GET /api/v1/billing/{organizationId}
+@desc Get billing amount of services for a given organization
+@required {organizationId: any # The organization to compute the billing information for}
+@optional {fromDate: any # Billing start date, toDate: any # Billing end date}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/billing/{organizationId}/positions
+@desc Get billing positions for a given organization
+@required {organizationId: any # The organization to compute the billing information for}
+@optional {fromDate: any # Billing start date, toDate: any # Billing end date}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/changelog/organization/{organizationId}/
+@desc List change log entries of an organization
+@required {organizationId: any # The namespace identifying the organization whose change log entries are to be listed}
+@optional {messageMimeType: any # The Mime-type for the message format that should be returned. e.g. 'text/plain' or 'text/mustache', fromDate: any # From date time as UTC Date-Time format, toDate: any # To date time as UTC Date-Time format, offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint POST /api/v1/collections
+@desc Create collection
+@required {createInfo: map # createInfo}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/collections/{id4n}
+@desc Find collection
+@required {id4n: any # id4n}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint DELETE /api/v1/collections/{id4n}
+@desc Delete collection
+@required {id4n: any # id4n}
+@returns(200) OK
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 500: Internal Server Error}
+
+@endpoint PATCH /api/v1/collections/{id4n}
+@desc Update collection
+@required {id4n: any # id4n, request: map # request}
+@returns(200) OK
+@returns(204) No Content
+@errors {401: Unauthorized, 403: Forbidden}
+
+@endpoint GET /api/v1/collections/{id4n}/elements
+@desc List contents of the collection
+@required {id4n: any # id4n}
+@optional {offset: any # Start with the n-th element, limit: any # The maximum count of returned elements, organizationId: any # The organization namespace.}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint POST /api/v1/collections/{id4n}/elements
+@desc Add elements to collection
+@required {id4n: any # id4n, listOfGuids: map # listOfGuids}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint DELETE /api/v1/collections/{id4n}/elements
+@desc Remove elements from collection
+@required {id4n: any # id4n, listOfGuids: map # listOfGuids}
+@returns(200) OK
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 500: Internal Server Error}
+
+@endpoint GET /api/v1/countries
+@desc List countries
+@optional {offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/documents/{id4n}
+@desc List documents
+@required {id4n: any # id4n}
+@optional {owner: any # Filter by owner organization, offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/documents/{id4n}/{organizationId}
+@desc List organization specific documents
+@required {organizationId: any # organizationId, id4n: any # id4n}
+@optional {owner: any # Filter by owner organization, offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint POST /api/v1/documents/{id4n}/{organizationId}
+@desc Create an document for an id4n
+@required {organizationId: any # organizationId, id4n: any # id4n, content: any # content}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PUT /api/v1/documents/{id4n}/{organizationId}
+@desc Put an document for an id4n
+@required {organizationId: any # organizationId, id4n: any # id4n, content: any # content}
+@returns(200) OK
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/documents/{id4n}/{organizationId}/{fileName}
+@desc Read document contents
+@required {organizationId: any # organizationId, id4n: any # id4n, fileName: any # fileName}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint DELETE /api/v1/documents/{id4n}/{organizationId}/{fileName}
+@desc Delete a document
+@required {organizationId: any # organizationId, id4n: any # id4n, fileName: any # fileName}
+@returns(200) OK
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 500: Internal Server Error}
+
+@endpoint GET /api/v1/documents/{id4n}/{organizationId}/{fileName}/metadata
+@desc Retrieve a document (meta-data only, no content)
+@required {organizationId: any # organizationId, id4n: any # id4n, fileName: any # fileName}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PATCH /api/v1/documents/{id4n}/{organizationId}/{fileName}/metadata
+@desc Update a document
+@required {organizationId: any # organizationId, id4n: any # id4n, fileName: any # fileName, document: map # document}
+@returns(200) OK
+@returns(204) No Content
+@errors {401: Unauthorized, 403: Forbidden}
+
+@endpoint POST /api/v1/guids
+@desc Create GUID(s)
+@required {createGUIDInfo: map # GUID creation model}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/guids/withoutCollection
+@desc Retrieve GUIDs not in any collection
+@required {organizationId: any # The namespace of the organization to search GUIDs for}
+@optional {offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/guids/{id4n}
+@desc Retrieve GUID information
+@required {id4n: any # The GUID number}
+@optional {organizationId: any # The organization namespace to resolve.}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PATCH /api/v1/guids/{id4n}
+@desc Change GUID information.
+@required {id4n: any # The GUID number, request: map # request}
+@returns(200) OK
+@returns(204) No Content
+@errors {401: Unauthorized, 403: Forbidden}
+
+@endpoint GET /api/v1/history/{id4n}
+@desc List history
+@required {id4n: any # GUID to retrieve the history for}
+@optional {includePrivate: any # Also return private history entries, organization: any # Show only entries created by one of the given organizations. This parameter can be used multiple times., type: any # Show only entries matching one of the given history item types. This parameter can be used multiple times., qualifier: any # Show only entries matching one of the given history item qualifiers (additional property de.id4i.history.item.qualifier). This parameter can be used multiple times., fromDate: any # From date time as UTC Date-Time format, toDate: any # To date time as UTC Date-Time format, offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint POST /api/v1/history/{id4n}
+@desc Add history item
+@required {id4n: any # GUID to retrieve the history for, historyItem: map # The history item to publish}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/history/{id4n}/{organizationId}
+@desc DEPRECATED - List history
+@required {id4n: any # GUID to retrieve the history for, organizationId: any # organizationId}
+@optional {includePrivate: any # Also return private history entries, offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/history/{id4n}/{organizationId}/{sequenceId}
+@desc Get history item
+@required {id4n: any # GUID to retrieve the history for, organizationId: any # organizationId, sequenceId: any # sequenceId}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PATCH /api/v1/history/{id4n}/{organizationId}/{sequenceId}
+@desc Update history item
+@required {id4n: any # GUID to retrieve the history for, organizationId: any # organizationId, sequenceId: any # sequenceId, update: map # update}
+@returns(200) OK
+@returns(204) No Content
+@errors {401: Unauthorized, 403: Forbidden}
+
+@endpoint PUT /api/v1/history/{id4n}/{organizationId}/{sequenceId}/visibility
+@desc Set history item visibility
+@required {id4n: any # GUID to retrieve the history for, organizationId: any # organizationId, sequenceId: any # sequenceId, visibility: map # History item visibility restrictions}
+@returns(200) OK
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/id4ns/{id4n}
+@desc Retrieve ID4n information
+@required {id4n: any # The ID to resolve to}
+@optional {organizationId: any # The organization namespace to resolve.}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/id4ns/{id4n}/alias
+@desc Get all aliases for the given GUID or Collection.
+@required {id4n: any # The GUID or Collection to operate on}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint POST /api/v1/id4ns/{id4n}/alias/{aliasType}
+@desc Add alias for GUID or Collection
+@required {id4n: any # The GUID or Collection to operate on, aliasType: any # Alias type, see the corresponding API model, alias: map # The alias to add or update}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint DELETE /api/v1/id4ns/{id4n}/alias/{aliasType}
+@desc Remove aliases from GUID or Collection
+@required {id4n: any # The GUID or Collection to operate on, aliasType: any # Alias type, see the corresponding API model}
+@returns(200) OK
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 500: Internal Server Error}
+
+@endpoint GET /api/v1/id4ns/{id4n}/collections
+@desc Retrieve collections of an ID
+@required {id4n: any # The ID which the collections should contain}
+@optional {organizationId: any # The organization holding the collections., offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/id4ns/{id4n}/properties
+@desc Retrieve ID4n properties
+@required {id4n: any # The id4n}
+@optional {organizationId: any # The organization namespace.}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint DELETE /api/v1/id4ns/{id4n}/properties
+@desc Delete ID4n properties
+@required {id4n: any # The id4n, organizationId: any # The organization namespace to work on while deleting the properties., properties: [str] # A set of property keys to delete.}
+@returns(200) OK
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 500: Internal Server Error}
+
+@endpoint PATCH /api/v1/id4ns/{id4n}/properties
+@desc Patch ID4n properties
+@required {id4n: any # The id4n, organizationId: any # The organization namespace to work on while patching the properties., properties: map # The properties to update.}
+@returns(200) OK
+@returns(204) No Content
+@errors {401: Unauthorized, 403: Forbidden}
+
+@endpoint POST /api/v1/import/gs1
+@desc Import GS1/MAPP codes
+@required {importGS1CodesRequest: map # The information how the MAPP codes should be imported and the list of MAPP codes}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/info
+@desc Retrieve version information about ID4i
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/microstorage/{id4n}/{organization}
+@desc Read data from microstorage
+@required {organization: any # organization, id4n: any # id4n}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PUT /api/v1/microstorage/{id4n}/{organization}
+@desc Write data to microstorage
+@required {organization: any # organization, id4n: any # id4n}
+@optional {Content-Type: any # Content-Type, Content-Length: any # Content-Length, body: str(byte) # body}
+@returns(200) OK
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/multiple/id4ns/properties
+@desc Get multiple ID4n properties
+@required {id4ns: any # The list of ID4ns to resolve.}
+@optional {organizationId: any # The organization namespace.}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint POST /api/v1/organizations
+@desc Create organization
+@required {organization: map # Organization to be created}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/organizations/{organizationId}
+@desc Find organization by id/namespace
+@required {organizationId: any # The namespace of the organization to be retrieved.}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PUT /api/v1/organizations/{organizationId}
+@desc Update organization
+@required {organizationId: any # The namespace of the organization to be updated., organizationUpdate: map # Updated organization object}
+@returns(200) OK
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint DELETE /api/v1/organizations/{organizationId}
+@desc Delete organization
+@required {organizationId: any # The namespace of the organization to be deleted.}
+@returns(200) OK
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 500: Internal Server Error}
+
+@endpoint GET /api/v1/organizations/{organizationId}/addresses/billing
+@desc Retrieve billing address
+@required {organizationId: any # organizationId}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PUT /api/v1/organizations/{organizationId}/addresses/billing
+@desc Store billing address
+@required {organizationId: any # organizationId, addressResource: map # addressResource}
+@returns(200) OK
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint DELETE /api/v1/organizations/{organizationId}/addresses/billing
+@desc Remove billing address
+@required {organizationId: any # organizationId}
+@returns(200) OK
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 500: Internal Server Error}
+
+@endpoint GET /api/v1/organizations/{organizationId}/addresses/default
+@desc Retrieve address
+@required {organizationId: any # organizationId}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PUT /api/v1/organizations/{organizationId}/addresses/default
+@desc Store address
+@required {organizationId: any # organizationId, addressResource: map # addressResource}
+@returns(200) OK
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/organizations/{organizationId}/collections
+@desc Get collections of organization
+@required {organizationId: any # The namespace of the organization}
+@optional {offset: any # Start with the n-th element, limit: any # The maximum count of returned elements, type: any # Filter by this type, label: any # Filter by this label, labelPrefix: any # Filter by this label prefix, property: any # List of i4dn property filter. e.g. "com.myorga.state:IN:waiting|processing" or "com.myorga.orderId:EQ:SAP001"}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint POST /api/v1/organizations/{organizationId}/logo
+@desc Update organization logo
+@required {organizationId: any # The namespace of the organization where the logo should be updated., file: any # An image containing the new logo.}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint DELETE /api/v1/organizations/{organizationId}/logo
+@desc Delete organization logo
+@required {organizationId: any # The namespace of the organization where the logo should be deleted.}
+@returns(200) OK
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 500: Internal Server Error}
+
+@endpoint GET /api/v1/organizations/{organizationId}/messaging
+@required {organizationId: any # organizationId}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PATCH /api/v1/organizations/{organizationId}/messaging
+@required {organizationId: any # organizationId, request: map # request}
+@returns(200) OK
+@returns(204) No Content
+@errors {401: Unauthorized, 403: Forbidden}
+
+@endpoint POST /api/v1/organizations/{organizationId}/messaging/enqueueCustomMessage
+@desc Enqueue a custom message
+@required {organizationId: any # The organisation namespace, request: map # request}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/organizations/{organizationId}/partner
+@desc Get partners of an organization
+@required {organizationId: any # The namespace of the organization to query partner organizations}
+@optional {offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PUT /api/v1/organizations/{organizationId}/partner
+@desc Add partner
+@required {organizationId: any # The namespace of the organization, request: map # request}
+@returns(200) OK
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint DELETE /api/v1/organizations/{organizationId}/partner
+@desc Remove partner
+@required {organizationId: any # The namespace of the organization, request: map # request}
+@returns(200) OK
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 500: Internal Server Error}
+
+@endpoint GET /api/v1/organizations/{organizationId}/privileges
+@desc List my privileges
+@required {organizationId: any # The namespace of the organization}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/organizations/{organizationId}/roles
+@desc List users and their roles
+@required {organizationId: any # organizationId}
+@optional {offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/organizations/{organizationId}/users
+@desc Find users in organization
+@required {organizationId: any # organizationId}
+@optional {offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint POST /api/v1/organizations/{organizationId}/users/invite
+@desc Invite Users
+@required {organizationId: any # The namespace of the organization where users should be invited, invitationList: map # invitationList}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/organizations/{organizationId}/users/{username}/roles
+@desc Get user roles by username
+@required {organizationId: any # The namespace of the organization, username: any # username}
+@optional {offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint POST /api/v1/organizations/{organizationId}/users/{username}/roles
+@desc Add role(s) to user
+@required {organizationId: any # The namespace of the organization, username: any # username, changeRoleRequest: map # changeRoleRequest}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint DELETE /api/v1/organizations/{organizationId}/users/{username}/roles
+@desc Remove role(s) from user
+@required {organizationId: any # The namespace of the organization, username: any # username, changeRoleRequest: map # changeRoleRequest}
+@returns(200) OK
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 500: Internal Server Error}
+
+@endpoint GET /api/v1/public/documents/{id4n}
+@desc List public documents
+@required {id4n: any # id4n}
+@optional {organizationId: any # organizationId, owner: any # Filter by owner organization, offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/public/documents/{id4n}/{organizationId}/{fileName}
+@desc Read public document contents
+@required {organizationId: any # organizationId, id4n: any # id4n, fileName: any # fileName}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/public/documents/{id4n}/{organizationId}/{fileName}/metadata
+@desc Retrieve a public document (meta-data only, no content)
+@required {organizationId: any # organizationId, id4n: any # id4n, fileName: any # fileName}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/public/history/{id4n}
+@desc Shows the public history of the given GUID
+@required {id4n: any # GUID to retrieve the history for}
+@optional {offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/public/image/{imageID}
+@desc Resolve image
+@required {imageID: any # The id of the image to be resolved.}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/public/organizations/{organizationId}
+@desc Read public organization information
+@required {organizationId: any # Organization ID}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/public/routes/{id4n}
+@desc Retrieve all public routes for a GUID
+@required {id4n: any # id4n, type: any # type}
+@optional {interpolate: any # interpolate}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/roles
+@desc List roles
+@optional {privilege: any # If specified the roles will be filtered containing that privilege., offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/routingfiles/{id4n}
+@desc Retrieve routing file
+@required {id4n: any # id4n}
+@optional {organizationId: any # organizationId}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PUT /api/v1/routingfiles/{id4n}
+@desc Store routing file
+@required {rfr: map # rfr, id4n: any # id4n}
+@returns(200) OK
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/routingfiles/{id4n}/route/{type}
+@desc Retrieve current route of a GUID (or ID4N)
+@required {id4n: any # id4n, type: any # The type of route you want to have}
+@optional {privateRoutes: any # privateRoutes, publicRoutes: any # publicRoutes, interpolate: any # interpolate}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/routingfiles/{id4n}/routes/{type}
+@desc Retrieve all routes of a GUID (or ID4N)
+@required {id4n: any # id4n, type: any # The type of route you want to have}
+@optional {organizationId: any # organizationId, interpolate: any # interpolate}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/search/guids
+@desc Search for GUIDs by alias
+@required {alias: any # The alias to search for, aliasType: any # Alias type type to search for}
+@optional {offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/search/guids/aliases/types
+@desc List all supported alias types
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PUT /api/v1/transfers/{id4n}/receiveInfo
+@desc Transfer a GUID or collection, obtaining it (i.e. becoming the holder) and if allowed also taking ownership
+@required {id4n: any # This ID4N identifies the object to take hold of, request: map # Required information to receive an id4n object}
+@returns(200) OK
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/transfers/{id4n}/sendInfo
+@desc Show transfer preparation information
+@required {id4n: any # The ID4N to retrieve information about}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint PUT /api/v1/transfers/{id4n}/sendInfo
+@desc Prepare an object for transfer
+@required {id4n: any # The ID4N to prepare for transfer, request: map # Transfer preparation status}
+@returns(200) OK
+@returns(202) Accepted
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 409: Conflict, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/user/organizations
+@desc Retrieve organizations of user
+@optional {role: any # role, offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/users
+@desc Find users
+@optional {usernamePrefix: any, offset: any # Start with the n-th element, limit: any # The maximum count of returned elements}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endpoint GET /api/v1/users/{username}
+@desc Find by username
+@required {username: any # username}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endgroup
+
+@group go
+@endpoint GET /go/{guid}
+@desc Forward
+@required {guid: any # guid}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endgroup
+
+@group login
+@endpoint POST /login
+@desc ID4i API Login
+@required {account-credentials: map}
+@returns(200) OK
+@errors {401: Unauthorized}
+
+@endgroup
+
+@group whois
+@endpoint GET /whois/{id4n}
+@desc Resolve owner of id4n
+@required {id4n: any # id4n}
+@returns(200) OK
+@returns(202) Accepted
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found, 405: Method not allowed, 406: Not Acceptable, 415: Unsupported Media Type, 500: Internal Server Error}
+
+@endgroup
+
+@end

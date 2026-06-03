@@ -1,0 +1,38 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Microsoft Defender for Cloud
+@base https://management.azure.com
+@version 2020-01-01
+@auth OAuth2
+@endpoints 4
+@toc {scope}(1), {resourceId}(3)
+
+@group {scope}
+@endpoint GET /{scope}/providers/Microsoft.Security/assessments
+@desc Get security assessments on all your scanned resources inside a scope
+@returns(200) OK
+
+@endgroup
+
+@group {resourceId}
+@endpoint GET /{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}
+@desc Get a security assessment on your scanned resource
+@required {assessmentName: any # The Assessment Key - Unique key for the assessment type}
+@optional {$expand: any # OData expand. Optional.}
+@returns(200) OK
+
+@endpoint PUT /{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}
+@desc Create a security assessment on your resource. An assessment metadata that describes this assessment must be predefined with the same name before inserting the assessment result
+@required {assessmentName: any # The Assessment Key - Unique key for the assessment type, assessment: map # Calculated assessment on a pre-defined assessment metadata}
+@returns(201) Created
+@returns(200) OK - Updated
+
+@endpoint DELETE /{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}
+@desc Delete a security assessment on your resource. An assessment metadata that describes this assessment must be predefined with the same name before inserting the assessment result
+@required {assessmentName: any # The Assessment Key - Unique key for the assessment type}
+@returns(200) OK - Assessment was deleted
+@returns(204) No Content - Assessment does not exist
+
+@endgroup
+
+@end

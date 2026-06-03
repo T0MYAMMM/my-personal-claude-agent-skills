@@ -1,0 +1,41 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Certificates API Client
+@base https://management.azure.com
+@version 2018-11-01
+@auth OAuth2
+@common_fields {subscriptionId: any # Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)., api-version: any # API Version}
+@endpoints 6
+@toc subscriptions(6)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Web/certificates
+@desc Get all certificates for a subscription.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates
+@desc Get all certificates in a resource group.
+@required {resourceGroupName: any # Name of the resource group to which the resource belongs.}
+@returns(200) OK.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}
+@desc Get a certificate.
+@required {resourceGroupName: any # Name of the resource group to which the resource belongs., name: any # Name of the certificate.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}
+@desc Create or update a certificate.
+@required {resourceGroupName: any # Name of the resource group to which the resource belongs., name: any # Name of the certificate., certificateEnvelope: map # Details of certificate, if it exists already.}
+@returns(200) OK.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}
+@desc Delete a certificate.
+@required {resourceGroupName: any # Name of the resource group to which the resource belongs., name: any # Name of the certificate.}
+@returns(200) Successfully deleted certificate.
+@returns(204) Certificate does not exist.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}
+@desc Create or update a certificate.
+@required {resourceGroupName: any # Name of the resource group to which the resource belongs., name: any # Name of the certificate., certificateEnvelope: map # Details of certificate, if it exists already.}
+@returns(200) OK.
+
+@end

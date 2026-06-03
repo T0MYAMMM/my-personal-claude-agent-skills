@@ -1,0 +1,39 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Microsoft Defender for Cloud
+@base https://management.azure.com
+@version 2019-01-01-preview
+@auth OAuth2
+@endpoints 6
+@toc subscriptions(6)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/automations
+@desc Lists all the security automations in the specified subscription. Use the 'nextLink' property in the response to get the next page of security automations for the specified subscription.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations
+@desc Lists all the security automations in the specified resource group. Use the 'nextLink' property in the response to get the next page of security automations for the specified resource group.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}
+@desc Retrieves information about the model of a security automation.
+@required {automationName: any # The security automation name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}
+@desc Creates or updates a security automation. If a security automation is already created and a subsequent request is issued for the same automation id, then it will be updated.
+@required {automationName: any # The security automation name., Automation: map # The security automation resource}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}
+@desc Deletes a security automation.
+@required {automationName: any # The security automation name.}
+@returns(204) NoContent
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}/validate
+@desc Validates the security automation model before create or update. Any validation errors are returned to the client.
+@required {automationName: any # The security automation name., Automation: map # The security automation resource}
+@returns(200) OK
+
+@end

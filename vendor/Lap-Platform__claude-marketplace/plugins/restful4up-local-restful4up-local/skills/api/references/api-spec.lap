@@ -1,0 +1,49 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api RESTful4Up
+@base /v1
+@version 1.0.0
+@endpoints 5
+@toc unpack(1), emulation-output(1), clean(1), generate-partial-yara-rules(1), apply-yara-rules(1)
+
+@group unpack
+@endpoint POST /unpack
+@desc try to unpack the given file
+@returns(200) Ok
+@errors {400: request error, 500: server error}
+
+@endgroup
+
+@group emulation-output
+@endpoint POST /emulation-output
+@desc try to get the emulation output after unpacking the file
+@returns(200) emulation output after unpacking the file
+@errors {400: request error, 500: server error}
+
+@endgroup
+
+@group clean
+@endpoint HEAD /clean
+@desc clean up the uploaded files
+@returns(204) Ok
+@errors {500: server error}
+
+@endgroup
+
+@group generate-partial-yara-rules
+@endpoint POST /generate-partial-yara-rules
+@desc generate partial YARA rules for give executable. (Rule without the condition section)
+@returns(200) Yara rules
+@errors {400: request error, 500: server error}
+
+@endgroup
+
+@group apply-yara-rules
+@endpoint POST /apply-yara-rules
+@desc apply given YARA rules to the given executable. (upto 10 rules)
+@returns(200) Yara rules
+@errors {400: request error, 500: server error}
+
+@endgroup
+
+@end

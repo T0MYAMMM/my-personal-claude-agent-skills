@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Datasette API
+@base https://datasette.io
+@version v1
+@endpoints 1
+@toc content.json(1)
+
+@endpoint GET /content.json
+@desc Execute a SQLite SQL query against the content database
+@required {sql: str # The SQL query to be executed, _shape: str # The shape of the response data. Must be "array"}
+@returns(200) Successful SQL results
+@errors {400: Bad request, 500: Internal server error}
+
+@end

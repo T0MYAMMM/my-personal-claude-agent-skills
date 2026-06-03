@@ -1,0 +1,31 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SubscriptionsManagementClient
+@base https://management.azure.com
+@version 2015-11-01
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/offers/{offer}/offerDelegations
+@desc Get the list of offer delegations.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/offers/{offer}/offerDelegations/{offerDelegationName}
+@desc Get the specified offer delegation.
+@required {offerDelegationName: any # Name of a offer delegation.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/offers/{offer}/offerDelegations/{offerDelegationName}
+@desc Create or update the offer delegation.
+@required {offerDelegationName: any # Name of a offer delegation., offerDelegationDefinition: map # New offer delegation parameter.}
+@returns(201) Created
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/offers/{offer}/offerDelegations/{offerDelegationName}
+@desc Delete the specified offer delegation.
+@required {offerDelegationName: any # Name of a offer delegation.}
+@returns(200) OK
+@returns(204) No Content
+
+@end

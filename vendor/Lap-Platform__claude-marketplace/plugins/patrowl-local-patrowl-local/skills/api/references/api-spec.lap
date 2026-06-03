@@ -1,0 +1,106 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Swagger API-REST for Patrowl Engines
+@base http://localhost:5001/engines/nmap/
+@version 1.0.0
+@endpoints 14
+@toc root(1), liveness(1), readiness(1), test(1), reloadconfig(1), info(1), clean(2), status(2), stopscans(1), stop(1), getfindings(1), startscan(1)
+
+@group root
+@endpoint GET /
+@desc Index page
+@returns(200) {status: str, page: str} # successful operation
+
+@endgroup
+
+@group liveness
+@endpoint GET /liveness
+@desc Liveness page
+@returns(200) successful operation
+
+@endgroup
+
+@group readiness
+@endpoint GET /readiness
+@desc Readiness page
+@returns(200) successful operation
+
+@endgroup
+
+@group test
+@endpoint GET /test
+@desc Test page
+@returns(200) successful operation
+
+@endgroup
+
+@group reloadconfig
+@endpoint GET /reloadconfig
+@desc Configuration reloading page
+@returns(200) {status: str, page: str} # successful operation
+
+@endgroup
+
+@group info
+@endpoint GET /info
+@desc Engine info page
+@returns(200) {status: str, page: str} # successful operation
+
+@endgroup
+
+@group clean
+@endpoint GET /clean
+@desc Clean all scans
+@returns(200) {status: str, page: str} # successful operation
+
+@endpoint GET /clean/{scanId}
+@desc Clean scan
+@required {scanId: int # Numeric ID of the scan to clean}
+@returns(200) {status: str, page: str} # successful operation
+
+@endgroup
+
+@group status
+@endpoint GET /status
+@desc Status on all scans
+@returns(200) {status: str, page: str} # successful operation
+
+@endpoint GET /status/{scanId}
+@desc Status of a scan
+@required {scanId: int # Numeric ID of the scan to get status}
+@returns(200) {status: str, page: str} # successful operation
+
+@endgroup
+
+@group stopscans
+@endpoint GET /stopscans
+@desc Stop all scans
+@returns(200) {status: str, page: str} # successful operation
+
+@endgroup
+
+@group stop
+@endpoint GET /stop/{scanId}
+@desc Stop a scan
+@required {scanId: int # Numeric ID of the scan to stop}
+@returns(200) {status: str, page: str} # successful operation
+
+@endgroup
+
+@group getfindings
+@endpoint GET /getfindings/{scanId}
+@desc Get findings on finished scans
+@required {scanId: int # Numeric ID of the scan to get findings}
+@returns(200) successful operation
+
+@endgroup
+
+@group startscan
+@endpoint POST /startscan
+@desc Start a new scan
+@optional {scan_id: int, options: map, assets: [map{id: str, value: str, criticity: str, datatype: str}]}
+@returns(200) {status: str, page: str} # successful operation
+
+@endgroup
+
+@end

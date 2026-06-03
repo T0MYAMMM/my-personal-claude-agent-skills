@@ -1,0 +1,261 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Turbine Labs API
+@base https://api.turbinelabs.io/v1.0
+@version 1.0
+@auth ApiKey Authorization in header
+@endpoints 44
+@hint download_for_search
+@toc admin(4), changelog(6), zone(4), domain(4), proxy(4), listener(5), shared_rules(5), route(5), cluster(7)
+
+@group admin
+@endpoint GET /admin/user/self
+@desc Returns the user object for the account authorized and making this request.
+@returns(200) The authorized user.
+
+@endpoint GET /admin/user/self/access_tokens
+@desc Lists Access Tokens that are configured for the authenticated user.
+@returns(200) A list of Access Tokens defined for the authenticated user.
+
+@endpoint POST /admin/user/self/access_tokens
+@desc Creates a new Access Token and associates it with the authenticated user.
+@required {description: map # A short string (<255 characters) describing the expected use of the token.}
+@returns(200) The new Access Token that was created.
+
+@endpoint DELETE /admin/user/self/access_token/{access-token-key}
+@desc Delete the specified access token.
+@required {access-token-key: any # the key of the Access Token that should be deleted, checksum: any # the current checksum of the user to be modified}
+@returns(200) An empty result if the API key deletion was successful.
+
+@endgroup
+
+@group changelog
+@endpoint GET /changelog/adhoc
+@desc Allows an arbitrary filter to be specified and applied to the org\'s change log.
+@optional {filter: any # Encoded FilterSums representing the query you would like to execute. See object definition for details.}
+@returns(200) A list of changes that meet the provided filter.
+
+@endpoint GET /changelog/domain-graph/{domainKey}
+@desc get changes related to the indicated domain
+@required {domainKey: any # the domain key to see an audit log for}
+@optional {start: any # The beginning of the window we want to see changes for; measured in microseconds since Unix Epoch., end: any # The end of the window we want to see changes for; measured in microseconds since Unix Epoch., max_results: any # Determines how many ChangeDescription object should be returned to the calling code., ref_id: any # When paginating a Changelog request start on the entry that comes immediately before or after this ID (as determined by the direction argument)., direction: any # If set to "before" then changes will be returned that occurred before reference ID. If "after" then changes will be returned that have occurred since the reference ID.}
+@returns(200) A list of changes occurring during the requested window.
+
+@endpoint GET /changelog/route-graph/{routeKey}
+@desc get changes related to the indicated route
+@required {routeKey: any # the route key to see an audit log for}
+@optional {start: any # The beginning of the window we want to see changes for; measured in microseconds since Unix Epoch., end: any # The end of the window we want to see changes for; measured in microseconds since Unix Epoch., max_results: any # Determines how many ChangeDescription object should be returned to the calling code., ref_id: any # When paginating a Changelog request start on the entry that comes immediately before or after this ID (as determined by the direction argument)., direction: any # If set to "before" then changes will be returned that occurred before reference ID. If "after" then changes will be returned that have occurred since the reference ID.}
+@returns(200) A list of changes occurring during the requested window.
+
+@endpoint GET /changelog/shared-rules-graph/{sharedRulesKey}
+@desc get changes related to the indicated SharedRules
+@required {sharedRulesKey: any # the shared rules key to see an audit log for}
+@optional {start: any # The beginning of the window we want to see changes for; measured in microseconds since Unix Epoch., end: any # The end of the window we want to see changes for; measured in microseconds since Unix Epoch., max_results: any # Determines how many ChangeDescription object should be returned to the calling code., ref_id: any # When paginating a Changelog request start on the entry that comes immediately before or after this ID (as determined by the direction argument)., direction: any # If set to "before" then changes will be returned that occurred before reference ID. If "after" then changes will be returned that have occurred since the reference ID.}
+@returns(200) A list of changes occurring during the requested window.
+
+@endpoint GET /changelog/cluster-graph/{clusterKey}
+@desc get changes related to the indicated cluster
+@required {clusterKey: any # the cluster key to see an audit log for}
+@optional {start: any # The beginning of the window we want to see changes for; measured in microseconds since Unix Epoch., end: any # The end of the window we want to see changes for; measured in microseconds since Unix Epoch., max_results: any # Determines how many ChangeDescription object should be returned to the calling code., ref_id: any # When paginating a Changelog request start on the entry that comes immediately before or after this ID (as determined by the direction argument)., direction: any # If set to "before" then changes will be returned that occurred before reference ID. If "after" then changes will be returned that have occurred since the reference ID.}
+@returns(200) A list of changes occurring during the requested window.
+
+@endpoint GET /changelog/zone/{zoneKey}
+@desc get changes in a specified zone
+@required {zoneKey: any # the zone key to see an audit log for}
+@optional {start: any # The beginning of the window we want to see changes for; measured in microseconds since Unix Epoch., end: any # The end of the window we want to see changes for; measured in microseconds since Unix Epoch., max_results: any # Determines how many ChangeDescription object should be returned to the calling code., ref_id: any # When paginating a Changelog request start on the entry that comes immediately before or after this ID (as determined by the direction argument)., direction: any # If set to "before" then changes will be returned that occurred before reference ID. If "after" then changes will be returned that have occurred since the reference ID.}
+@returns(200) A list of changes occurring during the requested window.
+
+@endgroup
+
+@group zone
+@endpoint GET /zone
+@desc get a list of zones
+@optional {filters: any # A JSON encoded array of ZoneFilter objects. The filter is taken as a union of intersections. In other words an object that matches every constraint in any ZoneFilter will be included.}
+@returns(200) A result containing an array of zones
+
+@endpoint POST /zone
+@desc create zone
+@required {zone: map # the zone to create}
+@returns(200) A result containing the newly created zone
+
+@endpoint GET /zone/{zoneKey}
+@desc get zone
+@required {zoneKey: any # the zone key}
+@returns(200) a result containing a single zone
+
+@endpoint DELETE /zone/{zoneKey}
+@desc delete zone
+@required {zoneKey: any # the zone key, checksum: any # the current checksum of the zone to be deleted}
+@returns(200) an empty result
+
+@endgroup
+
+@group domain
+@endpoint GET /domain
+@desc get domains
+@optional {filters: any # A JSON encoded array of DomainFilter objects. The filter is taken as a union of intersections. In other words an object that matches every constraint in any DomainFilter will be included.}
+@returns(200) a result containing a list of domains
+
+@endpoint POST /domain
+@desc create domain
+@required {domain: map # the domain to create}
+@returns(200) the newly created zone
+
+@endpoint GET /domain/{domainKey}
+@desc get domain
+@required {domainKey: any # the domain key}
+@returns(200) a result containing a single domain
+
+@endpoint DELETE /domain/{domainKey}
+@desc delete domain
+@required {domainKey: any # the domain key, checksum: any # the current checksum of the domain to be deleted}
+@returns(200) an empty result
+
+@endgroup
+
+@group proxy
+@endpoint GET /proxy
+@desc list proxies
+@optional {filters: any # A JSON encoded array of ProxyFilter objects. The filter is taken as a union of intersections. In other words an object that matches every constraint in any ProxyFilter will be included.}
+@returns(200) a result containing a list of proxies
+
+@endpoint POST /proxy
+@desc create proxy
+@required {proxy: map # the proxy to create}
+@returns(200) the newly created proxy
+
+@endpoint GET /proxy/{proxyKey}
+@desc get proxy
+@required {proxyKey: any # the proxy key}
+@returns(200) a result containing a single proxy
+
+@endpoint DELETE /proxy/{proxyKey}
+@desc delete proxy
+@required {proxyKey: any # the proxy key, checksum: any # the current checksum of the proxy to be deleted}
+@returns(200) an empty result
+
+@endgroup
+
+@group listener
+@endpoint GET /listener
+@desc list listeners
+@optional {filters: any # A JSON encoded array of ListenerFilter objects. The filter is taken as a union of intersections. In other words an object that matches every constraint in any ListenerFilter will be included.}
+@returns(200) a result containing a list of listeners
+
+@endpoint POST /listener
+@desc create listener
+@required {listener: map # the listener to create}
+@returns(200) the newly created listener
+
+@endpoint GET /listener/{listenerKey}
+@desc get listener
+@required {listenerKey: any # the listener key}
+@returns(200) a result containing a single listener
+
+@endpoint PUT /listener/{listenerKey}
+@desc modify listener
+@required {listenerKey: any # the listener key, listener: any # the listener to modify}
+@returns(200) A result containing the modified cluster
+
+@endpoint DELETE /listener/{listenerKey}
+@desc delete listener
+@required {listenerKey: any # the listener key, checksum: any # the current checksum of the listener to be deleted}
+@returns(200) an empty result
+
+@endgroup
+
+@group shared_rules
+@endpoint GET /shared_rules
+@desc get shared_rules
+@optional {filters: any # A JSON encoded array of SharedRulesFilter objects. The filter is taken as a union of intersections. In other words an object that matches every constraint in any SharedRulesFilter will be included.}
+@returns(200) a result containing a list of shared_rules
+
+@endpoint POST /shared_rules
+@desc create shared_rules
+@required {shared_rules: map # the shared_rules object to create}
+@returns(200) the newly created shared_rules object
+
+@endpoint GET /shared_rules/{sharedRulesKey}
+@desc get shared_rules object
+@required {sharedRulesKey: any # the shared_rules key}
+@returns(200) a result containing a single shared_rules object
+
+@endpoint PUT /shared_rules/{sharedRulesKey}
+@desc modify shared_rules object
+@required {sharedRulesKey: any # the shared_rules key, shared_rules: any # the shared_rules object to modify}
+@returns(200) A result containing the modified shared_rules object
+
+@endpoint DELETE /shared_rules/{sharedRulesKey}
+@desc delete shared_rules object
+@required {sharedRulesKey: any # the shared_rules key, checksum: any # the current checksum of the shared_rules to be deleted}
+@returns(200) an empty result
+
+@endgroup
+
+@group route
+@endpoint GET /route
+@desc get routes
+@optional {filters: any # A JSON encoded array of RouteFilter objects. The filter is taken as a union of intersections. In other words an object that matches every constraint in any RouteFilter will be included.}
+@returns(200) a result containing a list of routes
+
+@endpoint POST /route
+@desc create route
+@required {route: map # the route to create}
+@returns(200) the newly created route
+
+@endpoint GET /route/{routeKey}
+@desc get route
+@required {routeKey: any # the route key}
+@returns(200) a result containing a single route
+
+@endpoint PUT /route/{routeKey}
+@desc modify route
+@required {routeKey: any # the route key, route: any # the route to modify}
+@returns(200) A result containing the modified route
+
+@endpoint DELETE /route/{routeKey}
+@desc delete route
+@required {routeKey: any # the route key, checksum: any # the current checksum of the route to be deleted}
+@returns(200) an empty result
+
+@endgroup
+
+@group cluster
+@endpoint GET /cluster
+@desc get clusters
+@optional {filters: any # A JSON encoded array of ClusterFilter objects. The filter is taken as a union of intersections. In other words an object that matches every constraint in any ClusterFilter will be included.}
+@returns(200) a result containing a list of clusters
+
+@endpoint POST /cluster
+@desc create cluster
+@required {cluster: map # the cluster to create}
+@returns(200) the newly created cluster
+
+@endpoint GET /cluster/{clusterKey}
+@desc get cluster
+@required {clusterKey: any # the cluster key}
+@returns(200) a result containing a single cluster
+
+@endpoint PUT /cluster/{clusterKey}
+@desc modify cluster
+@required {clusterKey: any # the cluster key, cluster: any # the cluster to modify}
+@returns(200) A result containing the modified cluster
+
+@endpoint DELETE /cluster/{clusterKey}
+@desc delete cluster
+@required {clusterKey: any # the cluster key, checksum: any # the current checksum of the cluster to be deleted}
+@returns(200) an empty result
+
+@endpoint POST /cluster/{clusterKey}/instances
+@desc add instance
+@required {clusterKey: any # the cluster to add the instance to, instance: map # the instance to add}
+@returns(200) the newly created instance
+
+@endpoint DELETE /cluster/{clusterKey}/instances/{instanceIdentifier}
+@desc remove instance
+@required {checksum: any # the current checksum of the instance to be deleted, clusterKey: any # the cluster to remove an instance from, instanceIdentifier: any # the instance to remove, identified as <host>:<port>}
+@returns(200) an empty result
+
+@endgroup
+
+@end

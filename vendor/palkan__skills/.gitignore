@@ -1,0 +1,11 @@
+/.bundle/
+/Gemfile.lock
+/gemfiles/*.lock
+/pkg/
+/tmp/
+/log/
+/node_modules/
+*.gem
+*.sqlite3
+.claude/*.local.*
+/docs/plans/

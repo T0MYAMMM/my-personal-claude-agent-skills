@@ -1,0 +1,25 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api DeletedWebApps API Client
+@base https://management.azure.com
+@version 2018-02-01
+@auth OAuth2
+@endpoints 3
+@toc subscriptions(3)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Web/deletedSites
+@desc Get all deleted apps for a subscription.
+@required {subscriptionId: any # Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)., api-version: any # API Version}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/deletedSites
+@desc Get all deleted apps for a subscription at location
+@required {location: any, subscriptionId: any # Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)., api-version: any # API Version}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/deletedSites/{deletedSiteId}
+@desc Get deleted app for a subscription at location.
+@required {location: any, deletedSiteId: any # The numeric ID of the deleted app, e.g. 12345, subscriptionId: any # Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)., api-version: any # API Version}
+@returns(200) OK
+
+@end

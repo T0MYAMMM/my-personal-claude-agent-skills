@@ -1,0 +1,21 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Seatmap Display
+@base https://test.api.amadeus.com/v1
+@version 1.9.2
+@endpoints 2
+@toc shopping(2)
+
+@endpoint GET /shopping/seatmaps
+@desc Returns all the seat maps of a given order.
+@optional {flightOrderId: any # identifier of the order, flight-orderId: any # DEPRECATED identifier of the order , kept for backward compatibility}
+@returns(200) Successful Operation
+@errors {400: code    | title ------- | ------------------------------------- 477     | INVALID FORMAT 572     | INVALID OPTION 4481    | FLIGHT DOES NOT OPERATE ON DATE REQUESTED 8791    | SEAT MAP DISPLAY REQUEST IS OUTSIDE SYSTEM DATE RANGE 32171   | MANDATORY DATA MISSING, 404: Not Found}
+
+@endpoint POST /shopping/seatmaps
+@desc Returns all the seat maps of a given flightOffer.
+@required {X-HTTP-Method-Override: any # the HTTP method to apply, body: any}
+@returns(200) Successful Operation
+@errors {400: code    | title ------- | ------------------------------------- 477     | INVALID FORMAT 2781    | INVALID LENGHT 572     | INVALID OPTION 4481    | FLIGHT DOES NOT OPERATE ON DATE REQUESTED 8791    | SEAT MAP DISPLAY REQUEST IS OUTSIDE SYSTEM DATE RANGE 32171   | MANDATORY DATA MISSING}
+
+@end

@@ -1,0 +1,32 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Update Management API
+@base https://management.azure.com/
+@version 2017-05-15-preview
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations/{softwareUpdateConfigurationName}
+@desc Create a new software update configuration with the name given in the URI.
+@required {softwareUpdateConfigurationName: any # The name of the software update configuration to be created., parameters: map # Request body.}
+@returns(200) Software update configuration with the same name and properties already exists.
+@returns(201) Software update configuration is created.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations/{softwareUpdateConfigurationName}
+@desc Get a single software update configuration by name.
+@required {softwareUpdateConfigurationName: any # The name of the software update configuration to be created.}
+@returns(200) A single software update configuration.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations/{softwareUpdateConfigurationName}
+@desc delete a specific software update configuration.
+@required {softwareUpdateConfigurationName: any # The name of the software update configuration to be created.}
+@returns(200) The software update configuration has been deleted.
+@returns(204) The software update configuration does not exist.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations
+@desc Get all software update configurations for the account.
+@optional {$filter: any # The filter to apply on the operation.}
+@returns(200) Return list of software update configurations.
+
+@end

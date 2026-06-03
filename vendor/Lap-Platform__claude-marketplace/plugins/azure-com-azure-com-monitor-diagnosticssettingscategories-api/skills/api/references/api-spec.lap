@@ -1,0 +1,20 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api MonitorManagementClient
+@base https://management.azure.com
+@version 2017-05-01-preview
+@auth OAuth2
+@endpoints 2
+@toc {resourceUri}(2)
+
+@endpoint GET /{resourceUri}/providers/Microsoft.Insights/diagnosticSettingsCategories/{name}
+@desc Gets the diagnostic settings category for the specified resource.
+@required {resourceUri: any # The identifier of the resource., name: any # The name of the diagnostic setting.}
+@returns(200) Successful request to get more information about diagnostic setting category
+
+@endpoint GET /{resourceUri}/providers/Microsoft.Insights/diagnosticSettingsCategories
+@desc Lists the diagnostic settings categories for the specified resource.
+@required {resourceUri: any # The identifier of the resource.}
+@returns(200) Successful request to get more information about diagnostic setting category
+
+@end

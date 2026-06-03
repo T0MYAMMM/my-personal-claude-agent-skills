@@ -1,0 +1,39 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api ApiManagementClient
+@base https://management.azure.com
+@version 2019-01-01
+@auth OAuth2
+@endpoints 6
+@toc subscriptions(6)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties
+@desc Lists a collection of properties defined within a service instance.
+@optional {$filter: any # |   Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| tags | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith, any, all | </br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>}
+@returns(200) A Collection of the Property entities for the specified API Management service instance.
+
+@endpoint HEAD /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties/{propId}
+@desc Gets the entity state (Etag) version of the property specified by its identifier.
+@returns(200) Specified Property entity exists and current entity state version is present in the ETag header.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties/{propId}
+@desc Gets the details of the property specified by its identifier.
+@returns(200) The response body contains the specified Property entity.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties/{propId}
+@desc Creates or updates a property.
+@required {parameters: any # Create parameters.}
+@returns(201) Property was successfully created.
+@returns(200) Property was successfully updated.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties/{propId}
+@desc Updates the specific property.
+@required {parameters: any # Update parameters.}
+@returns(204) Property was successfully updated.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties/{propId}
+@desc Deletes specific property from the API Management service instance.
+@returns(200) Property was successfully deleted.
+@returns(204) Property was successfully deleted.
+
+@end

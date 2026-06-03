@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Airline Code Lookup API
+@base https://test.api.amadeus.com/v1
+@version 1.2.1
+@endpoints 1
+@toc reference-data(1)
+
+@endpoint GET /reference-data/airlines
+@desc Return airlines information.
+@optional {airlineCodes: str # Code of the airline following IATA standard([IATA table codes](http://www.iata.org/publications/Pages/code-search.aspx)) or ICAO standard ([ICAO airlines table codes](https://en.wikipedia.org/wiki/List_of_airline_codes))  Several airlines can be selected at once by sending a list separated by a coma (i.e. AF, SWA)}
+@returns(200) Successful Operation
+@errors {400: | code | title          | | ---- | -------------- | | 572  | INVALID OPTION |, 500: Unexpected Error}
+
+@end

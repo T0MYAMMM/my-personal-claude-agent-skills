@@ -1,0 +1,33 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Provider API Client
+@base https://management.azure.com
+@version 2018-02-01
+@auth OAuth2
+@endpoints 3
+@toc providers(2), subscriptions(1)
+
+@group providers
+@endpoint GET /providers/Microsoft.Web/availableStacks
+@desc Get available application frameworks and their versions
+@required {api-version: any # API Version}
+@optional {osTypeSelected: any}
+@returns(200) OK
+
+@endpoint GET /providers/Microsoft.Web/operations
+@desc Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions
+@required {api-version: any # API Version}
+@returns(200) OK
+
+@endgroup
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Web/availableStacks
+@desc Get available application frameworks and their versions
+@required {subscriptionId: any # Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)., api-version: any # API Version}
+@optional {osTypeSelected: any}
+@returns(200) OK
+
+@endgroup
+
+@end

@@ -1,0 +1,40 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Football Prediction API
+@base https://football-prediction-api.p.rapidapi.com
+@version 2
+@auth ApiKey X-RapidApi-Key in header
+@endpoints 5
+@toc api(5)
+
+@endpoint GET /api/v2/predictions
+@desc This endpoint returns by default the next non-expired football predictions. URL parameters can be specified to show specific date in the past or future or to filter by federation and prediction market name.
+@optional {X-RapidApi-Key: str(uuid) # Your key obtained from https://boggio-analytics.com/fp-api/}
+@returns(200) Good request, returns object that contains data array with all predictions.
+@errors {404: Bad request, check response for detailed errors.}
+
+@endpoint GET /api/v2/predictions/{id}
+@desc Returns all predictions available for a match id.
+@required {id: int # ID of match}
+@returns(200) {data: [map]} # Good request, returns object that contains all the predictions for a certain event.
+@errors {404: Bad request, check response for detailed errors.}
+
+@endpoint GET /api/v2/performance-stats
+@desc Returns predictions accuracy in the last 1, 7, 14, 30 days.
+@optional {X-RapidApi-Key: str(uuid) # Your key obtained from https://boggio-analytics.com/fp-api/}
+@returns(200) {data: map{market: str, accuracy: map{yesterday: num, last_7_days: num, last_30_days: num, last_14_days: num}, details: map{yesterday: map{total: int, lost: int, pending: int, won: int, postponed: int}, last_7_days: map{total: int, lost: int, pending: int, won: int, postponed: int}, last_30_days: map{total: int, lost: int, pending: int, won: int, postponed: int}, last_14_days: map{total: int, lost: int, pending: int, won: int, postponed: int}}}} # Good request, returns object that contains accuracy and other datails about predictions.
+@errors {404: Bad request, check response for detailed errors.}
+
+@endpoint GET /api/v2/list-federations
+@desc Returns an array of all the available federations.
+@optional {X-RapidApi-Key: str(uuid) # Your key obtained from https://boggio-analytics.com/fp-api/}
+@returns(200) {data: [str]} # Static response, shows available federations.
+@errors {404: Bad request, check response for detailed errors.}
+
+@endpoint GET /api/v2/list-markets
+@desc Returns an array of all the supported prediction markets
+@optional {X-RapidApi-Key: str(uuid) # Your key obtained from https://boggio-analytics.com/fp-api/}
+@returns(200) {data: map{all: [str], allowed_for_your_subscription: [str]}} # Static response, shows available markets for the current subscription and all available markets in general.
+@errors {404: Bad request, check response for detailed errors.}
+
+@end

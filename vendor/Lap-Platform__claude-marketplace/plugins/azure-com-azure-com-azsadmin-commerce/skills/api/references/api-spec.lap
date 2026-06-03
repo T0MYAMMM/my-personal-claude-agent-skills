@@ -1,0 +1,32 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api CommerceManagementClient
+@base https://management.azure.com
+@version 2015-06-01-preview
+@auth OAuth2
+@endpoints 3
+@toc providers(1), subscriptions(2)
+
+@group providers
+@endpoint GET /providers/Microsoft.Commerce.Admin/operations
+@desc Returns the list of supported REST operations.
+@required {api-version: any # Client API Version.}
+@returns(200) OK
+
+@endgroup
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Commerce.Admin/subscriberUsageAggregates
+@desc Gets a collection of SubscriberUsageAggregates, which are UsageAggregates from users.
+@required {subscriptionId: any # Subscription credentials which uniquely identify Microsoft Azure subscription.The subscription ID forms part of the URI for every service call., api-version: any # Client API Version., reportedStartTime: any # The reported start time (inclusive)., reportedEndTime: any # The reported end time (exclusive).}
+@optional {aggregationGranularity: any # The aggregation granularity., subscriberId: any # The tenant subscription identifier., continuationToken: any # The continuation token.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.Commerce.Admin/updateEncryption
+@desc Update the encryption.
+@required {subscriptionId: any # Subscription credentials which uniquely identify Microsoft Azure subscription.The subscription ID forms part of the URI for every service call., api-version: any # Client API Version.}
+@returns(200) OK
+
+@endgroup
+
+@end

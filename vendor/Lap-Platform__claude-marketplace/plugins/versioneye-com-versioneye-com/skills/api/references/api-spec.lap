@@ -1,0 +1,29 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api API V1
+@base https://{defaultHost}
+@version v1
+@auth ApiKey apiKey in header
+@endpoints 3
+@toc api(3)
+
+@endpoint GET /api/v1/scans
+@desc Retrieves all scans
+@optional {name: str, per_page: str}
+@returns(200) scans found
+@errors {404: scans not found}
+
+@endpoint GET /api/v1/scans/{id}
+@desc Retrieves a project scan result
+@required {id: str}
+@returns(200) scan found
+@errors {404: scan not found}
+
+@endpoint GET /api/v1/scans/{id}/files/{file_id}
+@desc Retrieves a file object, containing information about dependencies in the file
+@required {id: str, file_id: str}
+@optional {per_page: str}
+@returns(200) file found
+@errors {404: file not found}
+
+@end

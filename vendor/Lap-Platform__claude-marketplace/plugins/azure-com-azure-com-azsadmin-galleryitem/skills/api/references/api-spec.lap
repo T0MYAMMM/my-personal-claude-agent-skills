@@ -1,0 +1,32 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api GalleryManagementClient
+@base https://management.azure.com
+@version 2015-04-01
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/microsoft.gallery.admin/galleryItems
+@desc Lists gallery items.
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/microsoft.gallery.admin/galleryItems
+@desc Uploads a provider gallery item to the storage.
+@required {galleryItemUriPayload: map # The URI to the gallery item JSON file.}
+@returns(200) OK
+@returns(201) CREATED
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/microsoft.gallery.admin/galleryItems/{galleryItemName}
+@desc Get a specific gallery item.
+@required {galleryItemName: any # Identity of the gallery item. Includes publisher name, item name, and may include version separated by period character.}
+@returns(200) OK
+@errors {404: NOT FOUND}
+
+@endpoint DELETE /subscriptions/{subscriptionId}/providers/microsoft.gallery.admin/galleryItems/{galleryItemName}
+@desc Delete a specific gallery item.
+@required {galleryItemName: any # Identity of the gallery item. Includes publisher name, item name, and may include version separated by period character.}
+@returns(200) OK
+@returns(204) NO CONTENT.
+
+@end

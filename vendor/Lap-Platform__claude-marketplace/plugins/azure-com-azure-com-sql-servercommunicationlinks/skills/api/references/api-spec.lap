@@ -1,0 +1,31 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Azure SQL Database
+@base https://management.azure.com
+@version 2014-04-01
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}
+@desc Deletes a server communication link.
+@required {serverName: any # The name of the server., communicationLinkName: any # The name of the server communication link.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}
+@desc Returns a server communication link.
+@required {serverName: any # The name of the server., communicationLinkName: any # The name of the server communication link.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}
+@desc Creates a server communication link.
+@required {serverName: any # The name of the server., communicationLinkName: any # The name of the server communication link., parameters: any # The required parameters for creating a server communication link.}
+@returns(201) Created
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks
+@desc Gets a list of server communication links.
+@required {serverName: any # The name of the server.}
+@returns(200) OK
+
+@end

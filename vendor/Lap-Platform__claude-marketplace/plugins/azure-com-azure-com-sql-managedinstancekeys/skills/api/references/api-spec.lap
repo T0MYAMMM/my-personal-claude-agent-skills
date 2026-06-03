@@ -1,0 +1,35 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SqlManagementClient
+@base https://management.azure.com
+@version 2017-10-01-preview
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/keys
+@desc Gets a list of managed instance keys.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., managedInstanceName: any # The name of the managed instance., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@optional {$filter: any # An OData filter expression that filters elements in the collection.}
+@returns(200) Successfully retrieved the list of managed instance keys.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/keys/{keyName}
+@desc Gets a managed instance key.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., managedInstanceName: any # The name of the managed instance., keyName: any # The name of the managed instance key to be retrieved., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully retrieved the specified managed instance key.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/keys/{keyName}
+@desc Creates or updates a managed instance key.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., managedInstanceName: any # The name of the managed instance., keyName: any # The name of the managed instance key to be operated on (updated or created)., parameters: map # The requested managed instance key resource state., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully updated the managed instance key.
+@returns(202) Accepted
+@returns(201) Successfully created the managed instance key.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/keys/{keyName}
+@desc Deletes the managed instance key with the given name.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., managedInstanceName: any # The name of the managed instance., keyName: any # The name of the managed instance key to be deleted., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully deleted the managed instance key.
+@returns(202) Accepted
+@returns(204) The specified managed instance key does not exist.
+
+@end

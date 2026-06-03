@@ -1,0 +1,83 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api WeGA API
+@base http://localhost:8080/exist/apps/WeGA-WebApp/api/v1
+@version 1.0.0
+@endpoints 10
+@toc documents(5), search(1), code(1), application(2), facets(1)
+
+@group documents
+@endpoint GET /documents
+@desc Lists all documents
+@optional {docType: any # The WeGA document type, offset: any # Position of first item to retrieve (starting from 1), limit: any # Number of items to retrieve (200 max)}
+@returns(200) An array of documents
+
+@endgroup
+
+@group search
+@endpoint GET /search/entity
+@desc Search for a WeGA entity
+@optional {docType: any # The WeGA document type, q: any # The query string, offset: any # Position of first item to retrieve (starting from 1), limit: any # Number of items to retrieve (200 max)}
+@returns(200) An array of documents
+
+@endgroup
+
+@group documents
+@endpoint GET /documents/{docID}
+@desc Returns documents by ID
+@required {docID: any # The document identifier to search for}
+@returns(200) An array of documents
+
+@endpoint GET /documents/findByDate
+@desc Finds documents by date
+@required {fromDate: any # The min date to search for}
+@optional {toDate: any # The max date to search for, docType: any # The WeGA document type, offset: any # Position of first item to retrieve (starting from 1), limit: any # Number of items to retrieve (200 max)}
+@returns(200) An array of documents
+
+@endpoint GET /documents/findByMention/{docID}
+@desc Finds documents by reference
+@required {docID: any # The document ID that is to be mentioned. Accepted ID formats are WeGA, e.g. A002068 or http://weber-gesamtausgabe.de/A002068, VIAF, e.g. http://viaf.org/viaf/14959938, or  GND, e.g. http://d-nb.info/gnd/118629662}
+@optional {docType: any # The WeGA document type, offset: any # Position of first item to retrieve (starting from 1), limit: any # Number of items to retrieve (200 max)}
+@returns(200) An array of documents
+
+@endpoint GET /documents/findByAuthor/{authorID}
+@desc Finds documents by author
+@required {authorID: any # The author ID to search for. Accepted ID formats are WeGA, e.g. A002068 or http://weber-gesamtausgabe.de/A002068, VIAF, e.g. http://viaf.org/viaf/14959938, or  GND, e.g. http://d-nb.info/gnd/118629662}
+@optional {docType: any # The WeGA document type, offset: any # Position of first item to retrieve (starting from 1), limit: any # Number of items to retrieve (200 max)}
+@returns(200) An array of documents
+
+@endgroup
+
+@group code
+@endpoint GET /code/findByElement/{element}
+@desc Finds code samples by XML element
+@required {element: any # The XML element to search for}
+@optional {namespace: any # The element namespace. Defaults to the TEI namespace, docType: any # The WeGA document type, offset: any # Position of first item to retrieve (starting from 1), limit: any # Number of items to retrieve (200 max)}
+@returns(200) An array of documents
+
+@endgroup
+
+@group application
+@endpoint GET /application/status
+@desc Get status information about the running WeGA-WebApp
+@returns(200) Healthy – A single object with status information
+@errors {500: Unhealthy – A single object with status information}
+
+@endpoint GET /application/newID
+@desc Create a new WeGA ID
+@required {docType: any # The WeGA document type}
+@returns(200) A single object with a fresh WeGA ID
+@errors {403: The creation of new IDs is only available in the development environment}
+
+@endgroup
+
+@group facets
+@endpoint GET /facets/{facet}
+@desc Returns facets
+@required {facet: any # The facet to search for, scope: any # The scope of the result set, i.e. 'indices' or a WeGA ID, docType: any # The WeGA document type}
+@optional {term: any # The search term to be looked for in the facet's label, offset: any # Position of first item to retrieve (starting from 1), limit: any # Number of items to retrieve (200 max)}
+@returns(200) An array of facets
+
+@endgroup
+
+@end

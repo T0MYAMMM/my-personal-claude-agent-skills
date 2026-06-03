@@ -1,0 +1,30 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SubscriptionClient
+@base https://management.azure.com
+@version 2015-11-01
+@auth OAuth2
+@endpoints 3
+@toc delegatedProviders(2), offers(1)
+
+@group delegatedProviders
+@endpoint GET /delegatedProviders/{delegatedProviderId}/offers
+@desc Get the list of offers for the specified delegated provider.
+@required {delegatedProviderId: any # Id of the delegated provider.}
+@returns(200) OK
+
+@endpoint GET /delegatedProviders/{delegatedProviderId}/offers/{offerName}
+@desc Get the specified offer for the delegated provider.
+@required {delegatedProviderId: any # Id of the delegated provider., offerName: any # Name of the offer.}
+@returns(200) OK
+
+@endgroup
+
+@group offers
+@endpoint GET /offers
+@desc Get the list of public offers for the root provider.
+@returns(200) OK
+
+@endgroup
+
+@end

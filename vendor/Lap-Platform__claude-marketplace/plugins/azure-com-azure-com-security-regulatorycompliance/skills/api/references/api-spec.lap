@@ -1,0 +1,39 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Microsoft Defender for Cloud
+@base https://management.azure.com
+@version 2019-01-01-preview
+@auth OAuth2
+@endpoints 6
+@toc subscriptions(6)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards
+@desc Supported regulatory compliance standards details and state
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards/{regulatoryComplianceStandardName}
+@desc Supported regulatory compliance details state for selected standard
+@required {regulatoryComplianceStandardName: any # Name of the regulatory compliance standard object}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards/{regulatoryComplianceStandardName}/regulatoryComplianceControls
+@desc All supported regulatory compliance controls details and state for selected standard
+@required {regulatoryComplianceStandardName: any # Name of the regulatory compliance standard object}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards/{regulatoryComplianceStandardName}/regulatoryComplianceControls/{regulatoryComplianceControlName}
+@desc Selected regulatory compliance control details and state
+@required {regulatoryComplianceStandardName: any # Name of the regulatory compliance standard object, regulatoryComplianceControlName: any # Name of the regulatory compliance control object}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards/{regulatoryComplianceStandardName}/regulatoryComplianceControls/{regulatoryComplianceControlName}/regulatoryComplianceAssessments
+@desc Details and state of assessments mapped to selected regulatory compliance control
+@required {regulatoryComplianceStandardName: any # Name of the regulatory compliance standard object, regulatoryComplianceControlName: any # Name of the regulatory compliance control object}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards/{regulatoryComplianceStandardName}/regulatoryComplianceControls/{regulatoryComplianceControlName}/regulatoryComplianceAssessments/{regulatoryComplianceAssessmentName}
+@desc Supported regulatory compliance details and state for selected assessment
+@required {regulatoryComplianceStandardName: any # Name of the regulatory compliance standard object, regulatoryComplianceControlName: any # Name of the regulatory compliance control object, regulatoryComplianceAssessmentName: any # Name of the regulatory compliance assessment object}
+@returns(200) OK
+
+@end

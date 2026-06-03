@@ -1,0 +1,32 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SubscriptionsManagementClient
+@base https://management.azure.com
+@version 2015-11-01
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Subscriptions.Admin/subscriptions/{targetSubscriptionId}/acquiredPlans
+@desc Get a collection of all acquired plans that subscription has access to.
+@required {targetSubscriptionId: any # The target subscription ID.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Subscriptions.Admin/subscriptions/{targetSubscriptionId}/acquiredPlans/{planAcquisitionId}
+@desc Gets the specified plan acquired by a subscription consuming the offer.
+@required {targetSubscriptionId: any # The target subscription ID., planAcquisitionId: any # The plan acquisition Identifier}
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/providers/Microsoft.Subscriptions.Admin/subscriptions/{targetSubscriptionId}/acquiredPlans/{planAcquisitionId}
+@desc Deletes an acquired plan.
+@required {targetSubscriptionId: any # The target subscription ID., planAcquisitionId: any # The plan acquisition Identifier}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint PUT /subscriptions/{subscriptionId}/providers/Microsoft.Subscriptions.Admin/subscriptions/{targetSubscriptionId}/acquiredPlans/{planAcquisitionId}
+@desc Creates an acquired plan.
+@required {targetSubscriptionId: any # The target subscription ID., planAcquisitionId: any # The plan acquisition Identifier, acquiredPlanDefinition: map # The new acquired plan.}
+@returns(200) OK
+@returns(201) Created
+
+@end

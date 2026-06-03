@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Hotel Ratings
+@base https://test.api.amadeus.com/v2
+@version 1.0.2
+@endpoints 1
+@toc e-reputation(1)
+
+@endpoint GET /e-reputation/hotel-sentiments
+@desc Get sentiments by Amadeus Hotel Ids
+@required {hotelIds: any # Comma-separated list of Amadeus Hotel Ids (max. 3) . Amadeus Hotel Ids are found in the Hotel Search response (parameter name is 'hotelId').}
+@returns(200) Successful operation
+@errors {400: Not Found, 401: Unauthorized}
+
+@end

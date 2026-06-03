@@ -1,0 +1,20 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api MonitorManagementClient
+@base https://management.azure.com
+@version 2016-03-01
+@auth OAuth2
+@endpoints 2
+@toc subscriptions(2)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/alertrules/{ruleName}/incidents/{incidentName}
+@desc Gets an incident associated to an alert rule
+@required {ruleName: any # The name of the rule., incidentName: any # The name of the incident to retrieve.}
+@returns(200) Successful request for one alert rule related incident
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/alertrules/{ruleName}/incidents
+@desc Gets a list of incidents associated to an alert rule
+@required {ruleName: any # The name of the rule.}
+@returns(200) Successful request for a list of alert rule related incidents
+
+@end

@@ -1,0 +1,21 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api PolicyMetadataClient
+@base https://management.azure.com
+@version 2019-10-01
+@auth OAuth2
+@endpoints 2
+@toc providers(2)
+
+@endpoint GET /providers/Microsoft.PolicyInsights/policyMetadata/{resourceName}
+@desc Get policy metadata resource.
+@required {resourceName: any # The name of the policy metadata resource., api-version: any # Client Api Version.}
+@returns(200) Policy metadata resource definition.
+
+@endpoint GET /providers/Microsoft.PolicyInsights/policyMetadata
+@desc Get a list of the policy metadata resources.
+@required {api-version: any # Client Api Version.}
+@optional {$top: any # Maximum number of records to return.}
+@returns(200) Policy metadata resource collection.
+
+@end

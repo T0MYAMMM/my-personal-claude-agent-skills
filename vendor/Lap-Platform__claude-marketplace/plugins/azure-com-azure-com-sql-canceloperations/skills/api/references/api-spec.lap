@@ -1,0 +1,20 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SqlManagementClient
+@base https://management.azure.com
+@version 2017-10-01-preview
+@auth OAuth2
+@endpoints 2
+@toc subscriptions(2)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/operations/{operationId}/cancel
+@desc Cancels the asynchronous operation on the database.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., serverName: any # The name of the server., databaseName: any # The name of the database., operationId: any # The operation identifier., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) The request for cancel has been executed successfully.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/operations
+@desc Gets a list of operations performed on the database.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., serverName: any # The name of the server., databaseName: any # The name of the database., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) The request for getting database operations has been executed successfully.
+
+@end

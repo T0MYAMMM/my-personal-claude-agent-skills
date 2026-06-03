@@ -1,0 +1,131 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Developer documentation
+@base https://api.journy.io
+@version 1.0.0
+@auth ApiKey (inferred from docs)
+@endpoints 16
+@toc link(1), events(2), users(2), accounts(4), properties(2), validate(1), tracking(1), track(1), segments(2)
+
+@group link
+@endpoint POST /link
+@desc Link web activity to user
+@required {deviceId: str(non-empty-string), identification: map{email: str(email), userId: str(user-id)} # User identification requires a userId, email or both}
+@returns(201) Object was created
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 403: The API Key provided is currently not enabled, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endgroup
+
+@group events
+@endpoint POST /events
+@desc Track event
+@required {identification: map{account: map{domain: str(top-level-domain), accountId: str(account-id)}, user: map{email: str(email), userId: str(user-id)}} # Event identification requires a user, account or both, name: str(event-name)}
+@optional {metadata: map # Event metadata, possible values are strings, booleans, numbers and datetimes (ISO 8601), triggeredAt: str(datetime) # If left blank this defaults to the current datetime}
+@returns(201) Object was created
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 403: The API Key provided is currently not enabled, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endpoint GET /events
+@desc Get events
+@returns(200) Events
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 403: The API Key provided is currently not enabled, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endgroup
+
+@group users
+@endpoint POST /users/upsert
+@desc Create or update user
+@required {identification: map{email: str(email), userId: str(user-id)} # User identification requires a userId, email or both}
+@optional {properties: map # The properties being set, possible values are strings, booleans, numbers and datetimes (ISO 8601)}
+@returns(201) User will be created
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 403: The API Key provided is currently not enabled, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endpoint DELETE /users
+@desc Delete user
+@required {identification: map{email: str(email), userId: str(user-id)} # User identification requires a userId, email or both}
+@returns(202) Accepted
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 403: The API Key provided is currently not enabled, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endgroup
+
+@group accounts
+@endpoint POST /accounts/upsert
+@desc Create or update account
+@required {identification: map{domain: str(top-level-domain), accountId: str(account-id)} # Account identification requires an accountId, domain or both}
+@optional {properties: map # The properties being set, possible values are strings, booleans, numbers and datetimes (ISO 8601)}
+@returns(201) Account will be created
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 403: The API Key provided is currently not enabled, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endpoint POST /accounts/users/add
+@desc Add users to an account
+@required {account: map{domain: str(top-level-domain), accountId: str(account-id)} # Account identification requires an accountId, domain or both, users: [map{identification!: map{email: str(email), userId: str(user-id)}, properties: map}]}
+@returns(201) Object was created
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endpoint POST /accounts/users/remove
+@desc Remove user from account
+@required {account: map{domain: str(top-level-domain), accountId: str(account-id)} # Account identification requires an accountId, domain or both, users: [map{identification!: map{email: str(email), userId: str(user-id)}}]}
+@returns(204) No content
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endpoint DELETE /accounts
+@desc Delete account
+@required {identification: map{domain: str(top-level-domain), accountId: str(account-id)} # Account identification requires an accountId, domain or both}
+@returns(202) Accepted
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 403: The API Key provided is currently not enabled, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endgroup
+
+@group properties
+@endpoint GET /properties/users
+@desc Get user properties
+@returns(200) User Properties
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 403: The API Key provided is currently not enabled, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endpoint GET /properties/accounts
+@desc Get account properties
+@returns(200) Account Properties
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 403: The API Key provided is currently not enabled, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endgroup
+
+@group validate
+@endpoint GET /validate
+@desc Validate API key
+@returns(200) Key validation
+@errors {401: No API Key was provided or the key is not authorised to perform the action, 403: The API Key provided is currently not enabled, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endgroup
+
+@group tracking
+@endpoint GET /tracking/snippet
+@desc Get snippet for a website
+@required {domain: str(domain) # The domain you want to receive a snippet for}
+@returns(200) Snippet
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 403: The API Key provided is currently not enabled, 404: Not found, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endgroup
+
+@group track
+@endpoint POST /track
+@desc Track event
+@required {identification: map{account: map{domain: str(top-level-domain), accountId: str(account-id)}, user: map{email: str(email), userId: str(user-id)}} # Event identification requires a user, account or both, name: str(event-name)}
+@optional {metadata: map # Event metadata, possible values are strings, booleans, numbers and datetimes (ISO 8601), triggeredAt: str(datetime) # If left blank this defaults to the current datetime}
+@returns(201) Object was created
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 403: The API Key provided is currently not enabled, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endgroup
+
+@group segments
+@endpoint GET /segments/users
+@desc Get user segments
+@returns(200) User Segments
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 403: The API Key provided is currently not enabled, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endpoint GET /segments/accounts
+@desc Get account segments
+@returns(200) Account Segments
+@errors {400: Bad request, some fields or parameters are incorrect, 401: No API Key was provided or the key is not authorised to perform the action, 403: The API Key provided is currently not enabled, 429: Too many API requests were send, 500: An unexpected error occurred}
+
+@endgroup
+
+@end

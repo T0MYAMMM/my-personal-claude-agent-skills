@@ -1,0 +1,16 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api MailboxValidator Email Validation
+@base https://api.mailboxvalidator.com
+@version 0.1
+@auth ApiKey key in query
+@endpoints 1
+@toc validation(1)
+
+@endpoint GET /v1/validation/single
+@desc The Single Validation API does validation on a single email address and returns all the validation results in either JSON or XML format.
+@required {email: str # The email address to be validated., key: str # API key.}
+@optional {format: str(json/xml) # Return the result in json (default) or xml format.}
+@returns(200) single email validation response
+
+@end

@@ -1,0 +1,30 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Debian Code Search
+@base https://codesearch.debian.net/api/v1
+@version 1.4.0
+@auth ApiKey x-dcs-apikey in header
+@endpoints 2
+@toc search(1), searchperpackage(1)
+
+@group search
+@endpoint GET /search
+@desc Searches through source code
+@required {query: str # The search query, for example `who knows...` (literal) or `who knows\.\.\.` (regular expression). See https://codesearch.debian.net/faq for more details about which keywords are supported. The regular expression flavor is RE2, see https://github.com/google/re2/blob/master/doc/syntax.txt}
+@optional {match_mode: str(literal/regexp)=regexp # Whether the query is to be interpreted as a literal (`literal`) instead of as an RE2 regular expression (`regexp`). Literal searches are faster and do not require escaping special characters, regular expression searches are more powerful.}
+@returns(200) All search results
+@errors {403: The x-dcs-apikey header was either not set at all, or contained an invalid (no longer valid?) API key. Please see https://codesearch.debian.net/apikeys/ for obtaining a key.}
+
+@endgroup
+
+@group searchperpackage
+@endpoint GET /searchperpackage
+@desc Like /search, but aggregates per package
+@required {query: str # The search query, for example `who knows...` (literal) or `who knows\.\.\.` (regular expression). See https://codesearch.debian.net/faq for more details about which keywords are supported. The regular expression flavor is RE2, see https://github.com/google/re2/blob/master/doc/syntax.txt}
+@optional {match_mode: str(literal/regexp)=regexp # Whether the query is to be interpreted as a literal (`literal`) instead of as an RE2 regular expression (`regexp`). Literal searches are faster and do not require escaping special characters, regular expression searches are more powerful.}
+@returns(200) All search results
+@errors {403: The x-dcs-apikey header was either not set at all, or contained an invalid (no longer valid?) API key. Please see https://codesearch.debian.net/apikeys/ for obtaining a key.}
+
+@endgroup
+
+@end

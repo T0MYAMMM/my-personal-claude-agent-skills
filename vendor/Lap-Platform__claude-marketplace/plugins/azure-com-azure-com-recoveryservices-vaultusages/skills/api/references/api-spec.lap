@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api RecoveryServicesClient
+@base https://management.azure.com
+@version 2016-06-01
+@auth OAuth2
+@endpoints 1
+@toc Subscriptions(1)
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/usages
+@desc Fetches the usages of the vault.
+@required {subscriptionId: any # The subscription Id., api-version: any # Client Api Version., resourceGroupName: any # The name of the resource group where the recovery services vault is present., vaultName: any # The name of the recovery services vault.}
+@returns(200) OK
+
+@end

@@ -1,0 +1,588 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api LogicManagementClient
+@base https://management.azure.com
+@version 2019-05-01
+@auth OAuth2
+@common_fields {subscriptionId: any # The subscription id., api-version: any # The API version.}
+@endpoints 106
+@hint download_for_search
+@toc subscriptions(105), providers(1)
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Logic/workflows
+@desc Gets a list of workflows by subscription.
+@optional {$top: any # The number of items to be included in the result., $filter: any # The filter to apply on the operation. Options for filters include: State, Trigger, and ReferencedResourceId.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows
+@desc Gets a list of workflows by resource group.
+@required {resourceGroupName: any # The resource group name.}
+@optional {$top: any # The number of items to be included in the result., $filter: any # The filter to apply on the operation. Options for filters include: State, Trigger, and ReferencedResourceId.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}
+@desc Gets a workflow.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}
+@desc Creates or updates a workflow.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., workflow: map # The workflow.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}
+@desc Updates a workflow.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name.}
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}
+@desc Deletes a workflow.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/disable
+@desc Disables a workflow.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/enable
+@desc Enables a workflow.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/generateUpgradedDefinition
+@desc Generates the upgraded definition for a workflow.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., parameters: map # Parameters for generating an upgraded definition.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/listCallbackUrl
+@desc Get the workflow callback Url.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., listCallbackUrl: map # Which callback url to list.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/listSwagger
+@desc Gets an OpenAPI definition for the workflow.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/move
+@desc Moves an existing workflow.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., move: map # The workflow to move.}
+@returns(200) OK
+@returns(202) No Content
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/regenerateAccessKey
+@desc Regenerates the callback URL access key for request triggers.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., keyType: map # The access key type.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/validate
+@desc Validates the workflow.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., validate: map # The workflow.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions
+@desc Gets a list of workflow versions.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name.}
+@optional {$top: any # The number of items to be included in the result.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions/{versionId}
+@desc Gets a workflow version.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., versionId: any # The workflow versionId.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers
+@desc Gets a list of workflow triggers.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name.}
+@optional {$top: any # The number of items to be included in the result., $filter: any # The filter to apply on the operation.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}
+@desc Gets a workflow trigger.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., triggerName: any # The workflow trigger name.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/reset
+@desc Resets a workflow trigger.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., triggerName: any # The workflow trigger name.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/run
+@desc Runs a workflow trigger.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., triggerName: any # The workflow trigger name.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/schemas/json
+@desc Get the trigger schema as JSON.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., triggerName: any # The workflow trigger name.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/setState
+@desc Sets the state of a workflow trigger.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., triggerName: any # The workflow trigger name., setState: map # The workflow trigger state.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/listCallbackUrl
+@desc Get the callback URL for a workflow trigger.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., triggerName: any # The workflow trigger name.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions/{versionId}/triggers/{triggerName}/listCallbackUrl
+@desc Get the callback url for a trigger of a workflow version.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., versionId: any # The workflow versionId., triggerName: any # The workflow trigger name.}
+@optional {parameters: map # The callback URL parameters.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/histories
+@desc Gets a list of workflow trigger histories.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., triggerName: any # The workflow trigger name.}
+@optional {$top: any # The number of items to be included in the result., $filter: any # The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/histories/{historyName}
+@desc Gets a workflow trigger history.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., triggerName: any # The workflow trigger name., historyName: any # The workflow trigger history name. Corresponds to the run name for triggers that resulted in a run.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/histories/{historyName}/resubmit
+@desc Resubmits a workflow run based on the trigger history.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., triggerName: any # The workflow trigger name., historyName: any # The workflow trigger history name. Corresponds to the run name for triggers that resulted in a run.}
+@returns(202) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs
+@desc Gets a list of workflow runs.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name.}
+@optional {$top: any # The number of items to be included in the result., $filter: any # The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}
+@desc Gets a workflow run.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/cancel
+@desc Cancels a workflow run.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions
+@desc Gets a list of workflow run actions.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name.}
+@optional {$top: any # The number of items to be included in the result., $filter: any # The filter to apply on the operation. Options for filters include: Status.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}
+@desc Gets a workflow run action.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name., actionName: any # The workflow action name.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/listExpressionTraces
+@desc Lists a workflow run expression trace.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name., actionName: any # The workflow action name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions
+@desc Get all of a workflow run action repetitions.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name., actionName: any # The workflow action name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}
+@desc Get a workflow run action repetition.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name., actionName: any # The workflow action name., repetitionName: any # The workflow repetition.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}/listExpressionTraces
+@desc Lists a workflow run expression trace.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name., actionName: any # The workflow action name., repetitionName: any # The workflow repetition.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}/requestHistories
+@desc List a workflow run repetition request history.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name., actionName: any # The workflow action name., repetitionName: any # The workflow repetition.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}/requestHistories/{requestHistoryName}
+@desc Gets a workflow run repetition request history.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name., actionName: any # The workflow action name., repetitionName: any # The workflow repetition., requestHistoryName: any # The request history name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/requestHistories
+@desc List a workflow run request history.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name., actionName: any # The workflow action name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/requestHistories/{requestHistoryName}
+@desc Gets a workflow run request history.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name., actionName: any # The workflow action name., requestHistoryName: any # The request history name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/scopeRepetitions
+@desc List the workflow run action scoped repetitions.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name., actionName: any # The workflow action name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/scopeRepetitions/{repetitionName}
+@desc Get a workflow run action scoped repetition.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name., actionName: any # The workflow action name., repetitionName: any # The workflow repetition.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/operations/{operationId}
+@desc Gets an operation for a run.
+@required {resourceGroupName: any # The resource group name., workflowName: any # The workflow name., runName: any # The workflow run name., operationId: any # The workflow operation id.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/locations/{location}/workflows/{workflowName}/validate
+@desc Validates the workflow definition.
+@required {resourceGroupName: any # The resource group name., location: any # The workflow location., workflowName: any # The workflow name., validate: map # The workflow.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Logic/integrationAccounts
+@desc Gets a list of integration accounts by subscription.
+@optional {$top: any # The number of items to be included in the result.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts
+@desc Gets a list of integration accounts by resource group.
+@required {resourceGroupName: any # The resource group name.}
+@optional {$top: any # The number of items to be included in the result.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}
+@desc Gets an integration account.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}
+@desc Creates or updates an integration account.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., integrationAccount: map # The integration account.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}
+@desc Updates an integration account.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., integrationAccount: map # The integration account.}
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}
+@desc Deletes an integration account.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies
+@desc List the assemblies for an integration account.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}
+@desc Get an assembly for an integration account.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., assemblyArtifactName: any # The assembly artifact name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}
+@desc Create or update an assembly for an integration account.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., assemblyArtifactName: any # The assembly artifact name., assemblyArtifact: map # The assembly artifact.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}
+@desc Delete an assembly for an integration account.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., assemblyArtifactName: any # The assembly artifact name.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}/listContentCallbackUrl
+@desc Get the content callback url for an integration account assembly.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., assemblyArtifactName: any # The assembly artifact name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations
+@desc List the batch configurations for an integration account.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}
+@desc Get a batch configuration for an integration account.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., batchConfigurationName: any # The batch configuration name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}
+@desc Create or update a batch configuration for an integration account.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., batchConfigurationName: any # The batch configuration name., batchConfiguration: map # The batch configuration.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}
+@desc Delete a batch configuration for an integration account.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., batchConfigurationName: any # The batch configuration name.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/listCallbackUrl
+@desc Gets the integration account callback URL.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., parameters: map # The callback URL parameters.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/listKeyVaultKeys
+@desc Gets the integration account's Key Vault keys.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., listKeyVaultKeys: map # The key vault parameters.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/logTrackingEvents
+@desc Logs the integration account's tracking events.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., logTrackingEvents: map # The callback URL parameters.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/regenerateAccessKey
+@desc Regenerates the integration account access key.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., regenerateAccessKey: map # The access key type.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas
+@desc Gets a list of integration account schemas.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name.}
+@optional {$top: any # The number of items to be included in the result., $filter: any # The filter to apply on the operation. Options for filters include: SchemaType.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}
+@desc Gets an integration account schema.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., schemaName: any # The integration account schema name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}
+@desc Creates or updates an integration account schema.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., schemaName: any # The integration account schema name., schema: map # The integration account schema.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}
+@desc Deletes an integration account schema.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., schemaName: any # The integration account schema name.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}/listContentCallbackUrl
+@desc Get the content callback url.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., schemaName: any # The integration account schema name., listContentCallbackUrl: map}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/maps
+@desc Gets a list of integration account maps.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name.}
+@optional {$top: any # The number of items to be included in the result., $filter: any # The filter to apply on the operation. Options for filters include: MapType.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/maps/{mapName}
+@desc Gets an integration account map.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., mapName: any # The integration account map name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/maps/{mapName}
+@desc Creates or updates an integration account map. If the map is larger than 4 MB, you need to store the map in an Azure blob and use the blob's Shared Access Signature (SAS) URL as the 'contentLink' property value.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., mapName: any # The integration account map name., map: map # The integration account map.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/maps/{mapName}
+@desc Deletes an integration account map.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., mapName: any # The integration account map name.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/maps/{mapName}/listContentCallbackUrl
+@desc Get the content callback url.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., mapName: any # The integration account map name., listContentCallbackUrl: map}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners
+@desc Gets a list of integration account partners.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name.}
+@optional {$top: any # The number of items to be included in the result., $filter: any # The filter to apply on the operation. Options for filters include: PartnerType.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners/{partnerName}
+@desc Gets an integration account partner.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., partnerName: any # The integration account partner name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners/{partnerName}
+@desc Creates or updates an integration account partner.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., partnerName: any # The integration account partner name., partner: map # The integration account partner.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners/{partnerName}
+@desc Deletes an integration account partner.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., partnerName: any # The integration account partner name.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners/{partnerName}/listContentCallbackUrl
+@desc Get the content callback url.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., partnerName: any # The integration account partner name., listContentCallbackUrl: map}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements
+@desc Gets a list of integration account agreements.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name.}
+@optional {$top: any # The number of items to be included in the result., $filter: any # The filter to apply on the operation. Options for filters include: AgreementType.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements/{agreementName}
+@desc Gets an integration account agreement.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., agreementName: any # The integration account agreement name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements/{agreementName}
+@desc Creates or updates an integration account agreement.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., agreementName: any # The integration account agreement name., agreement: map # The integration account agreement.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements/{agreementName}
+@desc Deletes an integration account agreement.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., agreementName: any # The integration account agreement name.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements/{agreementName}/listContentCallbackUrl
+@desc Get the content callback url.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., agreementName: any # The integration account agreement name., listContentCallbackUrl: map}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates
+@desc Gets a list of integration account certificates.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name.}
+@optional {$top: any # The number of items to be included in the result.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates/{certificateName}
+@desc Gets an integration account certificate.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., certificateName: any # The integration account certificate name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates/{certificateName}
+@desc Creates or updates an integration account certificate.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., certificateName: any # The integration account certificate name., certificate: map # The integration account certificate.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates/{certificateName}
+@desc Deletes an integration account certificate.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., certificateName: any # The integration account certificate name.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/sessions
+@desc Gets a list of integration account sessions.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name.}
+@optional {$top: any # The number of items to be included in the result., $filter: any # The filter to apply on the operation. Options for filters include: ChangedTime.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/sessions/{sessionName}
+@desc Gets an integration account session.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., sessionName: any # The integration account session name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/sessions/{sessionName}
+@desc Creates or updates an integration account session.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., sessionName: any # The integration account session name., session: map # The integration account session.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/sessions/{sessionName}
+@desc Deletes an integration account session.
+@required {resourceGroupName: any # The resource group name., integrationAccountName: any # The integration account name., sessionName: any # The integration account session name.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Logic/integrationServiceEnvironments
+@desc Gets a list of integration service environments by subscription.
+@optional {$top: any # The number of items to be included in the result.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments
+@desc Gets a list of integration service environments by resource group.
+@required {resourceGroup: any # The resource group.}
+@optional {$top: any # The number of items to be included in the result.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}
+@desc Gets an integration service environment.
+@required {resourceGroup: any # The resource group., integrationServiceEnvironmentName: any # The integration service environment name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}
+@desc Creates or updates an integration service environment.
+@required {resourceGroup: any # The resource group., integrationServiceEnvironmentName: any # The integration service environment name., integrationServiceEnvironment: map # The integration service environment.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}
+@desc Updates an integration service environment.
+@required {resourceGroup: any # The resource group., integrationServiceEnvironmentName: any # The integration service environment name., integrationServiceEnvironment: map # The integration service environment.}
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}
+@desc Deletes an integration service environment.
+@required {resourceGroup: any # The resource group., integrationServiceEnvironmentName: any # The integration service environment name.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/skus
+@desc Gets a list of integration service environment Skus.
+@required {resourceGroup: any # The resource group., integrationServiceEnvironmentName: any # The integration service environment name.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/restart
+@desc Restarts an integration service environment.
+@required {resourceGroup: any # The resource group., integrationServiceEnvironmentName: any # The integration service environment name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/health/network
+@desc Gets the integration service environment network health.
+@required {resourceGroup: any # The resource group., integrationServiceEnvironmentName: any # The integration service environment name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis
+@desc Gets the integration service environment managed Apis.
+@required {resourceGroup: any # The resource group., integrationServiceEnvironmentName: any # The integration service environment name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis/{apiName}
+@desc Gets the integration service environment managed Api.
+@required {resourceGroup: any # The resource group name., integrationServiceEnvironmentName: any # The integration service environment name., apiName: any # The api name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis/{apiName}
+@desc Puts the integration service environment managed Api.
+@required {resourceGroup: any # The resource group name., integrationServiceEnvironmentName: any # The integration service environment name., apiName: any # The api name., integrationServiceEnvironmentManagedApi: map # The integration service environment managed api.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis/{apiName}
+@desc Deletes the integration service environment managed Api.
+@required {resourceGroup: any # The resource group., integrationServiceEnvironmentName: any # The integration service environment name., apiName: any # The api name.}
+@returns(202) Accepted
+@returns(204) No Content
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis/{apiName}/apiOperations
+@desc Gets the managed Api operations.
+@required {resourceGroup: any # The resource group., integrationServiceEnvironmentName: any # The integration service environment name., apiName: any # The api name.}
+@returns(200) OK
+
+@endgroup
+
+@group providers
+@endpoint GET /providers/Microsoft.Logic/operations
+@desc Lists all of the available Logic REST API operations.
+@returns(200) OK. The request has succeeded.
+
+@endgroup
+
+@end

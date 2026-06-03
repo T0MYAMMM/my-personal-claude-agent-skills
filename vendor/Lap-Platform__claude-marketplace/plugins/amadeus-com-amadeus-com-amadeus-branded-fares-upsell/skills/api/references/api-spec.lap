@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Branded Fares Upsell
+@base https://test.api.amadeus.com/v1
+@version 1.2.0
+@endpoints 1
+@toc shopping(1)
+
+@endpoint POST /shopping/flight-offers/upselling
+@desc Return a list of upsell Flight Offers based on given Flight Offers
+@required {X-HTTP-Method-Override: any # the HTTP method to apply, upsellFlightOffersBody: any # list of criteria to upsell a dedicated flight-offers}
+@returns(200) Successful Operation
+@errors {400: code    | title                                  ------- | -------------------------------------  477     | INVALID FORMAT 2668    | PARAMETER COMBINATION INVALID/RESTRICTED 2781    | INVALID LENGTH 4926    | INVALID DATA RECEIVED 32171   | MANDATORY DATA MISSING 39397   | UNABLE TO RETRIEVE UPSELL OFFER}
+
+@end

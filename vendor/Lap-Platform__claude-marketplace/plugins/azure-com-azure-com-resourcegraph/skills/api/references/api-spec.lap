@@ -1,0 +1,20 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Azure Resource Graph
+@base https://management.azure.com
+@version 2019-04-01
+@auth OAuth2
+@endpoints 2
+@toc providers(2)
+
+@endpoint POST /providers/Microsoft.ResourceGraph/resources
+@desc Queries the resources managed by Azure Resource Manager for all subscriptions specified in the request.
+@required {api-version: any # API version., query: map # Request specifying query and its options.}
+@returns(200) Result of the query operation
+
+@endpoint GET /providers/Microsoft.ResourceGraph/operations
+@desc Lists all of the available REST API operations.
+@required {api-version: any # API version.}
+@returns(200) OK. The request has succeeded.
+
+@end

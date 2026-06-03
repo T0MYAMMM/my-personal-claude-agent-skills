@@ -1,0 +1,32 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api StorageManagementClient
+@base https://management.azure.com
+@version 2019-08-08-preview
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Storage.Admin/locations/{location}/storageAccounts
+@desc Returns a list of storage accounts.
+@optional {$filter: any # Filter string, summary: any # Switch for whether summary or detailed information is returned.}
+@returns(200) OK -- The list of storage accounts has been returned.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Storage.Admin/locations/{location}/storageAccounts/{accountId}
+@desc Returns the requested storage account.
+@required {accountId: any # Internal storage account ID, which is not visible to tenant.}
+@returns(200) OK -- The storage account has been returned.
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.Storage.Admin/locations/{location}/storageAccounts/{accountId}/undelete
+@desc Undelete a deleted storage account with new account name if the a new name is provided.
+@required {accountId: any # Internal storage account ID, which is not visible to tenant.}
+@optional {newAccountName: any # New storage account name when doing undelete storage account operation.}
+@returns(200) OK -- Undelete either has been performed or account was not deleted.
+@returns(202) Accepted -- undelete operation trigged; operation will complete asynchronously.
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.Storage.Admin/locations/{location}/reclaimStorageCapacity
+@desc Start reclaim storage capacity on deleted storage objects.
+@returns(200) OK -- Reclaim storage capacity has completed.
+@returns(202) Accepted -- reclaim storage capacity operation triggered; operation will complete asynchronously.
+
+@end

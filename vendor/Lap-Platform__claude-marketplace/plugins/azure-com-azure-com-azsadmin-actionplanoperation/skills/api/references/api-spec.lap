@@ -1,0 +1,20 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api DeploymentAdminClient
+@base https://management.azure.com
+@version 2019-01-01
+@auth OAuth2
+@endpoints 2
+@toc subscriptions(2)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/actionPlans/{planId}/operations
+@desc Lists the action plan operations
+@required {planId: any # Identifier of the action plan.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/actionPlans/{planId}/operations/{operationId}
+@desc Gets the specified action plan operation
+@required {planId: any # Identifier of the action plan., operationId: any # Identifier of the action plan operation.}
+@returns(200) OK
+
+@end

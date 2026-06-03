@@ -1,0 +1,49 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api MonitorManagementClient
+@base https://management.azure.com
+@version 2018-03-01
+@auth OAuth2
+@endpoints 8
+@toc subscriptions(8)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Insights/metricAlerts
+@desc Retrieve alert rule definitions in a subscription.
+@returns(200) Successful request for a list of metric alerts
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts
+@desc Retrieve alert rule definitions in a resource group.
+@returns(200) Successful request for a list of metric alerts
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}
+@desc Retrieve an alert rule definition.
+@required {ruleName: any # The name of the rule.}
+@returns(200) Successful request for a list of metric alerts
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}
+@desc Create or update an metric alert definition.
+@required {ruleName: any # The name of the rule., parameters: map # The parameters of the rule to create or update.}
+@returns(200) OK
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}
+@desc Update an metric alert definition.
+@required {ruleName: any # The name of the rule., parameters: any # The parameters of the rule to update.}
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}
+@desc Delete an alert rule definition.
+@required {ruleName: any # The name of the rule.}
+@returns(200) Successful request to delete an metric alert rule
+@returns(204) No content: the request was successful, but the response is empty
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}/status
+@desc Retrieve an alert rule status.
+@required {ruleName: any # The name of the rule.}
+@returns(200) Successful request for a list of metric alerts
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}/status/{statusName}
+@desc Retrieve an alert rule status.
+@required {ruleName: any # The name of the rule., statusName: any # The name of the status.}
+@returns(200) Successful request for a list of metric alerts
+
+@end

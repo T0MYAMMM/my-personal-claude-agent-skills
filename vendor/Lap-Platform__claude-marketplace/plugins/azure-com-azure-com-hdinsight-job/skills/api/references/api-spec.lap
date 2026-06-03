@@ -1,0 +1,66 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api HDInsightJobClient
+@version 2018-11-01-preview
+@auth OAuth2
+@endpoints 10
+@toc templeton(9), ws(1)
+
+@group templeton
+@endpoint GET /templeton/v1/jobs/{jobId}
+@desc Gets job details from the specified HDInsight cluster.
+@required {user.name: any # The user name used for running job., jobId: any # The id of the job., fields: any # If fields set to '*', the request will return full details of the job. Currently the value can only be '*'.}
+@returns(200) OK response definition.
+
+@endpoint DELETE /templeton/v1/jobs/{jobId}
+@desc Initiates cancel on given running job in the specified HDInsight.
+@required {user.name: any # The user name used for running job., jobId: any # The id of the job.}
+@returns(200) OK response definition.
+
+@endpoint GET /templeton/v1/jobs
+@desc Gets the list of jobs from the specified HDInsight cluster.
+@required {user.name: any # The user name used for running job., showall: any # If showall is set to 'true', the request will return all jobs the user has permission to view, not only the jobs belonging to the user., fields: any # If fields set to '*', the request will return full details of the job. Currently the value can only be '*'.}
+@returns(200) OK response definition.
+
+@endpoint GET /templeton/v1/jobs?op=LISTAFTERID
+@desc Gets numrecords Of Jobs after jobid from the specified HDInsight cluster.
+@required {user.name: any # The user name used for running job., showall: any # If showall is set to 'true', the request will return all jobs the user has permission to view, not only the jobs belonging to the user., fields: any # If fields set to '*', the request will return full details of the job. Currently the value can only be '*'.}
+@optional {jobid: any # JobId from where to list jobs., numrecords: any # Number of jobs to fetch.}
+@returns(200) OK response definition.
+
+@endpoint POST /templeton/v1/hive
+@desc Submits a Hive job to an HDInsight cluster.
+@required {user.name: any # The user name used for running job., content: map # The content of the Hive job request.}
+@returns(200) OK response definition.
+
+@endpoint POST /templeton/v1/mapreduce/jar
+@desc Submits a MapReduce job to an HDInsight cluster.
+@required {user.name: any # The user name used for running job., content: map # The content of the MapReduce job request.}
+@returns(200) OK response definition.
+
+@endpoint POST /templeton/v1/mapreduce/streaming
+@desc Submits a MapReduce streaming job to an HDInsight cluster.
+@required {user.name: any # The user name used for running job., content: map # The content of the MapReduce job request.}
+@returns(200) OK response definition.
+
+@endpoint POST /templeton/v1/pig
+@desc Submits a Pig job to an HDInsight cluster.
+@required {user.name: any # The user name used for running job., content: map # The content of the Pig job request.}
+@returns(200) OK response definition.
+
+@endpoint POST /templeton/v1/sqoop
+@desc Submits a Sqoop job to an HDInsight cluster.
+@required {user.name: any # The user name used for running job., content: map # The content of the Sqoop job request.}
+@returns(200) OK response definition.
+
+@endgroup
+
+@group ws
+@endpoint GET /ws/v1/cluster/apps/{appId}/state
+@desc Gets application state from the specified HDInsight cluster.
+@required {appId: any # The id of the job.}
+@returns(200) OK response definition.
+
+@endgroup
+
+@end

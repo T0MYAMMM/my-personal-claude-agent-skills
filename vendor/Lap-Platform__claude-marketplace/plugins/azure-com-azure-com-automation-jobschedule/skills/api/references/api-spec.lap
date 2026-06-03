@@ -1,0 +1,30 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AutomationManagement
+@base https://management.azure.com
+@version 2015-10-31
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules/{jobScheduleId}
+@desc Delete the job schedule identified by job schedule name.
+@required {jobScheduleId: any # The job schedule name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules/{jobScheduleId}
+@desc Retrieve the job schedule identified by job schedule name.
+@required {jobScheduleId: any # The job schedule name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules/{jobScheduleId}
+@desc Create a job schedule.
+@required {jobScheduleId: any # The job schedule name., parameters: any # The parameters supplied to the create job schedule operation.}
+@returns(201) Created
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules
+@desc Retrieve a list of job schedules.
+@optional {$filter: any # The filter to apply on the operation.}
+@returns(200) OK
+
+@end

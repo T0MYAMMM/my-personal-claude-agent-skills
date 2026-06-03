@@ -1,0 +1,64 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AutomationManagement
+@base https://management.azure.com
+@version 2015-10-31
+@auth OAuth2
+@endpoints 10
+@toc subscriptions(9), providers(1)
+
+@group subscriptions
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}
+@desc Update an automation account.
+@required {parameters: any # Parameters supplied to the update automation account.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}
+@desc Create or update automation account.
+@required {parameters: any # Parameters supplied to the create or update automation account.}
+@returns(201) Created
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}
+@desc Delete an automation account.
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}
+@desc Get information about an Automation Account.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts
+@desc Retrieve a list of accounts within a given resource group.
+@returns(200) OK
+
+@endgroup
+
+@group providers
+@endpoint GET /providers/Microsoft.Automation/operations
+@desc Lists all of the available Automation REST API operations.
+@returns(200) OK
+
+@endgroup
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Automation/automationAccounts
+@desc Lists the Automation Accounts within an Azure subscription.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/statistics
+@desc Retrieve the statistics for the account.
+@optional {$filter: any # The filter to apply on the operation.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/usages
+@desc Retrieve the usage for the account id.
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/listKeys
+@desc Retrieve the automation keys for an account.
+@returns(200) OK
+
+@endgroup
+
+@end

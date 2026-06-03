@@ -1,0 +1,25 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api ApplicationInsightsManagementClient
+@base https://management.azure.com
+@version 2017-10-01
+@auth OAuth2
+@endpoints 3
+@toc subscriptions(3)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/pricingPlans/current
+@desc Returns the current pricing plan setting for an Application Insights component.
+@required {resourceName: any # The name of the Application Insights component resource.}
+@returns(200) An Application Insights component pricing plan definition.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/pricingPlans/current
+@desc Replace current pricing plan for an Application Insights component.
+@required {resourceName: any # The name of the Application Insights component resource., PricingPlanProperties: map # Properties that need to be specified to update current pricing plan for an Application Insights component.}
+@returns(200) Successful request when updating billing features for an Application Insights component. The updated current billing features are returned.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/pricingPlans/current
+@desc Update current pricing plan for an Application Insights component.
+@required {resourceName: any # The name of the Application Insights component resource., PricingPlanProperties: map # Properties that need to be specified to update current pricing plan for an Application Insights component.}
+@returns(200) Successful request when updating billing features for an Application Insights component. The updated current billing features are returned.
+
+@end

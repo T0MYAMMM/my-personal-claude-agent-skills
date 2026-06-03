@@ -1,0 +1,37 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api HDInsightManagementClient
+@base https://management.azure.com
+@version 2018-06-01-preview
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(5)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications
+@desc Lists all of the applications for the HDInsight cluster.
+@required {subscriptionId: any # The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call., resourceGroupName: any # The name of the resource group., clusterName: any # The name of the cluster., api-version: any # The HDInsight client API Version.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}
+@desc Gets properties of the specified application.
+@required {subscriptionId: any # The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call., resourceGroupName: any # The name of the resource group., clusterName: any # The name of the cluster., applicationName: any # The constant value for the application name., api-version: any # The HDInsight client API Version.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}
+@desc Creates applications for the HDInsight cluster.
+@required {subscriptionId: any # The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call., resourceGroupName: any # The name of the resource group., clusterName: any # The name of the cluster., applicationName: any # The constant value for the application name., api-version: any # The HDInsight client API Version., parameters: map # The application create request.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}
+@desc Deletes the specified application on the HDInsight cluster.
+@required {subscriptionId: any # The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call., resourceGroupName: any # The name of the resource group., clusterName: any # The name of the cluster., applicationName: any # The constant value for the application name., api-version: any # The HDInsight client API Version.}
+@returns(200) OK. The request has succeeded.
+@returns(202) Accepted response definition.
+@returns(204) No Content response definition.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}/azureasyncoperations/{operationId}
+@desc Gets the async operation status.
+@required {subscriptionId: any # The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call., resourceGroupName: any # The name of the resource group., clusterName: any # The name of the cluster., applicationName: any # The constant value for the application name., api-version: any # The HDInsight client API Version., operationId: any # The long running operation id.}
+@returns(200) OK response definition.
+
+@end

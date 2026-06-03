@@ -1,0 +1,138 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Up API
+@base https://api.up.com.au/api/v1
+@version v1
+@auth Bearer bearer
+@endpoints 20
+@toc accounts(3), attachments(2), categories(2), transactions(5), util(1), tags(1), webhooks(6)
+
+@group accounts
+@endpoint GET /accounts
+@desc List accounts
+@optional {page[size]: int: any # The number of records to return in each page., filter[accountType]: any # The type of account for which to return records. This can be used to filter Savers from spending accounts., filter[ownershipType]: any # The account ownership structure for which to return records. This can be used to filter 2Up accounts from Up accounts.}
+@returns(200) {data: [map], links: map{prev: str?, next: str?}} # Successful Response
+
+@endpoint GET /accounts/{id}
+@desc Retrieve account
+@required {id: str # The unique identifier for the account.}
+@returns(200) {data: any} # Successful Response
+
+@endgroup
+
+@group attachments
+@endpoint GET /attachments
+@desc List attachments
+@returns(200) {data: [map], links: map{prev: str?, next: str?}} # Successful Response
+
+@endpoint GET /attachments/{id}
+@desc Retrieve attachment
+@required {id: str # The unique identifier for the attachment.}
+@returns(200) {data: any} # Successful Response
+
+@endgroup
+
+@group categories
+@endpoint GET /categories
+@desc List categories
+@optional {filter[parent]: str: any # The unique identifier of a parent category for which to return only its children. Providing an invalid category identifier results in a `404` response.}
+@returns(200) {data: [map]} # Successful Response
+
+@endpoint GET /categories/{id}
+@desc Retrieve category
+@required {id: str # The unique identifier for the category.}
+@returns(200) {data: any} # Successful Response
+
+@endgroup
+
+@group transactions
+@endpoint PATCH /transactions/{transactionId}/relationships/category
+@desc Categorize transaction
+@required {transactionId: str # The unique identifier for the transaction., data: any # The category to set on the transaction. Set this entire key to `null` de-categorize a transaction.}
+@returns(204) Successful Response
+
+@endgroup
+
+@group util
+@endpoint GET /util/ping
+@desc Ping
+@returns(200) {meta: map{id: str, statusEmoji: str}} # Successful Response
+@errors {401: Not Authorized}
+
+@endgroup
+
+@group tags
+@endpoint GET /tags
+@desc List tags
+@optional {page[size]: int: any # The number of records to return in each page.}
+@returns(200) {data: [map], links: map{prev: str?, next: str?}} # Successful Response
+
+@endgroup
+
+@group transactions
+@endpoint POST /transactions/{transactionId}/relationships/tags
+@desc Add tags to transaction
+@required {transactionId: str # The unique identifier for the transaction., data: [map{type!: str, id!: str}] # The tags to add to or remove from the transaction.}
+@returns(204) Successful Response
+
+@endpoint DELETE /transactions/{transactionId}/relationships/tags
+@desc Remove tags from transaction
+@required {transactionId: str # The unique identifier for the transaction., data: [map{type!: str, id!: str}] # The tags to add to or remove from the transaction.}
+@returns(204) Successful Response
+
+@endpoint GET /transactions
+@desc List transactions
+@optional {page[size]: int: any # The number of records to return in each page., filter[status]: any # The transaction status for which to return records. This can be used to filter `HELD` transactions from those that are `SETTLED`., filter[since]: str(date-time) # The start date-time from which to return records, formatted according to rfc-3339. Not to be used for pagination purposes., filter[until]: str(date-time) # The end date-time up to which to return records, formatted according to rfc-3339. Not to be used for pagination purposes., filter[category]: str # The category identifier for which to filter transactions. Both parent and child categories can be filtered through this parameter. Providing an invalid category identifier results in a `404` response., filter[tag]: str # A transaction tag to filter for which to return records. If the tag does not exist, zero records are returned and a success response is given.}
+@returns(200) {data: [map], links: map{prev: str?, next: str?}} # Successful Response
+
+@endpoint GET /transactions/{id}
+@desc Retrieve transaction
+@required {id: str # The unique identifier for the transaction.}
+@returns(200) {data: any} # Successful Response
+
+@endgroup
+
+@group accounts
+@endpoint GET /accounts/{accountId}/transactions
+@desc List transactions by account
+@required {accountId: str # The unique identifier for the account.}
+@optional {page[size]: int: any # The number of records to return in each page., filter[status]: any # The transaction status for which to return records. This can be used to filter `HELD` transactions from those that are `SETTLED`., filter[since]: str(date-time) # The start date-time from which to return records, formatted according to rfc-3339. Not to be used for pagination purposes., filter[until]: str(date-time) # The end date-time up to which to return records, formatted according to rfc-3339. Not to be used for pagination purposes., filter[category]: str # The category identifier for which to filter transactions. Both parent and child categories can be filtered through this parameter. Providing an invalid category identifier results in a `404` response., filter[tag]: str # A transaction tag to filter for which to return records. If the tag does not exist, zero records are returned and a success response is given.}
+@returns(200) {data: [map], links: map{prev: str?, next: str?}} # Successful Response
+
+@endgroup
+
+@group webhooks
+@endpoint GET /webhooks
+@desc List webhooks
+@optional {page[size]: int: any # The number of records to return in each page.}
+@returns(200) {data: [map], links: map{prev: str?, next: str?}} # Successful Response
+
+@endpoint POST /webhooks
+@desc Create webhook
+@required {data: any # The webhook resource to create.}
+@returns(201) {data: any} # Created
+
+@endpoint GET /webhooks/{id}
+@desc Retrieve webhook
+@required {id: str # The unique identifier for the webhook.}
+@returns(200) {data: any} # Successful Response
+
+@endpoint DELETE /webhooks/{id}
+@desc Delete webhook
+@required {id: str # The unique identifier for the webhook.}
+@returns(204) Deleted
+
+@endpoint POST /webhooks/{webhookId}/ping
+@desc Ping webhook
+@required {webhookId: str # The unique identifier for the webhook.}
+@returns(201) {data: any} # Successful response
+
+@endpoint GET /webhooks/{webhookId}/logs
+@desc List webhook logs
+@required {webhookId: str # The unique identifier for the webhook.}
+@optional {page[size]: int: any # The number of records to return in each page.}
+@returns(200) {data: [map], links: map{prev: str?, next: str?}} # Successful response
+
+@endgroup
+
+@end

@@ -1,0 +1,32 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Microsoft Defender for Cloud
+@base https://management.azure.com
+@version 2015-06-01-preview
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/applicationWhitelistings
+@desc Gets a list of application control VM/server groups for the subscription.
+@optional {includePathRecommendations: any # Include the policy rules, summary: any # Return output in a summarized form}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}
+@desc Gets an application control VM/server group.
+@required {groupName: any # Name of an application control VM/server group}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}
+@desc Update an application control VM/server group
+@required {groupName: any # Name of an application control VM/server group, body: map # The updated VM/server group data}
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}
+@desc Delete an application control VM/server group
+@required {groupName: any # Name of an application control VM/server group}
+@returns(200) OK - The response indicates that the delete operation completed successfully
+@returns(202) Accepted. The response indicates the delete operation is performed in the background.
+@returns(204) No Content. The response indicates the resource is already deleted.
+
+@end

@@ -1,0 +1,41 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SubscriptionsManagementClient
+@base https://management.azure.com
+@version 2015-11-01
+@auth OAuth2
+@endpoints 7
+@toc subscriptions(7)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Subscriptions.Admin/plans
+@desc List all plans across all subscriptions.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/plans
+@desc Get the list of plans under a resource group.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/plans/{plan}
+@desc Get the specified plan.
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/plans/{plan}
+@desc Create or update the plan.
+@required {planDefinition: map # New plan.}
+@returns(201) Created
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/plans/{plan}
+@desc Delete the specified plan.
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/plans/{plan}/metrics
+@desc Get the metrics of the specified plan.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Subscriptions.Admin/plans/{plan}/metricDefinitions
+@desc Get the metric definitions of the specified plan.
+@returns(200) OK
+
+@end

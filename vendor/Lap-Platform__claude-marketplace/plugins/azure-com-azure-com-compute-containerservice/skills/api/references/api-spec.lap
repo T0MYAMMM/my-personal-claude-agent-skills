@@ -1,0 +1,38 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api ContainerServiceClient
+@base https://management.azure.com
+@version 2017-01-31
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(5)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/containerServices
+@desc Gets a list of container services in the specified subscription.
+@required {api-version: any # Client Api Version., subscriptionId: any # Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/containerServices/{containerServiceName}
+@desc Creates or updates a container service.
+@required {resourceGroupName: any # The name of the resource group., containerServiceName: any # The name of the container service in the specified subscription and resource group., parameters: any # Parameters supplied to the Create or Update a Container Service operation., api-version: any # Client Api Version., subscriptionId: any # Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK
+@returns(201) Created
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/containerServices/{containerServiceName}
+@desc Gets the properties of the specified container service.
+@required {resourceGroupName: any # The name of the resource group., containerServiceName: any # The name of the container service in the specified subscription and resource group., api-version: any # Client Api Version., subscriptionId: any # Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/containerServices/{containerServiceName}
+@desc Deletes the specified container service.
+@required {resourceGroupName: any # The name of the resource group., containerServiceName: any # The name of the container service in the specified subscription and resource group., api-version: any # Client Api Version., subscriptionId: any # Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(202) Accepted
+@returns(204) Not found
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/containerServices
+@desc Gets a list of container services in the specified resource group.
+@required {resourceGroupName: any # The name of the resource group., api-version: any # Client Api Version., subscriptionId: any # Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@returns(200) OK
+
+@end

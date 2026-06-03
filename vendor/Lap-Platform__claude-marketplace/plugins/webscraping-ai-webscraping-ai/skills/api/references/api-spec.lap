@@ -1,0 +1,75 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api WebScraping.AI
+@base https://api.webscraping.ai
+@version 3.2.0
+@auth ApiKey api_key in query
+@endpoints 7
+@toc ai(2), html(1), text(1), selected(1), selected-multiple(1), account(1)
+
+@group ai
+@endpoint GET /ai/question
+@desc Get an answer to a question about a given web page
+@required {url: str # URL of the target page.}
+@optional {question: str # Question or instructions to ask the LLM model about the target page., headers: map # HTTP headers to pass to the target page. Can be specified either via a nested query parameter (...&headers[One]=value1&headers=[Another]=value2) or as a JSON encoded object (...&headers={"One": "value1", "Another": "value2"})., timeout: int=10000 # Maximum web page retrieval time in ms. Increase it in case of timeout errors (10000 by default, maximum is 30000)., js: bool=True # Execute on-page JavaScript using a headless browser (true by default)., js_timeout: int=2000 # Maximum JavaScript rendering time in ms. Increase it in case if you see a loading indicator instead of data on the target page., wait_for: str # CSS selector to wait for before returning the page content. Useful for pages with dynamic content loading. Overrides js_timeout., proxy: str(datacenter/residential)=datacenter # Type of proxy, use residential proxies if your site restricts traffic from datacenters (datacenter by default). Note that residential proxy requests are more expensive than datacenter, see the pricing page for details., country: str(us/gb/de/it/fr/ca/es/ru/jp/kr/in)=us # Country of the proxy to use (US by default)., custom_proxy: str # Your own proxy URL to use instead of our built-in proxy pool in "http://user:password@host:port" format (<a target="_blank" href="https://webscraping.ai/proxies/smartproxy">Smartproxy</a> for example)., device: str(desktop/mobile/tablet)=desktop # Type of device emulation., error_on_404: bool=False # Return error on 404 HTTP status on the target page (false by default)., error_on_redirect: bool=False # Return error on redirect on the target page (false by default)., js_script: str # Custom JavaScript code to execute on the target page., format: str(json/text)=json # Format of the response (text by default). "json" will return a JSON object with the response, "text" will return a plain text/HTML response.}
+@returns(200) Success
+@errors {400, 402, 403, 429, 500, 504}
+
+@endpoint GET /ai/fields
+@desc Extract structured data fields from a web page
+@required {url: str # URL of the target page., fields: map # Object describing fields to extract from the page and their descriptions}
+@optional {headers: map # HTTP headers to pass to the target page. Can be specified either via a nested query parameter (...&headers[One]=value1&headers=[Another]=value2) or as a JSON encoded object (...&headers={"One": "value1", "Another": "value2"})., timeout: int=10000 # Maximum web page retrieval time in ms. Increase it in case of timeout errors (10000 by default, maximum is 30000)., js: bool=True # Execute on-page JavaScript using a headless browser (true by default)., js_timeout: int=2000 # Maximum JavaScript rendering time in ms. Increase it in case if you see a loading indicator instead of data on the target page., wait_for: str # CSS selector to wait for before returning the page content. Useful for pages with dynamic content loading. Overrides js_timeout., proxy: str(datacenter/residential)=datacenter # Type of proxy, use residential proxies if your site restricts traffic from datacenters (datacenter by default). Note that residential proxy requests are more expensive than datacenter, see the pricing page for details., country: str(us/gb/de/it/fr/ca/es/ru/jp/kr/in)=us # Country of the proxy to use (US by default)., custom_proxy: str # Your own proxy URL to use instead of our built-in proxy pool in "http://user:password@host:port" format (<a target="_blank" href="https://webscraping.ai/proxies/smartproxy">Smartproxy</a> for example)., device: str(desktop/mobile/tablet)=desktop # Type of device emulation., error_on_404: bool=False # Return error on 404 HTTP status on the target page (false by default)., error_on_redirect: bool=False # Return error on redirect on the target page (false by default)., js_script: str # Custom JavaScript code to execute on the target page.}
+@returns(200) Success
+@errors {400, 402, 403, 429, 500, 504}
+
+@endgroup
+
+@group html
+@endpoint GET /html
+@desc Page HTML by URL
+@required {url: str # URL of the target page.}
+@optional {headers: map # HTTP headers to pass to the target page. Can be specified either via a nested query parameter (...&headers[One]=value1&headers=[Another]=value2) or as a JSON encoded object (...&headers={"One": "value1", "Another": "value2"})., timeout: int=10000 # Maximum web page retrieval time in ms. Increase it in case of timeout errors (10000 by default, maximum is 30000)., js: bool=True # Execute on-page JavaScript using a headless browser (true by default)., js_timeout: int=2000 # Maximum JavaScript rendering time in ms. Increase it in case if you see a loading indicator instead of data on the target page., wait_for: str # CSS selector to wait for before returning the page content. Useful for pages with dynamic content loading. Overrides js_timeout., proxy: str(datacenter/residential)=datacenter # Type of proxy, use residential proxies if your site restricts traffic from datacenters (datacenter by default). Note that residential proxy requests are more expensive than datacenter, see the pricing page for details., country: str(us/gb/de/it/fr/ca/es/ru/jp/kr/in)=us # Country of the proxy to use (US by default)., custom_proxy: str # Your own proxy URL to use instead of our built-in proxy pool in "http://user:password@host:port" format (<a target="_blank" href="https://webscraping.ai/proxies/smartproxy">Smartproxy</a> for example)., device: str(desktop/mobile/tablet)=desktop # Type of device emulation., error_on_404: bool=False # Return error on 404 HTTP status on the target page (false by default)., error_on_redirect: bool=False # Return error on redirect on the target page (false by default)., js_script: str # Custom JavaScript code to execute on the target page., return_script_result: bool=False # Return result of the custom JavaScript code (js_script parameter) execution on the target page (false by default, page HTML will be returned)., format: str(json/text)=json # Format of the response (text by default). "json" will return a JSON object with the response, "text" will return a plain text/HTML response.}
+@returns(200) Success
+@errors {400, 402, 403, 429, 500, 504}
+
+@endgroup
+
+@group text
+@endpoint GET /text
+@desc Page text by URL
+@required {url: str # URL of the target page.}
+@optional {text_format: str(plain/xml/json)=plain # Format of the text response (plain by default). "plain" will return only the page body text. "json" and "xml" will return a json/xml with "title", "description" and "content" keys., return_links: bool=False # [Works only with text_format=json] Return links from the page body text (false by default). Useful for building web crawlers., headers: map # HTTP headers to pass to the target page. Can be specified either via a nested query parameter (...&headers[One]=value1&headers=[Another]=value2) or as a JSON encoded object (...&headers={"One": "value1", "Another": "value2"})., timeout: int=10000 # Maximum web page retrieval time in ms. Increase it in case of timeout errors (10000 by default, maximum is 30000)., js: bool=True # Execute on-page JavaScript using a headless browser (true by default)., js_timeout: int=2000 # Maximum JavaScript rendering time in ms. Increase it in case if you see a loading indicator instead of data on the target page., wait_for: str # CSS selector to wait for before returning the page content. Useful for pages with dynamic content loading. Overrides js_timeout., proxy: str(datacenter/residential)=datacenter # Type of proxy, use residential proxies if your site restricts traffic from datacenters (datacenter by default). Note that residential proxy requests are more expensive than datacenter, see the pricing page for details., country: str(us/gb/de/it/fr/ca/es/ru/jp/kr/in)=us # Country of the proxy to use (US by default)., custom_proxy: str # Your own proxy URL to use instead of our built-in proxy pool in "http://user:password@host:port" format (<a target="_blank" href="https://webscraping.ai/proxies/smartproxy">Smartproxy</a> for example)., device: str(desktop/mobile/tablet)=desktop # Type of device emulation., error_on_404: bool=False # Return error on 404 HTTP status on the target page (false by default)., error_on_redirect: bool=False # Return error on redirect on the target page (false by default)., js_script: str # Custom JavaScript code to execute on the target page.}
+@returns(200) Success
+@errors {400, 402, 403, 429, 500, 504}
+
+@endgroup
+
+@group selected
+@endpoint GET /selected
+@desc HTML of a selected page area by URL and CSS selector
+@required {url: str # URL of the target page.}
+@optional {selector: str # CSS selector (null by default, returns whole page HTML), headers: map # HTTP headers to pass to the target page. Can be specified either via a nested query parameter (...&headers[One]=value1&headers=[Another]=value2) or as a JSON encoded object (...&headers={"One": "value1", "Another": "value2"})., timeout: int=10000 # Maximum web page retrieval time in ms. Increase it in case of timeout errors (10000 by default, maximum is 30000)., js: bool=True # Execute on-page JavaScript using a headless browser (true by default)., js_timeout: int=2000 # Maximum JavaScript rendering time in ms. Increase it in case if you see a loading indicator instead of data on the target page., wait_for: str # CSS selector to wait for before returning the page content. Useful for pages with dynamic content loading. Overrides js_timeout., proxy: str(datacenter/residential)=datacenter # Type of proxy, use residential proxies if your site restricts traffic from datacenters (datacenter by default). Note that residential proxy requests are more expensive than datacenter, see the pricing page for details., country: str(us/gb/de/it/fr/ca/es/ru/jp/kr/in)=us # Country of the proxy to use (US by default)., custom_proxy: str # Your own proxy URL to use instead of our built-in proxy pool in "http://user:password@host:port" format (<a target="_blank" href="https://webscraping.ai/proxies/smartproxy">Smartproxy</a> for example)., device: str(desktop/mobile/tablet)=desktop # Type of device emulation., error_on_404: bool=False # Return error on 404 HTTP status on the target page (false by default)., error_on_redirect: bool=False # Return error on redirect on the target page (false by default)., js_script: str # Custom JavaScript code to execute on the target page., format: str(json/text)=json # Format of the response (text by default). "json" will return a JSON object with the response, "text" will return a plain text/HTML response.}
+@returns(200) Success
+@errors {400, 402, 403, 429, 500, 504}
+
+@endgroup
+
+@group selected-multiple
+@endpoint GET /selected-multiple
+@desc HTML of multiple page areas by URL and CSS selectors
+@required {url: str # URL of the target page.}
+@optional {selectors: [str] # Multiple CSS selectors (null by default, returns whole page HTML), headers: map # HTTP headers to pass to the target page. Can be specified either via a nested query parameter (...&headers[One]=value1&headers=[Another]=value2) or as a JSON encoded object (...&headers={"One": "value1", "Another": "value2"})., timeout: int=10000 # Maximum web page retrieval time in ms. Increase it in case of timeout errors (10000 by default, maximum is 30000)., js: bool=True # Execute on-page JavaScript using a headless browser (true by default)., js_timeout: int=2000 # Maximum JavaScript rendering time in ms. Increase it in case if you see a loading indicator instead of data on the target page., wait_for: str # CSS selector to wait for before returning the page content. Useful for pages with dynamic content loading. Overrides js_timeout., proxy: str(datacenter/residential)=datacenter # Type of proxy, use residential proxies if your site restricts traffic from datacenters (datacenter by default). Note that residential proxy requests are more expensive than datacenter, see the pricing page for details., country: str(us/gb/de/it/fr/ca/es/ru/jp/kr/in)=us # Country of the proxy to use (US by default)., custom_proxy: str # Your own proxy URL to use instead of our built-in proxy pool in "http://user:password@host:port" format (<a target="_blank" href="https://webscraping.ai/proxies/smartproxy">Smartproxy</a> for example)., device: str(desktop/mobile/tablet)=desktop # Type of device emulation., error_on_404: bool=False # Return error on 404 HTTP status on the target page (false by default)., error_on_redirect: bool=False # Return error on redirect on the target page (false by default)., js_script: str # Custom JavaScript code to execute on the target page.}
+@returns(200) Success
+@errors {400, 402, 403, 429, 500, 504}
+
+@endgroup
+
+@group account
+@endpoint GET /account
+@desc Information about your account calls quota
+@returns(200) {email: str, remaining_api_calls: int, resets_at: int, remaining_concurrency: int} # Success
+@errors {403}
+
+@endgroup
+
+@end

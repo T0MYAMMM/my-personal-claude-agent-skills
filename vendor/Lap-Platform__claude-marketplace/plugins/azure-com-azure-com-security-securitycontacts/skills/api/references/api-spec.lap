@@ -1,0 +1,34 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Microsoft Defender for Cloud
+@base https://management.azure.com
+@version 2017-08-01-preview
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(5)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts
+@desc Security contact configurations for the subscription
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}
+@desc Security contact configurations for the subscription
+@required {securityContactName: any # Name of the security contact object}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}
+@desc Security contact configurations for the subscription
+@required {securityContactName: any # Name of the security contact object, securityContact: map # Security contact object}
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}
+@desc Security contact configurations for the subscription
+@required {securityContactName: any # Name of the security contact object}
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}
+@desc Security contact configurations for the subscription
+@required {securityContactName: any # Name of the security contact object, securityContact: map # Security contact object}
+@returns(200) OK
+
+@end

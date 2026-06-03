@@ -1,0 +1,61 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AutomationManagement
+@base https://management.azure.com
+@version 2017-05-15-preview
+@auth OAuth2
+@endpoints 10
+@toc subscriptions(10)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/output
+@desc Retrieve the job output identified by job name.
+@required {jobName: any # The name of the job to be created.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/runbookContent
+@desc Retrieve the runbook content of the job identified by job name.
+@required {jobName: any # The job name.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/suspend
+@desc Suspend the job identified by job name.
+@required {jobName: any # The job name.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/stop
+@desc Stop the job identified by jobName.
+@required {jobName: any # The job name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}
+@desc Retrieve the job identified by job name.
+@required {jobName: any # The job name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}
+@desc Create a job of the runbook.
+@required {jobName: any # The job name., parameters: any # The parameters supplied to the create job operation.}
+@returns(201) Created
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs
+@desc Retrieve a list of jobs.
+@optional {$filter: any # The filter to apply on the operation.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/resume
+@desc Resume the job identified by jobName.
+@required {jobName: any # The job name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/streams/{jobStreamId}
+@desc Retrieve the job stream identified by job stream id.
+@required {jobName: any # The job name., jobStreamId: any # The job stream id.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/streams
+@desc Retrieve a list of jobs streams identified by job name.
+@required {jobName: any # The job name.}
+@optional {$filter: any # The filter to apply on the operation.}
+@returns(200) OK
+
+@end

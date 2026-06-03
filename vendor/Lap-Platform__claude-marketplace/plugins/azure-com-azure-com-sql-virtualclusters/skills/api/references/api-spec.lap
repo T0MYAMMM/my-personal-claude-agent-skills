@@ -1,0 +1,38 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SqlManagementClient
+@base https://management.azure.com
+@version 2015-05-01-preview
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(5)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Sql/virtualClusters
+@desc Gets a list of all virtualClusters in the subscription.
+@required {subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully retrieved the list of virtual clusters.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters
+@desc Gets a list of virtual clusters in a resource group.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully retrieved the list of virtual clusters.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters/{virtualClusterName}
+@desc Gets a virtual cluster.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., virtualClusterName: any # The name of the virtual cluster., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully retrieved the specified virtual cluster.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters/{virtualClusterName}
+@desc Deletes a virtual cluster.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., virtualClusterName: any # The name of the virtual cluster., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully deleted the virtual cluster.
+@returns(202) Deleting the virtual cluster is in progress.
+@returns(204) The specified virtual cluster does not exist.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters/{virtualClusterName}
+@desc Updates a virtual cluster.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., virtualClusterName: any # The name of the virtual cluster., parameters: map # The requested managed instance resource state., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully updated the virtual cluster.
+@returns(202) Accepted
+
+@end

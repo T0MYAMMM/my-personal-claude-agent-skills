@@ -1,0 +1,20 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api RecoveryServicesClient
+@base https://management.azure.com
+@version 2016-06-01
+@auth OAuth2
+@endpoints 2
+@toc Subscriptions(2)
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/certificates/{certificateName}
+@desc Uploads a certificate for a resource.
+@required {subscriptionId: any # The subscription Id., api-version: any # Client Api Version., resourceGroupName: any # The name of the resource group where the recovery services vault is present., vaultName: any # The name of the recovery services vault., certificateName: any # Certificate friendly name., certificateRequest: map # Input parameters for uploading the vault certificate.}
+@returns(200) OK
+
+@endpoint DELETE /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/registeredIdentities/{identityName}
+@desc Unregisters the given container from your Recovery Services vault.
+@required {subscriptionId: any # The subscription Id., api-version: any # Client Api Version., resourceGroupName: any # The name of the resource group where the recovery services vault is present., vaultName: any # The name of the recovery services vault., identityName: any # Name of the protection container to unregister.}
+@returns(204) NoContent
+
+@end

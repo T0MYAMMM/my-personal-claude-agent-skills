@@ -1,0 +1,45 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Abuse API
+@base https://api.ote-godaddy.com
+@version 2.0.0
+@endpoints 6
+@toc abuse(6)
+
+@endpoint GET /v1/abuse/tickets
+@desc List all abuse tickets ids that match user provided filters
+@optional {type: any # The type of abuse., closed: any # Is this abuse ticket closed?, sourceDomainOrIp: any # The domain name or ip address the abuse originated from, target: any # The brand/company the abuse is targeting. ie: brand name/bank name, createdStart: any # The earliest abuse ticket creation date to pull abuse tickets for, createdEnd: any # The latest abuse ticket creation date to pull abuse tickets for, limit: any # Number of abuse ticket numbers to return., offset: any # The earliest result set record number to pull abuse tickets for}
+@returns(200) Success
+@errors {401: Authentication info not sent or invalid, 403: Authenticated user is not allowed access, 422: Error}
+
+@endpoint POST /v1/abuse/tickets
+@desc Create a new abuse ticket
+@required {body: any # The endpoint which allows the Reporter to create a new abuse ticket}
+@returns(201) Success
+@errors {401: Authentication info not sent or invalid, 403: Authenticated user is not allowed access, 422: Error}
+
+@endpoint GET /v1/abuse/tickets/{ticketId}
+@desc Return the abuse ticket data for a given ticket id
+@required {ticketId: any # A unique abuse ticket identifier}
+@returns(200) Success
+@errors {401: Authentication info not sent or invalid, 403: Authenticated user is not allowed access, 404: Invalid ticket id provided}
+
+@endpoint GET /v2/abuse/tickets
+@desc List all abuse tickets ids that match user provided filters
+@optional {type: any # The type of abuse., closed: any # Is this abuse ticket closed?, sourceDomainOrIp: any # The domain name or ip address the abuse originated from, target: any # The brand/company the abuse is targeting. ie: brand name/bank name, createdStart: any # The earliest abuse ticket creation date to pull abuse tickets for, createdEnd: any # The latest abuse ticket creation date to pull abuse tickets for, limit: any # Number of abuse ticket numbers to return., offset: any # The earliest result set record number to pull abuse tickets for}
+@returns(200) Success
+@errors {401: Authentication info not sent or invalid, 403: Authenticated user is not allowed access, 422: Error}
+
+@endpoint POST /v2/abuse/tickets
+@desc Create a new abuse ticket
+@required {body: any # The endpoint which allows the Reporter to create a new abuse ticket}
+@returns(201) Success
+@errors {401: Authentication info not sent or invalid, 403: Authenticated user is not allowed access, 422: Error}
+
+@endpoint GET /v2/abuse/tickets/{ticketId}
+@desc Return the abuse ticket data for a given ticket id
+@required {ticketId: any # A unique abuse ticket identifier}
+@returns(200) Success
+@errors {401: Authentication info not sent or invalid, 403: Authenticated user is not allowed access, 404: Invalid ticket id provided}
+
+@end

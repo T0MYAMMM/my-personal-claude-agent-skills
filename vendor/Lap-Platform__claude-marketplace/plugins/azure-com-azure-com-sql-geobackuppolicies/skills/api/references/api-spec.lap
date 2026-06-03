@@ -1,0 +1,26 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Azure SQL Database
+@base https://management.azure.com
+@version 2014-04-01
+@auth OAuth2
+@endpoints 3
+@toc subscriptions(3)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}
+@desc Updates a database geo backup policy.
+@required {serverName: any # The name of the server., databaseName: any # The name of the database., geoBackupPolicyName: any # The name of the geo backup policy., parameters: any # The required parameters for creating or updating the geo backup policy.}
+@returns(201) Created
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}
+@desc Gets a geo backup policy.
+@required {serverName: any # The name of the server., databaseName: any # The name of the database., geoBackupPolicyName: any # The name of the geo backup policy.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies
+@desc Returns a list of geo backup policies.
+@required {serverName: any # The name of the server., databaseName: any # The name of the database.}
+@returns(200) OK
+
+@end

@@ -1,0 +1,51 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Data Pipelines API
+@version 1.0.0
+@endpoints 8
+@toc nessie(8)
+
+@endpoint GET /nessie/pipeline/jobs
+@desc List Pipelines
+@returns(200) Success
+@errors {401: Unauthorized, 403: Forbidden}
+
+@endpoint POST /nessie/pipeline/create
+@desc Create Pipeline
+@returns(200) Returns the name of the pipeline created. Use the name of the pipeline to check the status of or cancel the pipeline.
+@errors {400: Bad Request, 401: Unauthorized, 403: Forbidden}
+
+@endpoint POST /nessie/pipeline/edit
+@desc Edit Pipeline
+@returns(200) Success
+@errors {401: Unauthorized, 403: Forbidden}
+
+@endpoint POST /nessie/pipeline/cancel
+@desc Delete Pipeline
+@returns(200) Success
+@errors {401: Unauthorized, 403: Forbidden}
+
+@endpoint POST /nessie/pipeline/pause
+@desc Pause Pipeline
+@returns(200) Success
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found}
+
+@endpoint POST /nessie/pipeline/resume
+@desc Resume Pipeline
+@returns(200) Success
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found}
+
+@endpoint GET /nessie/pipeline/status
+@desc Get Pipeline
+@required {name: str # The name that uniquely identifies the pipeline.}
+@optional {summary: str # Default: `false`. Only lists task count by status and no details., status: [str] # Filters the tasks by the given status. Valid options for status are `pending`, `running`, `retried`, `failed`, `canceled`, and `timed_out`.}
+@returns(200) {canceled: [map], retried: [map], succeeded: [map]} # Success
+@errors {401: Unauthorized, 403: Forbidden}
+
+@endpoint GET /nessie/pipeline/timeline
+@desc List Pipeline Logs
+@optional {name: str # The name that uniquely identifies the pipeline.}
+@returns(200) Success
+@errors {401: Unauthorized, 403: Forbidden}
+
+@end

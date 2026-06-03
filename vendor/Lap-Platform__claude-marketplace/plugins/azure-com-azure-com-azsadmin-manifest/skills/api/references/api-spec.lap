@@ -1,0 +1,19 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SubscriptionsManagementClient
+@base https://management.azure.com
+@version 2015-11-01
+@auth OAuth2
+@endpoints 2
+@toc subscriptions(2)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Subscriptions.Admin/manifests
+@desc Get a list of all manifests.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Subscriptions.Admin/manifests/{manifestName}
+@desc Get the specified manifest.
+@required {manifestName: any # The manifest name.}
+@returns(200) OK
+
+@end

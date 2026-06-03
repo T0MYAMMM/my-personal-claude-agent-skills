@@ -1,0 +1,65 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api ApiManagementClient
+@base https://management.azure.com
+@version 2019-01-01
+@auth OAuth2
+@endpoints 12
+@toc subscriptions(12)
+
+@endpoint HEAD /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}
+@desc Tenant access metadata
+@returns(200) Operation completed successfully.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}
+@desc Get tenant access information details
+@returns(200) Tenant Access information.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}
+@desc Update tenant access information details.
+@required {parameters: any # Parameters supplied to retrieve the Tenant Access Information.}
+@returns(204) Tenant's access information updated successfully.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/regeneratePrimaryKey
+@desc Regenerate primary access key
+@returns(204) The primary key was successfully regenerated.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/regenerateSecondaryKey
+@desc Regenerate secondary access key
+@returns(204) The secondary key was successfully regenerated.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git
+@desc Gets the Git access configuration for the tenant.
+@returns(200) Git Access Information for the Service.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/regeneratePrimaryKey
+@desc Regenerate primary access key for GIT.
+@returns(204) The primary key was successfully regenerated.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/regenerateSecondaryKey
+@desc Regenerate secondary access key for GIT.
+@returns(204) The secondary key was successfully regenerated.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/deploy
+@desc This operation applies changes from the specified Git branch to the configuration database. This is a long running operation and could take several minutes to complete.
+@required {parameters: any # Deploy Configuration parameters.}
+@returns(202) Accepted: Location header contains the URL where the status of the long running operation can be checked.
+@returns(200) Result of applying changes from Git branch to database.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/save
+@desc This operation creates a commit with the current configuration snapshot to the specified branch in the repository. This is a long running operation and could take several minutes to complete.
+@required {parameters: any # Save Configuration parameters.}
+@returns(202) Accepted: Location header contains the URL where the status of the long running operation can be checked.
+@returns(200) Result of creating a commit in the repository.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/validate
+@desc This operation validates the changes in the specified Git branch. This is a long running operation and could take several minutes to complete.
+@required {parameters: any # Validate Configuration parameters.}
+@returns(202) Accepted: Location header contains the URL where the status of the long running operation can be checked.
+@returns(200) Result of validating the changes in the specified Git branch.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/syncState
+@desc Gets the status of the most recent synchronization between the configuration database and the Git repository.
+@returns(200) Sync state result.
+
+@end

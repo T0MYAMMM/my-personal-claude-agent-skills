@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Flight Create Orders
+@base https://test.api.amadeus.com/v1
+@version 1.10.0
+@endpoints 1
+@toc booking(1)
+
+@endpoint POST /booking/flight-orders
+@desc Create Order associated to the Flight offers.
+@required {body: any # list of element needed to book a flight Order}
+@returns(201) Successful Operation
+@errors {400: code    | title                                  ------- | -------------------------------------  477     | INVALID FORMAT 1304    | CREDIT CARD NOT ACCEPTED 2781    | INVALID LENGTH 4926    | INVALID DATA RECEIVED 9112    | TICKETING - TKT 2668    | PARAMETER COMBINATION INVALID/RESTRICTED 32171   | MANDATORY DATA MISSING 34107   | NOT APPLICABLE FARE 34651   | SEGMENT SELL FAILURE 34733   | VIRTUAL CARD CREATION FAILED 36870   | BOOKING FAILED 37200   | PRICE DISCREPANCY 38034   | ONE OR MORE SERVICES ARE NOT AVAILABLE}
+
+@end

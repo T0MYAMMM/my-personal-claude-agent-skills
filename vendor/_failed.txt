@@ -1,0 +1,10 @@
+supabase/skills
+sanity-io/skills
+hashicorp/skills
+tinybirdco/skills
+clickhouse/skills
+neon/skills
+google-gemini/skills
+applied-artificial-intelligence/claude-code-toolkit
+majiayu000/claude-skill-registry
+aiskillstore/marketplace

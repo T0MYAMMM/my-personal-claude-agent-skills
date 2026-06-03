@@ -1,0 +1,91 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SchedulerManagementClient
+@base https://management.azure.com
+@version 2016-03-01
+@common_fields {subscriptionId: any # The subscription id., api-version: any # The API version.}
+@endpoints 15
+@toc subscriptions(15)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Scheduler/jobCollections
+@desc Gets all job collections under specified subscription.
+@returns(200) The job collections have been successfully returned.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections
+@desc Gets all job collections under specified resource group.
+@required {resourceGroupName: any # The resource group name.}
+@returns(200) The job collections have been successfully returned.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}
+@desc Gets a job collection.
+@required {resourceGroupName: any # The resource group name., jobCollectionName: any # The job collection name.}
+@returns(200) The job collection has been successfully returned.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}
+@desc Provisions a new job collection or updates an existing job collection.
+@required {resourceGroupName: any # The resource group name., jobCollectionName: any # The job collection name., jobCollection: any # The job collection definition.}
+@returns(200) The job collection has been successfully updated.
+@returns(201) The job collection has been successfully created.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}
+@desc Patches an existing job collection.
+@required {resourceGroupName: any # The resource group name., jobCollectionName: any # The job collection name., jobCollection: any # The job collection definition.}
+@returns(200) The job collection has been successfully patched.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}
+@desc Deletes a job collection.
+@required {resourceGroupName: any # The resource group name., jobCollectionName: any # The job collection name.}
+@returns(200) The job collection has been successfully deleted.
+@returns(202) The delete operation for the job collection has been accepted and will complete asynchronously.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}/enable
+@desc Enables all of the jobs in the job collection.
+@required {resourceGroupName: any # The resource group name., jobCollectionName: any # The job collection name.}
+@returns(200) All of the jobs in the job collection have been successfully enabled.
+@returns(202) Accepted and the enable job collection operation will complete asynchronously.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}/disable
+@desc Disables all of the jobs in the job collection.
+@required {resourceGroupName: any # The resource group name., jobCollectionName: any # The job collection name.}
+@returns(200) All of the jobs in the job collection have been successfully disabled.
+@returns(202) Accepted and the disable job collection operation will complete asynchronously.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}/jobs/{jobName}
+@desc Gets a job.
+@required {resourceGroupName: any # The resource group name., jobCollectionName: any # The job collection name., jobName: any # The job name.}
+@returns(200) The job has been successfully returned.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}/jobs/{jobName}
+@desc Provisions a new job or updates an existing job.
+@required {resourceGroupName: any # The resource group name., jobCollectionName: any # The job collection name., jobName: any # The job name., job: any # The job definition.}
+@returns(200) The job has been successfully updated.
+@returns(201) The job has been successfully created.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}/jobs/{jobName}
+@desc Patches an existing job.
+@required {resourceGroupName: any # The resource group name., jobCollectionName: any # The job collection name., jobName: any # The job name., job: any # The job definition.}
+@returns(200) The job has been successfully patched.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}/jobs/{jobName}
+@desc Deletes a job.
+@required {resourceGroupName: any # The resource group name., jobCollectionName: any # The job collection name., jobName: any # The job name.}
+@returns(200) The job has been successfully deleted.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}/jobs/{jobName}/run
+@desc Runs a job.
+@required {resourceGroupName: any # The resource group name., jobCollectionName: any # The job collection name., jobName: any # The job name.}
+@returns(200) The job has been successfully run.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}/jobs
+@desc Lists all jobs under the specified job collection.
+@required {resourceGroupName: any # The resource group name., jobCollectionName: any # The job collection name.}
+@optional {$top: any # The number of jobs to request, in the of range of [1..100]., $skip: any # The (0-based) index of the job history list from which to begin requesting entries., $filter: any # The filter to apply on the job state.}
+@returns(200) The job has been successfully returned.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}/jobs/{jobName}/history
+@desc Lists job history.
+@required {resourceGroupName: any # The resource group name., jobCollectionName: any # The job collection name., jobName: any # The job name.}
+@optional {$top: any # the number of job history to request, in the of range of [1..100]., $skip: any # The (0-based) index of the job history list from which to begin requesting entries., $filter: any # The filter to apply on the job state.}
+@returns(200) The job histories have been successfully returned.
+
+@end

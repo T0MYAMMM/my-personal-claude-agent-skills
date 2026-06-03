@@ -1,0 +1,31 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AutomationManagement
+@base https://management.azure.com
+@version 2015-10-31
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connectionTypes/{connectionTypeName}
+@desc Delete the connection type.
+@required {connectionTypeName: any # The name of connection type.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connectionTypes/{connectionTypeName}
+@desc Retrieve the connection type identified by connection type name.
+@required {connectionTypeName: any # The name of connection type.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connectionTypes/{connectionTypeName}
+@desc Create a connection type.
+@required {connectionTypeName: any # The parameters supplied to the create or update connection type operation., parameters: any # The parameters supplied to the create or update connection type operation.}
+@returns(201) Created
+@errors {409: Conflict}
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connectionTypes
+@desc Retrieve a list of connection types.
+@returns(200) OK
+
+@end

@@ -1,0 +1,25 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Microsoft Defender for Cloud
+@base https://management.azure.com
+@version 2017-08-01
+@auth OAuth2
+@endpoints 2
+@toc {scope}(1), {resourceId}(1)
+
+@group {scope}
+@endpoint GET /{scope}/providers/Microsoft.Security/complianceResults
+@desc Security compliance results in the subscription
+@returns(200) OK
+
+@endgroup
+
+@group {resourceId}
+@endpoint GET /{resourceId}/providers/Microsoft.Security/complianceResults/{complianceResultName}
+@desc Security Compliance Result
+@required {complianceResultName: any # name of the desired assessment compliance result}
+@returns(200) OK
+
+@endgroup
+
+@end

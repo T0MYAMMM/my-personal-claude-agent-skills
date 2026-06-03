@@ -1,0 +1,614 @@
+"""Pydantic models for skill schema, evaluation results, and run logging."""
+
+from __future__ import annotations
+
+import json
+import re
+from datetime import datetime
+from typing import TYPE_CHECKING, Literal
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+class SkillMetadata(BaseModel):
+    """Metadata about how a skill was generated (stored in skill_meta.json)."""
+
+    version: str = "1.0"
+    generated_by: str | None = None  # Model that created it
+    generated_at: datetime | None = None
+    source_task: str | None = None  # Original task description
+    test_pass_rate: float | None = None
+    license: str | None = None
+    compatibility: str | None = None
+
+
+class ValidationResult(BaseModel):
+    """Structured result from validation with metrics."""
+
+    passed: bool
+    assertions_passed: int
+    assertions_total: int
+    metrics_count: int = 0
+    benchmarks_found: list[str] = Field(default_factory=list)
+    error_message: str | None = None
+    details: list[str] = Field(default_factory=list)
+
+
+type VerifierConfigValue = str | int | float | bool
+
+
+class VerifierSpec(BaseModel):
+    """Deterministic verifier configuration for a test case."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    type: str
+    name: str | None = None
+    values: list[str] = Field(default_factory=list)
+    path: str | None = None
+    text: str | None = None
+    cmd: str | None = None
+    config: dict[str, VerifierConfigValue] | None = None
+
+    @field_validator("values", mode="before")
+    @classmethod
+    def coerce_values(cls, value: str | list[str] | None) -> list[str]:
+        if value is None:
+            return []
+        if isinstance(value, str):
+            return [value]
+        return value
+
+
+class ExpectedSpec(BaseModel):
+    """Expected output checks for a test case."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    contains: list[str]
+
+    @field_validator("contains", mode="before")
+    @classmethod
+    def coerce_contains(cls, value: str | list[str]) -> list[str]:
+        if isinstance(value, str):
+            return [value]
+        return value
+
+
+class TestCaseContext(BaseModel):
+    """Context payloads provided to the evaluator."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    files: dict[str, str] | None = None
+
+
+class TestCase(BaseModel):
+    """A test case for skill evaluation."""
+
+    __test__ = False
+    model_config = ConfigDict(extra="forbid")
+
+    input: str  # Task/prompt to give the agent
+    context: TestCaseContext | None = None  # Files, env vars, etc.
+    expected: ExpectedSpec | None = None  # Legacy expected output checks
+    verifiers: list[VerifierSpec] = Field(default_factory=list)
+
+    # Custom validator support
+    output_file: str | None = None  # File to validate instead of agent output
+    validator: str | None = None  # Validator name (e.g., "hf_eval_yaml")
+    validator_config: dict[str, VerifierConfigValue] | None = None
+
+    @model_validator(mode="after")
+    def validate_expectations(self) -> TestCase:
+        if self.expected is None and not self.verifiers and self.validator is None:
+            raise ValueError("TestCase requires at least one of expected, verifiers, or validator.")
+        return self
+
+    def effective_verifiers(self) -> list[VerifierSpec]:
+        """Return normalized verifier specs including legacy expectation fields."""
+        effective = list(self.verifiers)
+        if self.expected is not None and self.expected.contains:
+            effective.insert(
+                0,
+                VerifierSpec(type="contains", values=self.expected.contains),
+            )
+        if self.validator is not None:
+            effective.append(
+                VerifierSpec(
+                    type="validator",
+                    name=self.validator,
+                    path=self.output_file,
+                    config=self.validator_config,
+                )
+            )
+        return effective
+
+
+class TestCaseSuite(BaseModel):
+    """Structured container for a list of test cases."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    cases: list[TestCase] = Field(default_factory=list)
+
+
+class SkillDraft(BaseModel):
+    """Structured output model for skill generation responses."""
+
+    name: str
+    description: str
+    body: str
+    references: dict[str, str] | None = None
+    scripts: dict[str, str] | None = None
+
+
+def _parse_skill_frontmatter(
+    content: str,
+    *,
+    default_name: str,
+) -> tuple[str, str, list[str] | None, str | None, bool, bool, str]:
+    """Parse SKILL.md frontmatter and return normalized fields."""
+    name = default_name
+    description = ""
+    allowed_tools: list[str] | None = None
+    argument_hint: str | None = None
+    user_invocable = True
+    disable_model_invocation = False
+    body = content
+
+    if not content.startswith("---"):
+        return (
+            name,
+            description,
+            allowed_tools,
+            argument_hint,
+            user_invocable,
+            disable_model_invocation,
+            body,
+        )
+
+    parts = content.split("---", 2)
+    if len(parts) < 3:
+        return (
+            name,
+            description,
+            allowed_tools,
+            argument_hint,
+            user_invocable,
+            disable_model_invocation,
+            body,
+        )
+
+    frontmatter = parts[1].strip()
+    body = parts[2].strip()
+
+    for line in frontmatter.splitlines():
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        key = key.strip()
+        value = value.strip()
+
+        if key == "name":
+            name = value
+        elif key == "description":
+            description = value
+        elif key == "allowed-tools":
+            allowed_tools = [tool.strip() for tool in value.split(",")]
+        elif key == "argument-hint":
+            argument_hint = value
+        elif key == "user-invocable":
+            user_invocable = value.lower() != "false"
+        elif key == "disable-model-invocation":
+            disable_model_invocation = value.lower() == "true"
+
+    return (
+        name,
+        description,
+        allowed_tools,
+        argument_hint,
+        user_invocable,
+        disable_model_invocation,
+        body,
+    )
+
+
+class SkillState(BaseModel):
+    """Upskill-managed state stored separately from ``SKILL.md``."""
+
+    metadata: SkillMetadata = Field(default_factory=SkillMetadata)
+    tests: list[TestCase] = Field(default_factory=list)
+
+
+def _load_skill_state(path: Path) -> SkillState:
+    """Load optional upskill-managed state stored alongside a skill."""
+    state = SkillState()
+    meta_path = path / "skill_meta.json"
+    if not meta_path.exists():
+        return state
+
+    meta_dict = json.loads(meta_path.read_text(encoding="utf-8"))
+    if "metadata" in meta_dict:
+        state.metadata = SkillMetadata.model_validate(meta_dict["metadata"])
+    if "tests" in meta_dict:
+        state.tests = [TestCase.model_validate(test_case) for test_case in meta_dict["tests"]]
+    return state
+
+
+def _load_artifact_directory(path: Path, directory_name: str) -> dict[str, str]:
+    """Load filename-to-content mappings from a skill artifact directory."""
+    directory = path / directory_name
+    if not directory.exists():
+        return {}
+
+    return {
+        file_path.name: file_path.read_text(encoding="utf-8")
+        for file_path in directory.iterdir()
+        if file_path.is_file()
+    }
+
+
+class Skill(BaseModel):
+    """A generated agent skill following the Claude Code SKILL.md spec."""
+
+    # Claude Code frontmatter fields
+    name: str = Field(..., min_length=1, max_length=64)
+    description: str = Field(..., min_length=1, max_length=1024)
+    allowed_tools: list[str] | None = None
+    argument_hint: str | None = None  # e.g., "[issue-number]"
+    user_invocable: bool = True
+    disable_model_invocation: bool = False
+
+    # Content
+    body: str  # Main instructions markdown
+    references: dict[str, str] = Field(default_factory=dict)  # filename -> content
+    scripts: dict[str, str] = Field(default_factory=dict)  # filename -> code
+
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, v: str) -> str:
+        if not re.match(r"^[a-z0-9]+(-[a-z0-9]+)*$", v):
+            raise ValueError("name must be lowercase alphanumeric with hyphens")
+        return v
+
+    def render(self) -> str:
+        """Generate Claude Code compatible SKILL.md with YAML frontmatter."""
+        # Build frontmatter
+        frontmatter_lines = [
+            "---",
+            f"name: {self.name}",
+            f"description: {self.description}",
+        ]
+
+        if self.allowed_tools:
+            frontmatter_lines.append(f"allowed-tools: {', '.join(self.allowed_tools)}")
+
+        if self.argument_hint:
+            frontmatter_lines.append(f"argument-hint: {self.argument_hint}")
+
+        if not self.user_invocable:
+            frontmatter_lines.append("user-invocable: false")
+
+        if self.disable_model_invocation:
+            frontmatter_lines.append("disable-model-invocation: true")
+
+        frontmatter_lines.append("---")
+
+        return "\n".join(frontmatter_lines) + "\n\n" + self.body
+
+    def save(self, path: Path) -> None:
+        """Write the skill document and artifact files."""
+        path.mkdir(parents=True, exist_ok=True)
+
+        # Write SKILL.md (Claude Code compatible)
+        (path / "SKILL.md").write_text(self.render())
+
+        # Write references
+        if self.references:
+            refs_dir = path / "references"
+            refs_dir.mkdir(exist_ok=True)
+            for filename, content in self.references.items():
+                (refs_dir / filename).write_text(content)
+
+        # Write scripts
+        if self.scripts:
+            scripts_dir = path / "scripts"
+            scripts_dir.mkdir(exist_ok=True)
+            for filename, content in self.scripts.items():
+                (scripts_dir / filename).write_text(content)
+
+    @classmethod
+    def load(cls, path: Path) -> Skill:
+        """Load a skill document from a directory."""
+        skill_md_path = path / "SKILL.md"
+        if not skill_md_path.exists():
+            raise FileNotFoundError(f"SKILL.md not found in {path}")
+
+        content = skill_md_path.read_text(encoding="utf-8")
+        (
+            name,
+            description,
+            allowed_tools,
+            argument_hint,
+            user_invocable,
+            disable_model_invocation,
+            body,
+        ) = _parse_skill_frontmatter(content, default_name=path.name)
+        references = _load_artifact_directory(path, "references")
+        scripts = _load_artifact_directory(path, "scripts")
+
+        return cls(
+            name=name,
+            description=description,
+            allowed_tools=allowed_tools,
+            argument_hint=argument_hint,
+            user_invocable=user_invocable,
+            disable_model_invocation=disable_model_invocation,
+            body=body,
+            references=references,
+            scripts=scripts,
+        )
+
+
+class SkillRecord(BaseModel):
+    """Persisted skill document plus separately managed upskill state."""
+
+    skill: Skill
+    state: SkillState = Field(default_factory=SkillState)
+
+    def save(self, path: Path) -> None:
+        """Write the skill document and managed metadata/tests."""
+        path.mkdir(parents=True, exist_ok=True)
+        self.skill.save(path)
+        meta_dict = {
+            "metadata": self.state.metadata.model_dump(mode="json"),
+            "tests": [test.model_dump(mode="json") for test in self.state.tests],
+        }
+        (path / "skill_meta.json").write_text(json.dumps(meta_dict, indent=2, default=str))
+
+    @classmethod
+    def load(cls, path: Path) -> SkillRecord:
+        """Load a persisted skill record from disk."""
+        return cls(
+            skill=Skill.load(path),
+            state=_load_skill_state(path),
+        )
+
+
+# ConversationStats must be defined before TestResult (used in default_factory)
+class ConversationStats(BaseModel):
+    """Statistics from a conversation/run."""
+
+    # Timing metrics
+    conversation_span_ms: float = 0.0
+    llm_time_ms: float = 0.0
+    tool_time_ms: float = 0.0
+
+    # Conversation metrics
+    turns: int = 0
+    tool_calls: int = 0
+    tool_errors: int = 0
+
+    # Tool categorization (MCP vs Execute)
+    mcp_calls: int = 0  # Tools with "__" in name (MCP server tools)
+    execute_calls: int = 0  # Tools without "__" (built-in execute)
+
+    # Per-tool breakdown
+    tool_call_map: dict[str, int] = Field(default_factory=dict)  # tool_name -> count
+    tool_error_map: dict[str, int] = Field(default_factory=dict)  # tool_name -> error_count
+
+    # Token metrics (detailed)
+    input_tokens: int = 0
+    output_tokens: int = 0
+    total_tokens: int = 0
+
+    # Raw usage summaries (normalized by fast-agent)
+    usage_summaries: list[dict[str, object]] = Field(default_factory=list)
+    timing_summaries: list[dict[str, object]] = Field(default_factory=list)
+
+    # Legacy field for backwards compatibility
+    @property
+    def tokens(self) -> int:
+        """Legacy accessor for total tokens."""
+        return self.total_tokens
+
+
+class TestResult(BaseModel):
+    """Result of running a single test case."""
+
+    __test__ = False
+    test_case: TestCase
+    success: bool
+    output: str | None = None
+    tokens_used: int = 0  # Legacy field, use stats.total_tokens
+    turns: int = 0  # Legacy field, use stats.turns
+    error: str | None = None
+    stats: ConversationStats = Field(default_factory=ConversationStats)
+
+    # Detailed validation results (for custom validators)
+    validation_result: ValidationResult | None = None
+
+
+class EvalResults(BaseModel):
+    """Results comparing skill vs baseline performance."""
+
+    skill_name: str
+    model: str
+
+    # With skill
+    with_skill_results: list[TestResult] = Field(default_factory=list)
+    with_skill_success_rate: float = 0.0
+    with_skill_total_tokens: int = 0
+    with_skill_avg_turns: float = 0.0
+
+    # Without skill (baseline)
+    baseline_results: list[TestResult] = Field(default_factory=list)
+    baseline_success_rate: float = 0.0
+    baseline_total_tokens: int = 0
+    baseline_avg_turns: float = 0.0
+
+    @property
+    def skill_lift(self) -> float:
+        """Improvement in success rate from using skill."""
+        return self.with_skill_success_rate - self.baseline_success_rate
+
+    @property
+    def token_savings(self) -> float:
+        """Percentage of tokens saved (negative means more tokens used)."""
+        if self.baseline_total_tokens == 0:
+            return 0.0
+        return 1 - (self.with_skill_total_tokens / self.baseline_total_tokens)
+
+    @property
+    def is_beneficial(self) -> bool:
+        """Skill provides net benefit."""
+        # Beneficial if: better success, OR same success with fewer tokens
+        return self.skill_lift > 0.05 or (self.skill_lift >= 0 and self.token_savings > 0.2)
+
+
+class ScenarioJudgeConfig(BaseModel):
+    """Judge configuration for a scenario."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    enabled: bool = False
+    criteria: list[str] | None = None
+
+
+class EvalScenario(BaseModel):
+    """Scenario definition for CI evaluation."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str = Field(..., min_length=1)
+    skills: list[str] = Field(default_factory=list)
+    tests: str
+    judge: ScenarioJudgeConfig | None = None
+    include_baseline: bool = False
+
+
+class EvalManifest(BaseModel):
+    """Top-level CI manifest."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    scenarios: list[EvalScenario] = Field(default_factory=list)
+
+
+class ScenarioVariantResult(BaseModel):
+    """Aggregate result for one scenario variant."""
+
+    variant_id: str
+    variant_type: Literal["bundle", "ablation", "baseline"]
+    skills: list[str] = Field(default_factory=list)
+    omitted_skill: str | None = None
+    passed: bool
+    assertions_passed: int = 0
+    assertions_total: int = 0
+    hard_score: float = 0.0
+    judge_score: float | None = None
+    judge_summary: str | None = None
+    total_tokens: int = 0
+    average_turns: float = 0.0
+    run_folder: str | None = None
+
+
+class ScenarioContribution(BaseModel):
+    """Contribution delta for leaving one skill out of a bundle."""
+
+    skill: str
+    hard_score_delta: float = 0.0
+    judge_score_delta: float | None = None
+    passed_without_skill: bool = False
+
+
+class ScenarioReport(BaseModel):
+    """Report for one selected scenario."""
+
+    scenario_id: str
+    skills: list[str] = Field(default_factory=list)
+    tests_path: str
+    passed: bool
+    bundle: ScenarioVariantResult
+    ablations: list[ScenarioVariantResult] = Field(default_factory=list)
+    baseline: ScenarioVariantResult | None = None
+    contributions: list[ScenarioContribution] = Field(default_factory=list)
+
+
+class CiReport(BaseModel):
+    """Machine-readable report for a CI evaluation run."""
+
+    manifest_path: str
+    scope: str
+    base_ref: str | None = None
+    changed_files: list[str] = Field(default_factory=list)
+    changed_skills: list[str] = Field(default_factory=list)
+    selected_scenarios: list[str] = Field(default_factory=list)
+    success: bool = True
+    scenarios: list[ScenarioReport] = Field(default_factory=list)
+
+
+# Run logging models (similar to skills-test)
+
+
+class RunMetadata(BaseModel):
+    """Metadata for a single run."""
+
+    model: str
+    task: str
+    batch_id: str
+    run_number: int
+    timestamp: datetime = Field(default_factory=datetime.now)
+
+
+class RunResult(BaseModel):
+    """Complete result from a single run."""
+
+    metadata: RunMetadata
+    stats: ConversationStats = Field(default_factory=ConversationStats)
+    passed: bool = False
+    assertions_passed: int = 0
+    assertions_total: int = 0
+    error_message: str | None = None
+    session_id: str | None = None
+    session_history_file: str | None = None
+
+    # For plot command: distinguish baseline vs with-skill runs
+    run_type: str = "with_skill"  # "with_skill" | "baseline"
+    skill_name: str | None = None  # Name of the skill being evaluated
+
+
+class BatchSummary(BaseModel):
+    """Summary of a batch of runs."""
+
+    batch_id: str
+    model: str
+    task: str
+    total_runs: int
+    passed_runs: int
+    results: list[RunResult] = Field(default_factory=list)
+
+    @property
+    def pass_rate(self) -> float:
+        """Calculate pass rate for the batch."""
+        if self.total_runs == 0:
+            return 0.0
+        return self.passed_runs / self.total_runs
+
+    @property
+    def avg_tokens(self) -> float:
+        """Calculate average tokens used across runs."""
+        if not self.results:
+            return 0.0
+        return sum(r.stats.total_tokens for r in self.results) / len(self.results)
+
+    @property
+    def avg_llm_time_ms(self) -> float:
+        """Calculate average LLM time across runs."""
+        if not self.results:
+            return 0.0
+        return sum(r.stats.llm_time_ms for r in self.results) / len(self.results)

@@ -1,0 +1,45 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api DeploymentAdminClient
+@base https://management.azure.com
+@version 2019-01-01
+@auth OAuth2
+@endpoints 7
+@toc subscriptions(7)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productDeployments
+@desc Invokes bootstrap action on the product deployment
+@returns(200) Ok
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productDeployments/{productId}
+@desc Invokes bootstrap action on the product deployment
+@returns(200) Ok
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productDeployments/{productId}/bootstrap
+@desc Invokes bootstrap action on the product deployment
+@returns(200) Ok
+@returns(202) ACCEPTED
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productDeployments/{productId}/deploy
+@desc Invokes deploy action on the product
+@returns(200) Ok
+@returns(202) ACCEPTED
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productDeployments/{productId}/remove
+@desc Invokes remove action on the product deployment
+@returns(200) Ok
+@returns(202) ACCEPTED
+@returns(204) No Content
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productDeployments/{productId}/rotateSecrets
+@desc Invokes rotate secrets action on the product deployment
+@returns(200) OK
+@returns(202) ACCEPTED
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productDeployments/{productId}/executeRunner
+@desc Invokes execute runner action on the product deployment
+@required {executeRunnerActionParameter: map # Represents execute runner action parameter}
+@returns(200) OK
+@returns(202) ACCEPTED
+
+@end

@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Flight Choice Prediction
+@base https://test.api.amadeus.com/v2
+@version 2.0.2
+@endpoints 1
+@toc shopping(1)
+
+@endpoint POST /shopping/flight-offers/prediction
+@desc Predict the choice of flight offers.
+@required {body: any}
+@returns(200) Flight Offers Search Reply with prediction
+@errors {400: code    | title                                  ------- | -------------------------------------  477     | INVALID FORMAT 32171   | MANDATORY DATA MISSING, 500: Unexpected error}
+
+@end

@@ -1,0 +1,40 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api MonitorManagementClient
+@base https://management.azure.com
+@version 2015-04-01
+@auth OAuth2
+@endpoints 6
+@toc subscriptions(6)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings
+@desc Lists the autoscale settings for a resource group
+@returns(200) Successful request for a list of autoscale settings
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}
+@desc Creates or updates an autoscale setting.
+@required {autoscaleSettingName: any # The autoscale setting name., parameters: map # Parameters supplied to the operation.}
+@returns(200) Successful request to create or update an autoscale setting
+@returns(201) Created autoscale setting
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}
+@desc Deletes and autoscale setting
+@required {autoscaleSettingName: any # The autoscale setting name.}
+@returns(200) Successful request to delete an autoscale setting
+@returns(204) No content: Successful request to delete an autoscale setting, but the response is intentionally empty
+
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}
+@desc Gets an autoscale setting
+@required {autoscaleSettingName: any # The autoscale setting name.}
+@returns(200) Successful request to get one autoscale setting
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}
+@desc Updates an existing AutoscaleSettingsResource. To update other fields use the CreateOrUpdate method.
+@required {autoscaleSettingName: any # The autoscale setting name., autoscaleSettingResource: any # Parameters supplied to the operation.}
+@returns(200) An existing autoscale setting resource was successfully updated.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Insights/autoscalesettings
+@desc Lists the autoscale settings for a subscription
+@returns(200) Successful request for a list of autoscale settings
+
+@end

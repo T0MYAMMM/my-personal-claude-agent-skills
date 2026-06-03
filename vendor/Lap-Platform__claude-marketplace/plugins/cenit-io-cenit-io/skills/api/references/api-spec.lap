@@ -1,0 +1,211 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Cenit IO - REST API Specification
+@base https://cenit.io/api/v1
+@version v1
+@auth ApiKey X-User-Access-Key in header | ApiKey X-User-Access-Token in header
+@endpoints 40
+@hint download_for_search
+@toc setup(40)
+
+@endpoint GET /setup/connection/{id}
+@desc Retrieve an existing connection
+@required {id: any # Connection ID}
+@returns(200) OK
+@errors {404: Item not found}
+
+@endpoint DELETE /setup/connection/{id}
+@desc Delete a connection
+@required {id: any # Connection ID}
+@returns(200) OK
+@errors {404: Item not found}
+
+@endpoint GET /setup/connection
+@desc Returns a list of connections
+@returns(200) OK
+
+@endpoint POST /setup/connection
+@desc Create or update a connection
+@returns(200) OK
+
+@endpoint GET /setup/connection_role/{id}
+@desc Return a connection role
+@required {id: any # Connection role ID}
+@returns(200) OK
+@errors {404: Item not found}
+
+@endpoint DELETE /setup/connection_role/{id}
+@desc Delete a connection role.
+@required {id: any # Connection role ID}
+@returns(200) OK
+@errors {404: Item not found}
+
+@endpoint GET /setup/connection_role
+@desc Returns a list of connection roles
+@returns(200) OK
+
+@endpoint POST /setup/connection_role
+@desc Create or update a connection role
+@returns(200) OK
+
+@endpoint GET /setup/data_type/
+@desc Returns a list of data types
+@returns(200) OK
+
+@endpoint POST /setup/data_type/
+@desc Create or update a data type
+@returns(200) OK
+
+@endpoint GET /setup/data_type/{id}
+@desc Retrieve a data type
+@required {id: any # data type ID}
+@returns(200) OK
+@errors {404: Item not found.}
+
+@endpoint DELETE /setup/data_type/{id}
+@desc Delete a data type
+@required {id: any # data type ID}
+@returns(200) OK
+@errors {404: Item not found}
+
+@endpoint GET /setup/observer/
+@desc Returns a list of events
+@returns(200) OK
+
+@endpoint POST /setup/observer/
+@desc Create or update an event
+@returns(200) OK
+
+@endpoint GET /setup/observer/{id}
+@desc Retrieve an existing event
+@required {id: any # Observer ID}
+@returns(200) OK
+@errors {404: Item not found.}
+
+@endpoint DELETE /setup/observer/{id}
+@desc Delete an event
+@required {id: any # Observer ID}
+@returns(200) OK
+@errors {404: Item not found}
+
+@endpoint GET /setup/scheduler/
+@desc Returns a list of schedulers
+@returns(200) OK
+
+@endpoint POST /setup/scheduler/
+@desc Create or update an scheduler
+@returns(200) OK
+
+@endpoint GET /setup/scheduler/{id}
+@desc Retrieve an existing schedule
+@required {id: any # Scheduler ID}
+@returns(200) OK
+@errors {404: Item not found.}
+
+@endpoint DELETE /setup/scheduler/{id}
+@desc Delete an schedule
+@required {id: any # Scheduler ID}
+@returns(200) OK
+@errors {404: Item not found}
+
+@endpoint GET /setup/flow/
+@desc Returns a list of flows
+@returns(200) OK
+
+@endpoint POST /setup/flow/
+@desc Create or update a flow
+@returns(200) OK
+
+@endpoint GET /setup/flow/{id}
+@desc Retrieve an existing flow
+@required {id: any # Flow ID}
+@returns(200) OK
+@errors {404: Item not found.}
+
+@endpoint DELETE /setup/flow/{id}
+@desc Delete a flow.
+@required {id: any # Flow ID}
+@returns(200) OK
+@errors {404: Item not found}
+
+@endpoint GET /setup/schema/
+@desc Returns a list of schemas
+@returns(200) OK
+
+@endpoint POST /setup/schema/
+@desc Create or update an schema
+@returns(200) OK
+
+@endpoint GET /setup/schema/{id}
+@desc Retrieve an existing schema
+@required {id: any # Schema ID}
+@returns(200) OK
+@errors {404: Item not found.}
+
+@endpoint DELETE /setup/schema/{id}
+@desc Delete an schema.
+@required {id: any # Schema ID}
+@returns(200) OK
+@errors {404: Item not found}
+
+@endpoint GET /setup/translator/
+@desc Returns a list of translators
+@returns(200) OK
+
+@endpoint POST /setup/translator/
+@desc Create or update a translator
+@returns(200) OK
+
+@endpoint GET /setup/translator/{id}
+@desc Retrieve an existing translator
+@required {id: any # Translator ID.}
+@returns(200) OK
+@errors {404: Item not found.}
+
+@endpoint DELETE /setup/translator/{id}
+@desc Delete a translator
+@required {id: any # Translator ID.}
+@returns(200) OK
+@errors {404: Item not found}
+
+@endpoint GET /setup/webhook/
+@desc Returns a list of webhooks
+@returns(200) OK
+
+@endpoint POST /setup/webhook/
+@desc Create or update a webhook
+@returns(200) OK
+
+@endpoint GET /setup/webhook/{id}
+@desc Retrieve an existing webhook
+@required {id: any # Webhook ID.}
+@returns(200) OK
+@errors {404: Item not found.}
+
+@endpoint DELETE /setup/webhook/{id}
+@desc Delete a webhook
+@required {id: any # Webhook ID.}
+@returns(200) OK
+@errors {404: Item not found}
+
+@endpoint GET /setup/namespace/
+@desc Returns a list of namespaces
+@returns(200) OK
+
+@endpoint POST /setup/namespace/
+@desc Create or update a namespace
+@returns(200) OK
+
+@endpoint GET /setup/namespace/{id}
+@desc Retrieve an existing namespace
+@required {id: any # Namespace ID.}
+@returns(200) OK
+@errors {404: Item not found.}
+
+@endpoint DELETE /setup/namespace/{id}
+@desc Delete a namespace
+@required {id: any # Namespace ID.}
+@returns(200) OK
+@errors {404: Item not found}
+
+@end

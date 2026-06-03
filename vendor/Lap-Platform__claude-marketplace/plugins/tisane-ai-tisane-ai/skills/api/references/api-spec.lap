@@ -1,0 +1,88 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Tisane API Documentation
+@base https://api.tisane.ai
+@auth ApiKey Ocp-Apim-Subscription-Key in header
+@endpoints 8
+@toc parse(1), languages(1), helper(1), compare(1), similarity(1), detectLanguage(1), transform(1), lm(1)
+
+@group parse
+@endpoint POST /parse
+@desc Analyze text
+@optional {Ocp-Apim-Subscription-Key: str # {{apiKeyDescription}}}
+@returns(200) {text: str, entities_summary: [map]} # Hello Tisane
+@returns(200) {text: str, abuse: [map], sentiment_expressions: [map]} # Abuse detection incl. snippets
+@returns(200) {text: str, topics: [str]} # Extract topics (native standard)
+@returns(200) {text: str, topics: [str]} # Extract topics (IAB standard)
+@returns(200) {text: str, topics: [str], sentiment_expressions: [map], entities_summary: [map]} # Adverse media monitoring in fintech
+@returns(200) {text: str, topics: [str], sentence_list: [map]} # Tokenize a Japanese sentence
+@returns(200) {text: str, topics: [any], abuse: [map], sentence_list: [map]} # Parse alias w/ sentence structure
+@returns(200) {text: str, topics: [str], abuse: [map], sentence_list: [map]} # Parse hashtag and output words
+
+@endgroup
+
+@group languages
+@endpoint GET /languages
+@desc List available languages
+@optional {Ocp-Apim-Subscription-Key: str # {{apiKeyDescription}}}
+@returns(200) {id: str, name: str, englishName: str, nativeEncoding: str, preferredFont: str, latin: bool, rightToLeft: bool} # Example output
+
+@endgroup
+
+@group helper
+@endpoint POST /helper/extract_text
+@desc Text clean up
+@optional {Ocp-Apim-Subscription-Key: str # {{apiKeyDescription}}}
+@returns(200) Simple example
+
+@endgroup
+
+@group compare
+@endpoint POST /compare/entities
+@desc Named entity comparison
+@optional {Ocp-Apim-Subscription-Key: str # {{apiKeyDescription}}}
+@returns(200) {result: str, differences: [str]} # Simple example
+
+@endgroup
+
+@group similarity
+@endpoint POST /similarity
+@desc Semantic similarity
+@optional {Ocp-Apim-Subscription-Key: str # {{apiKeyDescription}}}
+@returns(200) Simple example
+
+@endgroup
+
+@group detectLanguage
+@endpoint POST /detectLanguage
+@desc Detect language
+@optional {Ocp-Apim-Subscription-Key: str # {{apiKeyDescription}}}
+@returns(200) {languages: [map]} # Basics
+@returns(200) {languages: [map]} # Hints for ambiguous cases
+@returns(200) {languages: [map]} # Breakdown of languages segmenting by line
+
+@endgroup
+
+@group transform
+@endpoint POST /transform
+@desc Translate text
+@optional {Ocp-Apim-Subscription-Key: str # {{apiKeyDescription}}}
+@returns(200) Translate a Japanese sentence
+@returns(200) Auto-detect language and translate Chinese name to English
+@returns(200) Translate from English to Russian
+@returns(200) Translate Russian drug addict jargon to English
+@returns(200) Translate from Hebrew to Russian preserving gender
+
+@endgroup
+
+@group lm
+@endpoint GET /lm/inflections
+@desc List inflected forms
+@required {language: str # (Required) The language code, lexeme: str # (Required) The lexeme to inspect, family: str # (Required) The family to inspect}
+@optional {Ocp-Apim-Subscription-Key: str # {{apiKeyDescription}}}
+@returns(200) {features: [map], text: str} # Inflected forms of "buy" in English
+@returns(200) {features: [map], isLemma: bool, text: str} # Inflected forms of "United States" in Russian
+
+@endgroup
+
+@end

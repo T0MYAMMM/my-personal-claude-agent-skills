@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api 
+@base https://rss.import.io/
+@version 1.0
+@endpoints 1
+@toc extractor(1)
+
+@endpoint GET /extractor/{extractorId}/runs
+@desc Get a feed of the runs performed on an extractor
+@required {extractorId: any # The id of the extractor to start get the crawl run data}
+@returns(200) OK
+@errors {404: Not found: Extractor has not been run., 401: User doesn't own this extractor, or doesn't have a valid session.}
+
+@end

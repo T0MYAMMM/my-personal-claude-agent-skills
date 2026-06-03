@@ -1,0 +1,46 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Mixed Reality
+@base https://management.azure.com
+@version 2019-12-02-preview
+@auth OAuth2
+@endpoints 8
+@toc subscriptions(8)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/remoteRenderingAccounts
+@desc List Remote Rendering Accounts by Subscription
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts
+@desc List Resources by Resource Group
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}
+@desc Delete a Remote Rendering Account.
+@returns(200) OK
+@returns(204) NoContent
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}
+@desc Retrieve a Remote Rendering Account.
+@returns(200) OK
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}
+@desc Updating a Remote Rendering Account
+@required {remoteRenderingAccount: map # Remote Rendering Account parameter.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}
+@desc Creating or Updating a Remote Rendering Account.
+@required {remoteRenderingAccount: map # Remote Rendering Account parameter.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}/keys
+@desc Get Both of the 2 Keys of a Remote Rendering Account
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}/keys
+@desc Regenerate specified Key of a Remote Rendering Account
+@returns(200) OK
+
+@end

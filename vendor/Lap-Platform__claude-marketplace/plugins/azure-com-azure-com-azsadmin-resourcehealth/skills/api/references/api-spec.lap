@@ -1,0 +1,18 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api InfrastructureInsightsManagementClient
+@base https://management.azure.com
+@version 2016-05-01
+@auth OAuth2
+@endpoints 2
+@toc subscriptions(2)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.InfrastructureInsights.Admin/regionHealths/{location}/serviceHealths/{serviceRegistrationId}/resourceHealths
+@desc Returns a list of each resource's health under a service.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.InfrastructureInsights.Admin/regionHealths/{location}/serviceHealths/{serviceRegistrationId}/resourceHealths/{resourceRegistrationId}
+@desc Returns the requested health information about a resource.
+@returns(200) OK
+
+@end

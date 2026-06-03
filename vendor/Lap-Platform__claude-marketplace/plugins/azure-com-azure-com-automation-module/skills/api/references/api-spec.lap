@@ -1,0 +1,60 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AutomationManagement
+@base https://management.azure.com
+@version 2015-10-31
+@auth OAuth2
+@endpoints 10
+@toc subscriptions(10)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/activities/{activityName}
+@desc Retrieve the activity in the module identified by module name and activity name.
+@required {moduleName: any # The name of module., activityName: any # The name of activity.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/activities
+@desc Retrieve a list of activities in the module identified by module name.
+@required {moduleName: any # The name of module.}
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}
+@desc Delete the module by name.
+@required {moduleName: any # The module name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}
+@desc Retrieve the module identified by module name.
+@required {moduleName: any # The module name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}
+@desc Create or Update the module identified by module name.
+@required {moduleName: any # The name of module., parameters: any # The create or update parameters for module.}
+@returns(201) Created
+@returns(200) OK
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}
+@desc Update the module identified by module name.
+@required {moduleName: any # The name of module., parameters: any # The update parameters for module.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules
+@desc Retrieve a list of modules.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/objectDataTypes/{typeName}/fields
+@desc Retrieve a list of fields of a given type identified by module name.
+@required {moduleName: any # The name of module., typeName: any # The name of type.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/objectDataTypes/{typeName}/fields
+@desc Retrieve a list of fields of a given type across all accessible modules.
+@required {typeName: any # The name of type.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/types/{typeName}/fields
+@desc Retrieve a list of fields of a given type identified by module name.
+@required {moduleName: any # The name of module., typeName: any # The name of type.}
+@returns(200) OK
+
+@end

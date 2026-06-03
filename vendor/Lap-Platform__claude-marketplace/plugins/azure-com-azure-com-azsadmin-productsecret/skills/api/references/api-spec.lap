@@ -1,0 +1,29 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api DeploymentAdminClient
+@base https://management.azure.com
+@version 2019-01-01
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productPackages/{packageId}/secrets
+@desc Returns an array of product secrets.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productPackages/{packageId}/secrets/{secretName}
+@desc Returns the specific product secret.
+@required {secretName: any # The secret name.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productPackages/{packageId}/secrets/{secretName}/import
+@desc Imports a product secret.
+@required {secretName: any # The secret name., secretParameters: map # The parameters required for creating/updating a product secret.}
+@returns(200) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productPackages/{packageId}/secrets/{secretName}/validate
+@desc Validates a product secret.
+@required {secretName: any # The secret name., secretParameters: map # The parameters required for creating/updating a product secret.}
+@returns(200) Accepted
+
+@end

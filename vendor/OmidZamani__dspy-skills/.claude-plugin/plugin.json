@@ -1,0 +1,29 @@
+{
+  "name": "dspy-skills",
+  "version": "2.0.0",
+  "description": "Collection of 22 focused skills for building, optimizing, evaluating, and deploying DSPy applications.",
+  "author": {
+    "name": "OmidZamani",
+    "url": "https://github.com/OmidZamani"
+  },
+  "homepage": "https://github.com/OmidZamani/dspy-skills",
+  "repository": "https://github.com/OmidZamani/dspy-skills",
+  "license": "MIT",
+  "keywords": [
+    "dspy",
+    "llm",
+    "optimization",
+    "rag",
+    "agents",
+    "prompt-engineering",
+    "few-shot",
+    "bayesian-optimization",
+    "react-agents",
+    "evaluation",
+    "fine-tuning",
+    "rlm",
+    "mcp",
+    "streaming",
+    "multimodal"
+  ]
+}

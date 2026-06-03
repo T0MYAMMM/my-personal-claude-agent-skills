@@ -1,0 +1,122 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api CircleCI REST API
+@base https://circleci.com/api/v1
+@version v1
+@auth ApiKey circle-token in query
+@endpoints 22
+@hint download_for_search
+@toc me(1), projects(1), project(18), recent-builds(1), user(1)
+
+@group me
+@endpoint GET /me
+@desc Provides information about the signed in user.
+@returns(200) signed in user
+
+@endgroup
+
+@group projects
+@endpoint GET /projects
+@desc List of all the projects you're following on CircleCI, with build information organized by branch.
+@returns(200) List of all the projects you're following on CircleCI
+
+@endgroup
+
+@group project
+@endpoint GET /project/{username}/{project}
+@desc Build summary for each of the last 30 builds for a single git repo.
+@optional {limit: any # The number of builds to return. Maximum 100, defaults to 30., offset: any # The API returns builds starting from this offset, defaults to 0., filter: any # Restricts which builds are returned. Set to "completed", "successful", "failed", "running", or defaults to no filter.}
+@returns(200) Build summary for each of the last 30 builds
+
+@endpoint POST /project/{username}/{project}
+@desc Triggers a new build, returns a summary of the build.
+@optional {body: map}
+@returns(201) returns a summary of the build
+
+@endgroup
+
+@group recent-builds
+@endpoint GET /recent-builds
+@desc Build summary for each of the last 30 recent builds, ordered by build_num.
+@optional {limit: any # The number of builds to return. Maximum 100, defaults to 30., offset: any # The API returns builds starting from this offset, defaults to 0.}
+@returns(200) Build summary for each of the last 30 recent builds
+
+@endgroup
+
+@group project
+@endpoint GET /project/{username}/{project}/{build_num}
+@desc Full details for a single build. The response includes all of the fields from the build summary.
+@returns(200) Full details for a single build
+
+@endpoint GET /project/{username}/{project}/{build_num}/artifacts
+@desc List the artifacts produced by a given build.
+@returns(200) List the artifacts produced by a given build
+
+@endpoint POST /project/{username}/{project}/{build_num}/retry
+@desc Retries the build, returns a summary of the new build.
+@returns(200) returns a summary of the new build
+
+@endpoint POST /project/{username}/{project}/{build_num}/cancel
+@desc Cancels the build, returns a summary of the build.
+@returns(200) returns a summary of the build
+
+@endpoint GET /project/{username}/{project}/{build_num}/tests
+@desc Provides test metadata for a build
+@returns(200) test metadata for a build
+
+@endpoint POST /project/{username}/{project}/tree/{branch}
+@desc Triggers a new build, returns a summary of the build.
+@optional {body: map}
+@returns(201) returns a summary of the build
+
+@endpoint POST /project/{username}/{project}/ssh-key
+@desc Create an ssh key used to access external systems that require SSH key-based authentication
+@required {Content-Type: any, body: map}
+
+@endpoint GET /project/{username}/{project}/checkout-key
+@desc Lists checkout keys.
+@returns(200) checkout keys
+
+@endpoint POST /project/{username}/{project}/checkout-key
+@desc Creates a new checkout key.
+@optional {type: str(deploy-key/github-user-key) # The type of key to create. Can be 'deploy-key' or 'github-user-key'.}
+@returns(200) checkout key
+
+@endpoint GET /project/{username}/{project}/checkout-key/{fingerprint}
+@desc Get a checkout key.
+@returns(200) checkout key
+
+@endpoint DELETE /project/{username}/{project}/checkout-key/{fingerprint}
+@desc Delete a checkout key.
+@returns(200) status message
+
+@endpoint DELETE /project/{username}/{project}/build-cache
+@desc Clears the cache for a project.
+@returns(200) status message
+
+@endpoint GET /project/{username}/{project}/envvar
+@desc Lists the environment variables for :project
+@returns(200) XXX
+
+@endpoint POST /project/{username}/{project}/envvar
+@desc Creates a new environment variable
+@returns(200) XXX
+
+@endpoint GET /project/{username}/{project}/envvar/{name}
+@desc Gets the hidden value of environment variable :name
+@returns(200) XXX
+
+@endpoint DELETE /project/{username}/{project}/envvar/{name}
+@desc Deletes the environment variable named ':name'
+@returns(200) Deletes the environment variable named ':name'
+
+@endgroup
+
+@group user
+@endpoint POST /user/heroku-key
+@desc Adds your Heroku API key to CircleCI, takes apikey as form param name.
+@errors {403: Your Heroku API key is invalid.}
+
+@endgroup
+
+@end

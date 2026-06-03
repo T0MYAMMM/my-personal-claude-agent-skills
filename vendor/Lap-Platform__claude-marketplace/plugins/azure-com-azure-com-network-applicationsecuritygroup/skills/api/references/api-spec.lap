@@ -1,0 +1,42 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api NetworkManagementClient
+@base https://management.azure.com
+@version 2019-07-01
+@auth OAuth2
+@endpoints 6
+@toc subscriptions(6)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}
+@desc Deletes the specified application security group.
+@required {resourceGroupName: any # The name of the resource group., applicationSecurityGroupName: any # The name of the application security group.}
+@returns(204) Request successful. Resource does not exist.
+@returns(202) Accepted and the operation will complete asynchronously.
+@returns(200) Delete successful.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}
+@desc Gets information about the specified application security group.
+@required {resourceGroupName: any # The name of the resource group., applicationSecurityGroupName: any # The name of the application security group.}
+@returns(200) Request successful. The operation returns the specified application security group resource.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}
+@desc Creates or updates an application security group.
+@required {resourceGroupName: any # The name of the resource group., applicationSecurityGroupName: any # The name of the application security group., parameters: any # Parameters supplied to the create or update ApplicationSecurityGroup operation.}
+@returns(201) Create successful. The operation returns the resulting application security group resource.
+@returns(200) Update successful. The operation returns the resulting application security group resource.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}
+@desc Updates an application security group's tags.
+@required {resourceGroupName: any # The name of the resource group., applicationSecurityGroupName: any # The name of the application security group., parameters: any # Parameters supplied to update application security group tags.}
+@returns(200) Update successful. The operation returns the resulting ApplicationSecurityGroup resource.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationSecurityGroups
+@desc Gets all application security groups in a subscription.
+@returns(200) Request successful. The operation returns a list of application security group resources.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups
+@desc Gets all the application security groups in a resource group.
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200) Request successful. The operation returns a list of application security group resources.
+
+@end

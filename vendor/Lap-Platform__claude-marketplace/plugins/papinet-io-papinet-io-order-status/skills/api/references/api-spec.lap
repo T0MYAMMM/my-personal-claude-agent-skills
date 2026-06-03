@@ -1,0 +1,19 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api papiNet API
+@base https://papinet.papinet.io
+@version 1.0.0
+@endpoints 2
+@toc orders(2)
+
+@endpoint GET /orders
+@desc List `orders`
+@optional {orderStatus: str(Active/Cancelled/Completed) # Filter by status, offset: str # The number of items to skip before starting to collect the result set., limit: str # The maximum number of items to return. If the value exceeds the maximum, then the maximum value will be used.}
+@returns(200) {orders: [map], links: map{first: map{href: str}, prev: map{href: str}, next: map{href: str}, last: map{href: str}}} # OK
+
+@endpoint GET /orders/{orderId}
+@desc Get an `order`
+@required {orderId: str(uuid) # UUID of the `order` to get}
+@returns(200) OK
+
+@end

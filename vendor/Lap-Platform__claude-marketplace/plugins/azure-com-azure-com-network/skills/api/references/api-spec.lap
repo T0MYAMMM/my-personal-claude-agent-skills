@@ -1,0 +1,559 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api NetworkManagementClient
+@base https://management.azure.com
+@version 2016-06-01
+@auth OAuth2
+@common_fields {api-version: any # Client Api Version., subscriptionId: any # Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.}
+@endpoints 97
+@hint download_for_search
+@toc subscriptions(97)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}
+@desc The delete ApplicationGateway operation deletes the specified application gateway.
+@required {resourceGroupName: any # The name of the resource group., applicationGatewayName: any # The name of the application gateway.}
+@returns(202)
+@returns(204)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}
+@desc The Get ApplicationGateway operation retrieves information about the specified application gateway.
+@required {resourceGroupName: any # The name of the resource group., applicationGatewayName: any # The name of the application gateway.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}
+@desc The Put ApplicationGateway operation creates/updates a ApplicationGateway
+@required {resourceGroupName: any # The name of the resource group., applicationGatewayName: any # The name of the ApplicationGateway., parameters: any # Parameters supplied to the create/delete ApplicationGateway operation}
+@returns(201)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways
+@desc The List ApplicationGateway operation retrieves all the application gateways in a resource group.
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGateways
+@desc The List ApplicationGateway operation retrieves all the application gateways in a subscription.
+@returns(200)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start
+@desc The Start ApplicationGateway operation starts application gateway in the specified resource group through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., applicationGatewayName: any # The name of the application gateway.}
+@returns(200)
+@returns(202)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/stop
+@desc The STOP ApplicationGateway operation stops application gateway in the specified resource group through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., applicationGatewayName: any # The name of the application gateway.}
+@returns(200)
+@returns(202)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}
+@desc The delete authorization operation deletes the specified authorization from the specified ExpressRouteCircuit.
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the express route circuit., authorizationName: any # The name of the authorization.}
+@returns(202)
+@returns(200)
+@returns(204)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}
+@desc The GET authorization operation retrieves the specified authorization from the specified ExpressRouteCircuit.
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the express route circuit., authorizationName: any # The name of the authorization.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}
+@desc The Put Authorization operation creates/updates an authorization in the specified ExpressRouteCircuits
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the express route circuit., authorizationName: any # The name of the authorization., authorizationParameters: any # Parameters supplied to the create/update ExpressRouteCircuitAuthorization operation}
+@returns(201)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations
+@desc The List authorization operation retrieves all the authorizations in an ExpressRouteCircuit.
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the circuit.}
+@returns(200)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}
+@desc The delete peering operation deletes the specified peering from the ExpressRouteCircuit.
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the express route circuit., peeringName: any # The name of the peering.}
+@returns(200)
+@returns(202)
+@returns(204)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}
+@desc The GET peering operation retrieves the specified authorization from the ExpressRouteCircuit.
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the express route circuit., peeringName: any # The name of the peering.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}
+@desc The Put Peering operation creates/updates an peering in the specified ExpressRouteCircuits
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the express route circuit., peeringName: any # The name of the peering., peeringParameters: any # Parameters supplied to the create/update ExpressRouteCircuit Peering operation}
+@returns(200)
+@returns(201)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings
+@desc The List peering operation retrieves all the peerings in an ExpressRouteCircuit.
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the circuit.}
+@returns(200)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}
+@desc The delete ExpressRouteCircuit operation deletes the specified ExpressRouteCircuit.
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the express route Circuit.}
+@returns(204)
+@returns(202)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}
+@desc The Get ExpressRouteCircuit operation retrieves information about the specified ExpressRouteCircuit.
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the circuit.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}
+@desc The Put ExpressRouteCircuit operation creates/updates a ExpressRouteCircuit
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the circuit., parameters: any # Parameters supplied to the create/delete ExpressRouteCircuit operation}
+@returns(201)
+@returns(200)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/arpTables/{devicePath}
+@desc The ListArpTable from ExpressRouteCircuit operation retrieves the currently advertised arp table associated with the ExpressRouteCircuits in a resource group.
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the circuit., peeringName: any # The name of the peering., devicePath: any # The path of the device.}
+@returns(200)
+@returns(202)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTables/{devicePath}
+@desc The ListRoutesTable from ExpressRouteCircuit operation retrieves the currently advertised routes table associated with the ExpressRouteCircuits in a resource group.
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the circuit., peeringName: any # The name of the peering., devicePath: any # The path of the device.}
+@returns(200)
+@returns(202)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTablesSummary/{devicePath}
+@desc The ListRoutesTable from ExpressRouteCircuit operation retrieves the currently advertised routes table associated with the ExpressRouteCircuits in a resource group.
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the circuit., peeringName: any # The name of the peering., devicePath: any # The path of the device.}
+@returns(200)
+@returns(202)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/stats
+@desc The List stats ExpressRouteCircuit operation retrieves all the stats from a ExpressRouteCircuits in a resource group.
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the circuit.}
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/stats
+@desc The List stats ExpressRouteCircuit operation retrieves all the stats from a ExpressRouteCircuits in a resource group.
+@required {resourceGroupName: any # The name of the resource group., circuitName: any # The name of the circuit., peeringName: any # The name of the peering.}
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits
+@desc The List ExpressRouteCircuit operation retrieves all the ExpressRouteCircuits in a resource group.
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCircuits
+@desc The List ExpressRouteCircuit operation retrieves all the ExpressRouteCircuits in a subscription.
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders
+@desc The List ExpressRouteServiceProvider operation retrieves all the available ExpressRouteServiceProviders.
+@returns(200)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}
+@desc The delete LoadBalancer operation deletes the specified load balancer.
+@required {resourceGroupName: any # The name of the resource group., loadBalancerName: any # The name of the loadBalancer.}
+@returns(204)
+@returns(202)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}
+@desc The Get LoadBalancer operation retrieves information about the specified LoadBalancer.
+@required {resourceGroupName: any # The name of the resource group., loadBalancerName: any # The name of the loadBalancer.}
+@optional {$expand: any # expand references resources.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}
+@desc The Put LoadBalancer operation creates/updates a LoadBalancer
+@required {resourceGroupName: any # The name of the resource group., loadBalancerName: any # The name of the loadBalancer., parameters: any # Parameters supplied to the create/delete LoadBalancer operation}
+@returns(201)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/loadBalancers
+@desc The List loadBalancer operation retrieves all the load balancers in a subscription.
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers
+@desc The List loadBalancer operation retrieves all the load balancers in a resource group.
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}
+@desc The Put LocalNetworkGateway operation creates/updates a local network gateway in the specified resource group through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., localNetworkGatewayName: any # The name of the local network gateway., parameters: any # Parameters supplied to the Begin Create or update Local Network Gateway operation through Network resource provider.}
+@returns(201)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}
+@desc The Get LocalNetworkGateway operation retrieves information about the specified local network gateway through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., localNetworkGatewayName: any # The name of the local network gateway.}
+@returns(200)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}
+@desc The Delete LocalNetworkGateway operation deletes the specified local network Gateway through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., localNetworkGatewayName: any # The name of the local network gateway.}
+@returns(204)
+@returns(200)
+@returns(202)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways
+@desc The List LocalNetworkGateways operation retrieves all the local network gateways stored.
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}
+@desc The delete networkInterface operation deletes the specified networkInterface.
+@required {resourceGroupName: any # The name of the resource group., networkInterfaceName: any # The name of the network interface.}
+@returns(204)
+@returns(202)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}
+@desc The Get network interface operation retrieves information about the specified network interface.
+@required {resourceGroupName: any # The name of the resource group., networkInterfaceName: any # The name of the network interface.}
+@optional {$expand: any # expand references resources.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}
+@desc The Put NetworkInterface operation creates/updates a networkInterface
+@required {resourceGroupName: any # The name of the resource group., networkInterfaceName: any # The name of the network interface., parameters: any # Parameters supplied to the create/update NetworkInterface operation}
+@returns(201)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces
+@desc The list network interface operation retrieves information about all network interfaces in a virtual machine from a virtual machine scale set.
+@required {resourceGroupName: any # The name of the resource group., virtualMachineScaleSetName: any # The name of the virtual machine scale set., virtualmachineIndex: any # The virtual machine index.}
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/networkInterfaces
+@desc The list network interface operation retrieves information about all network interfaces in a virtual machine scale set.
+@required {resourceGroupName: any # The name of the resource group., virtualMachineScaleSetName: any # The name of the virtual machine scale set.}
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}
+@desc The Get network interface operation retrieves information about the specified network interface in a virtual machine scale set.
+@required {resourceGroupName: any # The name of the resource group., virtualMachineScaleSetName: any # The name of the virtual machine scale set., virtualmachineIndex: any # The virtual machine index., networkInterfaceName: any # The name of the network interface.}
+@optional {$expand: any # expand references resources.}
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkInterfaces
+@desc The List networkInterfaces operation retrieves all the networkInterfaces in a subscription.
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces
+@desc The List networkInterfaces operation retrieves all the networkInterfaces in a resource group.
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable
+@desc Retrieves all the route tables applied on a networkInterface.
+@required {resourceGroupName: any # The name of the resource group., networkInterfaceName: any # The name of the network interface.}
+@returns(200)
+@returns(202)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveNetworkSecurityGroups
+@desc The list effective network security group operation retrieves all the network security groups applied on a networkInterface.
+@required {resourceGroupName: any # The name of the resource group., networkInterfaceName: any # The name of the network interface.}
+@returns(200)
+@returns(202)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}
+@desc The Delete NetworkSecurityGroup operation deletes the specified network security group
+@required {resourceGroupName: any # The name of the resource group., networkSecurityGroupName: any # The name of the network security group.}
+@returns(202)
+@returns(200)
+@returns(204)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}
+@desc The Get NetworkSecurityGroups operation retrieves information about the specified network security group.
+@required {resourceGroupName: any # The name of the resource group., networkSecurityGroupName: any # The name of the network security group.}
+@optional {$expand: any # expand references resources.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}
+@desc The Put NetworkSecurityGroup operation creates/updates a network security group in the specified resource group.
+@required {resourceGroupName: any # The name of the resource group., networkSecurityGroupName: any # The name of the network security group., parameters: any # Parameters supplied to the create/update Network Security Group operation}
+@returns(201)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityGroups
+@desc The list NetworkSecurityGroups returns all network security groups in a subscription
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups
+@desc The list NetworkSecurityGroups returns all network security groups in a resource group
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}
+@desc The delete publicIpAddress operation deletes the specified publicIpAddress.
+@required {resourceGroupName: any # The name of the resource group., publicIpAddressName: any # The name of the subnet.}
+@returns(204)
+@returns(202)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}
+@desc The Get publicIpAddress operation retrieves information about the specified pubicIpAddress
+@required {resourceGroupName: any # The name of the resource group., publicIpAddressName: any # The name of the subnet.}
+@optional {$expand: any # expand references resources.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}
+@desc The Put PublicIPAddress operation creates/updates a stable/dynamic PublicIP address
+@required {resourceGroupName: any # The name of the resource group., publicIpAddressName: any # The name of the publicIpAddress., parameters: any # Parameters supplied to the create/update PublicIPAddress operation}
+@returns(201)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses
+@desc The List publicIpAddress operation retrieves all the publicIpAddresses in a subscription.
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses
+@desc The List publicIpAddress operation retrieves all the publicIpAddresses in a resource group.
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}
+@desc The Delete RouteTable operation deletes the specified Route Table
+@required {resourceGroupName: any # The name of the resource group., routeTableName: any # The name of the route table.}
+@returns(204)
+@returns(200)
+@returns(202)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}
+@desc The Get RouteTables operation retrieves information about the specified route table.
+@required {resourceGroupName: any # The name of the resource group., routeTableName: any # The name of the route table.}
+@optional {$expand: any # expand references resources.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}
+@desc The Put RouteTable operation creates/updates a route table in the specified resource group.
+@required {resourceGroupName: any # The name of the resource group., routeTableName: any # The name of the route table., parameters: any # Parameters supplied to the create/update Route Table operation}
+@returns(200)
+@returns(201)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables
+@desc The list RouteTables returns all route tables in a resource group
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/routeTables
+@desc The list RouteTables returns all route tables in a subscription
+@returns(200)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}
+@desc The delete route operation deletes the specified route from a route table.
+@required {resourceGroupName: any # The name of the resource group., routeTableName: any # The name of the route table., routeName: any # The name of the route.}
+@returns(202)
+@returns(200)
+@returns(204)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}
+@desc The Get route operation retrieves information about the specified route from the route table.
+@required {resourceGroupName: any # The name of the resource group., routeTableName: any # The name of the route table., routeName: any # The name of the route.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}
+@desc The Put route operation creates/updates a route in the specified route table
+@required {resourceGroupName: any # The name of the resource group., routeTableName: any # The name of the route table., routeName: any # The name of the route., routeParameters: any # Parameters supplied to the create/update route operation}
+@returns(200)
+@returns(201)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes
+@desc The List network security rule operation retrieves all the routes in a route table.
+@required {resourceGroupName: any # The name of the resource group., routeTableName: any # The name of the route table.}
+@returns(200)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}
+@desc The delete network security rule operation deletes the specified network security rule.
+@required {resourceGroupName: any # The name of the resource group., networkSecurityGroupName: any # The name of the network security group., securityRuleName: any # The name of the security rule.}
+@returns(204)
+@returns(202)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}
+@desc The Get NetworkSecurityRule operation retrieves information about the specified network security rule.
+@required {resourceGroupName: any # The name of the resource group., networkSecurityGroupName: any # The name of the network security group., securityRuleName: any # The name of the security rule.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}
+@desc The Put network security rule operation creates/updates a security rule in the specified network security group
+@required {resourceGroupName: any # The name of the resource group., networkSecurityGroupName: any # The name of the network security group., securityRuleName: any # The name of the security rule., securityRuleParameters: any # Parameters supplied to the create/update network security rule operation}
+@returns(200)
+@returns(201)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules
+@desc The List network security rule operation retrieves all the security rules in a network security group.
+@required {resourceGroupName: any # The name of the resource group., networkSecurityGroupName: any # The name of the network security group.}
+@returns(200)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
+@desc The delete subnet operation deletes the specified subnet.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkName: any # The name of the virtual network., subnetName: any # The name of the subnet.}
+@returns(200)
+@returns(204)
+@returns(202)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
+@desc The Get subnet operation retrieves information about the specified subnet.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkName: any # The name of the virtual network., subnetName: any # The name of the subnet.}
+@optional {$expand: any # expand references resources.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
+@desc The Put Subnet operation creates/updates a subnet in the specified virtual network
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkName: any # The name of the virtual network., subnetName: any # The name of the subnet., subnetParameters: any # Parameters supplied to the create/update Subnet operation}
+@returns(200)
+@returns(201)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets
+@desc The List subnets operation retrieves all the subnets in a virtual network.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkName: any # The name of the virtual network.}
+@returns(200)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}
+@desc The delete virtual network peering operation deletes the specified peering.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkName: any # The name of the virtual network., virtualNetworkPeeringName: any # The name of the virtual network peering.}
+@returns(200)
+@returns(204)
+@returns(202)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}
+@desc The Get virtual network peering operation retrieves information about the specified virtual network peering.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkName: any # The name of the virtual network., virtualNetworkPeeringName: any # The name of the virtual network peering.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}
+@desc The Put virtual network peering operation creates/updates a peering in the specified virtual network
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkName: any # The name of the virtual network., virtualNetworkPeeringName: any # The name of the peering., VirtualNetworkPeeringParameters: any # Parameters supplied to the create/update virtual network peering operation}
+@returns(200)
+@returns(201)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings
+@desc The List virtual network peerings operation retrieves all the peerings in a virtual network.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkName: any # The name of the virtual network.}
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages
+@desc Lists compute usages for a subscription.
+@required {location: any # The location upon which resource usage is queried.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}
+@desc The Put VirtualNetworkGatewayConnection operation creates/updates a virtual network gateway connection in the specified resource group through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkGatewayConnectionName: any # The name of the virtual network gateway connection., parameters: any # Parameters supplied to the Begin Create or update Virtual Network Gateway connection operation through Network resource provider.}
+@returns(200)
+@returns(201)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}
+@desc The Get VirtualNetworkGatewayConnection operation retrieves information about the specified virtual network gateway connection through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkGatewayConnectionName: any # The name of the virtual network gateway connection.}
+@returns(200)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}
+@desc The Delete VirtualNetworkGatewayConnection operation deletes the specified virtual network Gateway connection through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkGatewayConnectionName: any # The name of the virtual network gateway connection.}
+@returns(200)
+@returns(202)
+@returns(204)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections
+@desc The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey/reset
+@desc The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkGatewayConnectionName: any # The virtual network gateway connection reset shared key Name., parameters: any # Parameters supplied to the Begin Reset Virtual Network Gateway connection shared key operation through Network resource provider.}
+@returns(200)
+@returns(202)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey
+@desc The Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkGatewayConnectionName: any # The virtual network gateway connection name., parameters: any # Parameters supplied to the Begin Set Virtual Network Gateway connection Shared key operation throughNetwork resource provider.}
+@returns(201)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey
+@desc The Get VirtualNetworkGatewayConnectionSharedKey operation retrieves information about the specified virtual network gateway connection shared key through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkGatewayConnectionName: any # The virtual network gateway connection shared key name.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}
+@desc The Put VirtualNetworkGateway operation creates/updates a virtual network gateway in the specified resource group through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkGatewayName: any # The name of the virtual network gateway., parameters: any # Parameters supplied to the Begin Create or update Virtual Network Gateway operation through Network resource provider.}
+@returns(200)
+@returns(201)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}
+@desc The Get VirtualNetworkGateway operation retrieves information about the specified virtual network gateway through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkGatewayName: any # The name of the virtual network gateway.}
+@returns(200)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}
+@desc The Delete VirtualNetworkGateway operation deletes the specified virtual network Gateway through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkGatewayName: any # The name of the virtual network gateway.}
+@returns(204)
+@returns(202)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways
+@desc The List VirtualNetworkGateways operation retrieves all the virtual network gateways stored.
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/reset
+@desc The Reset VirtualNetworkGateway operation resets the primary of the virtual network gateway in the specified resource group through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkGatewayName: any # The name of the virtual network gateway., parameters: any # Parameters supplied to the Begin Reset Virtual Network Gateway operation through Network resource provider.}
+@returns(202)
+@returns(200)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnclientpackage
+@desc The Generatevpnclientpackage operation generates Vpn client package for P2S client of the virtual network gateway in the specified resource group through Network resource provider.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkGatewayName: any # The name of the virtual network gateway., parameters: any # Parameters supplied to the Begin Generating  Virtual Network Gateway Vpn client package operation through Network resource provider.}
+@returns(202) Vpn client package url
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}
+@desc The Delete VirtualNetwork operation deletes the specified virtual network
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkName: any # The name of the virtual network.}
+@returns(202)
+@returns(204)
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}
+@desc The Get VirtualNetwork operation retrieves information about the specified virtual network.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkName: any # The name of the virtual network.}
+@optional {$expand: any # expand references resources.}
+@returns(200)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}
+@desc The Put VirtualNetwork operation creates/updates a virtual network in the specified resource group.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkName: any # The name of the virtual network., parameters: any # Parameters supplied to the create/update Virtual Network operation}
+@returns(200)
+@returns(201)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworks
+@desc The list VirtualNetwork returns all Virtual Networks in a subscription
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks
+@desc The list VirtualNetwork returns all Virtual Networks in a resource group
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/CheckDnsNameAvailability
+@desc Checks whether a domain name in the cloudapp.net zone is available for use.
+@required {location: any # The location of the domain name}
+@optional {domainNameLabel: any # The domain name to be verified. It must conform to the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$.}
+@returns(200)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/CheckIPAddressAvailability
+@desc Checks whether a private Ip address is available for use.
+@required {resourceGroupName: any # The name of the resource group., virtualNetworkName: any # The name of the virtual network.}
+@optional {ipAddress: any # The private IP address to be verified.}
+@returns(200) private IP address availability and list of other free addresses if the requested one is not available
+
+@end

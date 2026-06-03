@@ -1,0 +1,42 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api NetworkManagementClient
+@base https://management.azure.com
+@version 2019-08-01
+@auth OAuth2
+@endpoints 6
+@toc subscriptions(6)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}
+@desc Deletes the specified virtual network tap.
+@required {resourceGroupName: any # The name of the resource group., tapName: any # The name of the virtual network tap.}
+@returns(200) Delete successful.
+@returns(202) Accepted. Sets 'Deleting' provisioningState until the operation completes. Returns an operation URI that can be queried to find the current state of the operation.
+@returns(204) Request successful. Resource does not exist.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}
+@desc Gets information about the specified virtual network tap.
+@required {resourceGroupName: any # The name of the resource group., tapName: any # The name of virtual network tap.}
+@returns(200) Request successful. The operation returns the resulting VirtualNetworkTap resource.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}
+@desc Creates or updates a Virtual Network Tap.
+@required {resourceGroupName: any # The name of the resource group., tapName: any # The name of the virtual network tap., parameters: any # Parameters supplied to the create or update virtual network tap operation.}
+@returns(200) Update successful. The operation returns the resulting VirtualNetworkTap resource.
+@returns(201) Create successful. The operation returns the resulting VirtualNetworkTap resource.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}
+@desc Updates an VirtualNetworkTap tags.
+@required {resourceGroupName: any # The name of the resource group., tapName: any # The name of the tap., tapParameters: any # Parameters supplied to update VirtualNetworkTap tags.}
+@returns(200) Update successful. The operation returns the resulting VirtualNetworkTap resource.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworkTaps
+@desc Gets all the VirtualNetworkTaps in a subscription.
+@returns(200) Request successful. The operation returns a list of Virtual Network Tap resources.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps
+@desc Gets all the VirtualNetworkTaps in a subscription.
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200) Request successful. The operation returns a list of Virtual Network Tap resources.
+
+@end

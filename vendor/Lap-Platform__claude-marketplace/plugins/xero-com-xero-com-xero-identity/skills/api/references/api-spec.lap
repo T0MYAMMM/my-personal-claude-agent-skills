@@ -1,0 +1,21 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Xero OAuth 2 Identity Service API
+@base https://api.xero.com
+@version 11.1.0
+@auth Bearer basic | OAuth2
+@endpoints 2
+@toc Connections(2)
+
+@endpoint GET /Connections
+@desc Retrieves the connections for this user
+@optional {authEventId: str(uuid) # Filter by authEventId}
+@returns(200) Success - return response of type Connections array with 0 to n Connection
+
+@endpoint DELETE /Connections/{id}
+@desc Deletes a connection for this user (i.e. disconnect a tenant)
+@required {id: str(uuid) # Unique identifier for retrieving single object}
+@returns(204) Success - connection has been deleted no content returned
+@errors {404: Resource not found}
+
+@end

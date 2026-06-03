@@ -1,0 +1,31 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Azure SQL Database Datamasking Policies and Rules
+@base https://management.azure.com
+@version 2014-04-01
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}
+@desc Creates or updates a database data masking policy
+@required {serverName: any # The name of the server., databaseName: any # The name of the database., dataMaskingPolicyName: any # The name of the database for which the data masking rule applies., parameters: any # Parameters for creating or updating a data masking policy.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}
+@desc Gets a database data masking policy.
+@required {serverName: any # The name of the server., databaseName: any # The name of the database., dataMaskingPolicyName: any # The name of the database for which the data masking rule applies.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}/rules/{dataMaskingRuleName}
+@desc Creates or updates a database data masking rule.
+@required {serverName: any # The name of the server., databaseName: any # The name of the database., dataMaskingPolicyName: any # The name of the database for which the data masking rule applies., dataMaskingRuleName: any # The name of the data masking rule., parameters: any # The required parameters for creating or updating a data masking rule.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}/rules
+@desc Gets a list of database data masking rules.
+@required {serverName: any # The name of the server., databaseName: any # The name of the database., dataMaskingPolicyName: any # The name of the database for which the data masking rule applies.}
+@returns(200) OK
+
+@end

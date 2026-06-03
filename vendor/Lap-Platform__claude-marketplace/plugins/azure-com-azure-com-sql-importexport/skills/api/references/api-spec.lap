@@ -1,0 +1,28 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Azure SQL Database Import/Export spec
+@base https://management.azure.com
+@version 2014-04-01
+@auth OAuth2
+@endpoints 3
+@toc subscriptions(3)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/import
+@desc Imports a bacpac into a new database.
+@required {serverName: any # The name of the server., parameters: any # The required parameters for importing a Bacpac into a database.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions/{extensionName}
+@desc Creates an import operation that imports a bacpac into an existing database. The existing database must be empty.
+@required {serverName: any # The name of the server., databaseName: any # The name of the database to import into, extensionName: any # The name of the operation to perform, parameters: any # The required parameters for importing a Bacpac into a database.}
+@returns(201) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/export
+@desc Exports a database to a bacpac.
+@required {serverName: any # The name of the server., databaseName: any # The name of the database to be exported., parameters: any # The required parameters for exporting a database.}
+@returns(200) OK
+@returns(202) Accepted
+
+@end

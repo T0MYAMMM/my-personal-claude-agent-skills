@@ -1,0 +1,29 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Cnab Online
+@base https://cnab-online.herokuapp.com/v1
+@version 1.0.0
+@endpoints 4
+@toc file(4)
+
+@endpoint POST /file
+@desc Faz o upload de um arquivo
+@required {file: any # Arquivo CNAB}
+@returns(200) Informações básicas do arquivo
+
+@endpoint GET /file/{fileId}
+@desc Retorna as informações básicas de um arquivo previamente processado
+@required {fileId: any # ID Temporário gerado no endpoint file}
+@returns(200) Informações básicas do arquivo
+
+@endpoint GET /file/{fileId}/occurrences
+@desc Retorna as informações de baixa de boletos e outros tipos de ocorrências
+@required {fileId: any # ID Temporário gerado no endpoint file}
+@returns(200) Informações básicas do arquivo
+
+@endpoint GET /file/{fileId}/lines
+@desc Retorna todas as linhas e seus respectivos campos (de forma não processada, apenas indicando os campos reconhecidos)
+@required {fileId: any # ID Temporário gerado no endpoint file}
+@returns(200) Informações básicas do arquivo
+
+@end

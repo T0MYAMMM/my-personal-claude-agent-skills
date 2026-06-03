@@ -1,0 +1,46 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Annotations API
+@version 1.0.0
+@endpoints 7
+@toc projects(7)
+
+@endpoint GET /projects/{projectId}/annotations
+@desc List Annotations
+@returns(200) {status: str, results: [map]} # Success
+@errors {401, 403}
+
+@endpoint POST /projects/{projectId}/annotations
+@desc Create Annotations
+@optional {date: str # A string representation of a date in "YYYY-MM-DD HH:mm:ss" format, description: str # The text that will be shown when looking at the annotation, tags: [num] # The ids of the tags to be added to the annotation}
+@returns(201) {status: str, results: map{date: str, description: str, id: num, user: map{id: num, first_name: str, last_name: str}, tags: [map]}} # Success
+@errors {401, 403}
+
+@endpoint GET /projects/{projectId}/annotations/{annotationId}
+@desc Get Annotation
+@returns(200) {status: str, results: map{date: str, description: str, id: num, user: map{id: num, first_name: str, last_name: str}, tags: [map]}} # Success
+@errors {401, 403}
+
+@endpoint PATCH /projects/{projectId}/annotations/{annotationId}
+@desc Patch Annotation
+@optional {description: str # The text that will be shown when looking at the annotation, tags: [num] # The ids of the tags to be added to the annotation}
+@returns(200) {status: str, results: map{date: str, description: str, id: num, user: map{id: num, first_name: str, last_name: str}, tags: [map]}} # Success
+@errors {401, 403}
+
+@endpoint DELETE /projects/{projectId}/annotations/{annotationId}
+@desc Delete Annotation
+@returns(200) {status: str, results: map{id: num}} # Success
+@errors {401, 403}
+
+@endpoint GET /projects/{projectId}/annotations/tags
+@desc Get Annotation Tags
+@returns(200) Success
+@errors {401, 403}
+
+@endpoint POST /projects/{projectId}/annotations/tags
+@desc Create Annotation Tag
+@optional {name: str # The text that will be shown when the tag is added to an annotation}
+@returns(200) {id: num, name: str, project_id: num, has_annotations: bool} # Success
+@errors {401, 403}
+
+@end

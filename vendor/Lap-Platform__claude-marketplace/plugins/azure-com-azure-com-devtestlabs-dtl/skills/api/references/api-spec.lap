@@ -1,0 +1,785 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api DevTestLabsClient
+@base https://management.azure.com
+@version 2018-09-15
+@auth OAuth2
+@common_fields {api-version: any # Client API version., subscriptionId: any # The subscription ID., resourceGroupName: any # The name of the resource group.}
+@endpoints 132
+@hint download_for_search
+@toc providers(1), subscriptions(131)
+
+@group providers
+@endpoint GET /providers/Microsoft.DevTestLab/operations
+@desc Result of the request to list REST API operations
+@returns(200) Success
+
+@endgroup
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.DevTestLab/labs
+@desc List labs in a subscription.
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=defaultStorageAccount)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.DevTestLab/locations/{locationName}/operations/{name}
+@desc Get operation.
+@required {locationName: any # The name of the location., name: any # The name of the operation.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.DevTestLab/schedules
+@desc List schedules in a subscription.
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=status)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs
+@desc List labs in a resource group.
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=defaultStorageAccount)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources
+@desc List artifact sources in a given lab.
+@required {labName: any # The name of the lab.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=displayName)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{artifactSourceName}/armtemplates
+@desc List azure resource manager templates in a given artifact source.
+@required {labName: any # The name of the lab., artifactSourceName: any # The name of the artifact source.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=displayName)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{artifactSourceName}/armtemplates/{name}
+@desc Get azure resource manager template.
+@required {labName: any # The name of the lab., artifactSourceName: any # The name of the artifact source., name: any # The name of the azure resource manager template.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=displayName)'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{artifactSourceName}/artifacts
+@desc List artifacts in a given artifact source.
+@required {labName: any # The name of the lab., artifactSourceName: any # The name of the artifact source.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=title)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{artifactSourceName}/artifacts/{name}
+@desc Get artifact.
+@required {labName: any # The name of the lab., artifactSourceName: any # The name of the artifact source., name: any # The name of the artifact.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=title)'}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{artifactSourceName}/artifacts/{name}/generateArmTemplate
+@desc Generates an ARM template for the given artifact, uploads the required files to a storage account, and validates the generated artifact.
+@required {labName: any # The name of the lab., artifactSourceName: any # The name of the artifact source., name: any # The name of the artifact., generateArmTemplateRequest: map # Parameters for generating an ARM template for deploying artifacts.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}
+@desc Get artifact source.
+@required {labName: any # The name of the lab., name: any # The name of the artifact source.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=displayName)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}
+@desc Create or replace an existing artifact source.
+@required {labName: any # The name of the lab., name: any # The name of the artifact source., artifactSource: map # Properties of an artifact source.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}
+@desc Delete artifact source.
+@required {labName: any # The name of the lab., name: any # The name of the artifact source.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}
+@desc Allows modifying tags of artifact sources. All other properties will be ignored.
+@required {labName: any # The name of the lab., name: any # The name of the artifact source., artifactSource: map # Properties of an artifact source.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/costs/{name}
+@desc Get cost.
+@required {labName: any # The name of the lab., name: any # The name of the cost.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($expand=labCostDetails)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/costs/{name}
+@desc Create or replace an existing cost.
+@required {labName: any # The name of the lab., name: any # The name of the cost., labCost: map # A cost item.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages
+@desc List custom images in a given lab.
+@required {labName: any # The name of the lab.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=vm)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages/{name}
+@desc Get custom image.
+@required {labName: any # The name of the lab., name: any # The name of the custom image.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=vm)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages/{name}
+@desc Create or replace an existing custom image. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the custom image., customImage: map # A custom image.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages/{name}
+@desc Delete custom image. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the custom image.}
+@returns(200) OK
+@returns(202) Accepted
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages/{name}
+@desc Allows modifying tags of custom images. All other properties will be ignored.
+@required {labName: any # The name of the lab., name: any # The name of the custom image., customImage: map # A custom image.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas
+@desc List formulas in a given lab.
+@required {labName: any # The name of the lab.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=description)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}
+@desc Get formula.
+@required {labName: any # The name of the lab., name: any # The name of the formula.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=description)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}
+@desc Create or replace an existing formula. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the formula., formula: map # A formula for creating a VM, specifying an image base and other parameters}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}
+@desc Delete formula.
+@required {labName: any # The name of the lab., name: any # The name of the formula.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}
+@desc Allows modifying tags of formulas. All other properties will be ignored.
+@required {labName: any # The name of the lab., name: any # The name of the formula., formula: map # A formula for creating a VM, specifying an image base and other parameters}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/galleryimages
+@desc List gallery images in a given lab.
+@required {labName: any # The name of the lab.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=author)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/notificationchannels
+@desc List notification channels in a given lab.
+@required {labName: any # The name of the lab.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=webHookUrl)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/notificationchannels/{name}
+@desc Get notification channel.
+@required {labName: any # The name of the lab., name: any # The name of the notification channel.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=webHookUrl)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/notificationchannels/{name}
+@desc Create or replace an existing notification channel.
+@required {labName: any # The name of the lab., name: any # The name of the notification channel., notificationChannel: map # A notification.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/notificationchannels/{name}
+@desc Delete notification channel.
+@required {labName: any # The name of the lab., name: any # The name of the notification channel.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/notificationchannels/{name}
+@desc Allows modifying tags of notification channels. All other properties will be ignored.
+@required {labName: any # The name of the lab., name: any # The name of the notification channel., notificationChannel: map # A notification.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/notificationchannels/{name}/notify
+@desc Send notification to provided channel.
+@required {labName: any # The name of the lab., name: any # The name of the notification channel., notifyParameters: map # Properties for generating a Notification.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{name}/evaluatePolicies
+@desc Evaluates lab policy.
+@required {labName: any # The name of the lab., name: any # The name of the policy set., evaluatePoliciesRequest: map # Request body for evaluating a policy set.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies
+@desc List policies in a given policy set.
+@required {labName: any # The name of the lab., policySetName: any # The name of the policy set.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=description)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies/{name}
+@desc Get policy.
+@required {labName: any # The name of the lab., policySetName: any # The name of the policy set., name: any # The name of the policy.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=description)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies/{name}
+@desc Create or replace an existing policy.
+@required {labName: any # The name of the lab., policySetName: any # The name of the policy set., name: any # The name of the policy., policy: map # A Policy.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies/{name}
+@desc Delete policy.
+@required {labName: any # The name of the lab., policySetName: any # The name of the policy set., name: any # The name of the policy.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies/{name}
+@desc Allows modifying tags of policies. All other properties will be ignored.
+@required {labName: any # The name of the lab., policySetName: any # The name of the policy set., name: any # The name of the policy., policy: map # A Policy.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules
+@desc List schedules in a given lab.
+@required {labName: any # The name of the lab.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=status)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}
+@desc Get schedule.
+@required {labName: any # The name of the lab., name: any # The name of the schedule.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=status)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}
+@desc Create or replace an existing schedule.
+@required {labName: any # The name of the lab., name: any # The name of the schedule., schedule: map # A schedule.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}
+@desc Delete schedule.
+@required {labName: any # The name of the lab., name: any # The name of the schedule.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}
+@desc Allows modifying tags of schedules. All other properties will be ignored.
+@required {labName: any # The name of the lab., name: any # The name of the schedule., schedule: map # A schedule.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}/execute
+@desc Execute a schedule. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the schedule.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}/listApplicable
+@desc Lists all applicable schedules
+@required {labName: any # The name of the lab., name: any # The name of the schedule.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners/{name}
+@desc Get service runner.
+@required {labName: any # The name of the lab., name: any # The name of the service runner.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners/{name}
+@desc Create or replace an existing service runner.
+@required {labName: any # The name of the lab., name: any # The name of the service runner., serviceRunner: map # A container for a managed identity to execute DevTest lab services.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners/{name}
+@desc Delete service runner.
+@required {labName: any # The name of the lab., name: any # The name of the service runner.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users
+@desc List user profiles in a given lab.
+@required {labName: any # The name of the lab.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=identity)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{name}
+@desc Get user profile.
+@required {labName: any # The name of the lab., name: any # The name of the user profile.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=identity)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{name}
+@desc Create or replace an existing user profile. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the user profile., user: map # Profile of a lab user.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{name}
+@desc Delete user profile. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the user profile.}
+@returns(200) OK
+@returns(202) Accepted
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{name}
+@desc Allows modifying tags of user profiles. All other properties will be ignored.
+@required {labName: any # The name of the lab., name: any # The name of the user profile., user: map # Profile of a lab user.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks
+@desc List disks in a given user profile.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=diskType)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}
+@desc Get disk.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the disk.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=diskType)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}
+@desc Create or replace an existing disk. This operation can take a while to complete.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the disk., disk: map # A Disk.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}
+@desc Delete disk. This operation can take a while to complete.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the disk.}
+@returns(200) OK
+@returns(202) Accepted
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}
+@desc Allows modifying tags of disks. All other properties will be ignored.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the disk., disk: map # A Disk.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}/attach
+@desc Attach and create the lease of the disk to the virtual machine. This operation can take a while to complete.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the disk., attachDiskProperties: map # Properties of the disk to attach.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}/detach
+@desc Detach and break the lease of the disk attached to the virtual machine. This operation can take a while to complete.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the disk., detachDiskProperties: map # Properties of the disk to detach.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/environments
+@desc List environments in a given user profile.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=deploymentProperties)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/environments/{name}
+@desc Get environment.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the environment.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=deploymentProperties)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/environments/{name}
+@desc Create or replace an existing environment. This operation can take a while to complete.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the environment., dtlEnvironment: map # An environment, which is essentially an ARM template deployment.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/environments/{name}
+@desc Delete environment. This operation can take a while to complete.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the environment.}
+@returns(200) OK
+@returns(202) Accepted
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/environments/{name}
+@desc Allows modifying tags of environments. All other properties will be ignored.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the environment., dtlEnvironment: map # An environment, which is essentially an ARM template deployment.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/secrets
+@desc List secrets in a given user profile.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=value)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/secrets/{name}
+@desc Get secret.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the secret.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=value)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/secrets/{name}
+@desc Create or replace an existing secret. This operation can take a while to complete.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the secret., secret: map # A secret.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/secrets/{name}
+@desc Delete secret.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the secret.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/secrets/{name}
+@desc Allows modifying tags of secrets. All other properties will be ignored.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the secret., secret: map # A secret.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics
+@desc List service fabrics in a given user profile.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($expand=applicableSchedule)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}
+@desc Get service fabric.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the service fabric.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($expand=applicableSchedule)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}
+@desc Create or replace an existing service fabric. This operation can take a while to complete.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the service fabric., serviceFabric: map # A Service Fabric.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}
+@desc Delete service fabric. This operation can take a while to complete.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the service fabric.}
+@returns(200) OK
+@returns(202) Accepted
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}
+@desc Allows modifying tags of service fabrics. All other properties will be ignored.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the service fabric., serviceFabric: map # A Service Fabric.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}/listApplicableSchedules
+@desc Lists the applicable start/stop schedules, if any.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the service fabric.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}/start
+@desc Start a service fabric. This operation can take a while to complete.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the service fabric.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}/stop
+@desc Stop a service fabric This operation can take a while to complete.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., name: any # The name of the service fabric.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules
+@desc List schedules in a given service fabric.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., serviceFabricName: any # The name of the service fabric.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=status)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}
+@desc Get schedule.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., serviceFabricName: any # The name of the service fabric., name: any # The name of the schedule.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=status)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}
+@desc Create or replace an existing schedule.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., serviceFabricName: any # The name of the service fabric., name: any # The name of the schedule., schedule: map # A schedule.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}
+@desc Delete schedule.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., serviceFabricName: any # The name of the service fabric., name: any # The name of the schedule.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}
+@desc Allows modifying tags of schedules. All other properties will be ignored.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., serviceFabricName: any # The name of the service fabric., name: any # The name of the schedule., schedule: map # A schedule.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}/execute
+@desc Execute a schedule. This operation can take a while to complete.
+@required {labName: any # The name of the lab., userName: any # The name of the user profile., serviceFabricName: any # The name of the service fabric., name: any # The name of the schedule.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines
+@desc List virtual machines in a given lab.
+@required {labName: any # The name of the lab.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($expand=artifacts,computeVm,networkInterface,applicableSchedule)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}
+@desc Get virtual machine.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($expand=artifacts,computeVm,networkInterface,applicableSchedule)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}
+@desc Create or replace an existing virtual machine. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine., labVirtualMachine: map # A virtual machine.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}
+@desc Delete virtual machine. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine.}
+@returns(200) OK
+@returns(202) Accepted
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}
+@desc Allows modifying tags of virtual machines. All other properties will be ignored.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine., labVirtualMachine: map # A virtual machine.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/addDataDisk
+@desc Attach a new or existing data disk to virtual machine. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine., dataDiskProperties: map # Request body for adding a new or existing data disk to a virtual machine.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/applyArtifacts
+@desc Apply artifacts to virtual machine. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine., applyArtifactsRequest: map # Request body for applying artifacts to a virtual machine.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/claim
+@desc Take ownership of an existing virtual machine This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/detachDataDisk
+@desc Detach the specified disk from the virtual machine. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine., detachDataDiskProperties: map # Request body for detaching data disk from a virtual machine.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/getRdpFileContents
+@desc Gets a string that represents the contents of the RDP file for the virtual machine
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/listApplicableSchedules
+@desc Lists the applicable start/stop schedules, if any.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/redeploy
+@desc Redeploy a virtual machine This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/resize
+@desc Resize Virtual Machine. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine., resizeLabVirtualMachineProperties: map # Request body for resizing a virtual machine.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/restart
+@desc Restart a virtual machine. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/start
+@desc Start a virtual machine. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/stop
+@desc Stop a virtual machine This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/transferDisks
+@desc Transfers all data disks attached to the virtual machine to be owned by the current user. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/unClaim
+@desc Release ownership of an existing virtual machine This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual machine.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules
+@desc List schedules in a given virtual machine.
+@required {labName: any # The name of the lab., virtualMachineName: any # The name of the virtual machine.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=status)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules/{name}
+@desc Get schedule.
+@required {labName: any # The name of the lab., virtualMachineName: any # The name of the virtual machine., name: any # The name of the schedule.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=status)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules/{name}
+@desc Create or replace an existing schedule.
+@required {labName: any # The name of the lab., virtualMachineName: any # The name of the virtual machine., name: any # The name of the schedule., schedule: map # A schedule.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules/{name}
+@desc Delete schedule.
+@required {labName: any # The name of the lab., virtualMachineName: any # The name of the virtual machine., name: any # The name of the schedule.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules/{name}
+@desc Allows modifying tags of schedules. All other properties will be ignored.
+@required {labName: any # The name of the lab., virtualMachineName: any # The name of the virtual machine., name: any # The name of the schedule., schedule: map # A schedule.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{virtualMachineName}/schedules/{name}/execute
+@desc Execute a schedule. This operation can take a while to complete.
+@required {labName: any # The name of the lab., virtualMachineName: any # The name of the virtual machine., name: any # The name of the schedule.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks
+@desc List virtual networks in a given lab.
+@required {labName: any # The name of the lab.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($expand=externalSubnets)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{name}
+@desc Get virtual network.
+@required {labName: any # The name of the lab., name: any # The name of the virtual network.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($expand=externalSubnets)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{name}
+@desc Create or replace an existing virtual network. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual network., virtualNetwork: map # A virtual network.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{name}
+@desc Delete virtual network. This operation can take a while to complete.
+@required {labName: any # The name of the lab., name: any # The name of the virtual network.}
+@returns(200) OK
+@returns(202) Accepted
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{name}
+@desc Allows modifying tags of virtual networks. All other properties will be ignored.
+@required {labName: any # The name of the lab., name: any # The name of the virtual network., virtualNetwork: map # A virtual network.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}
+@desc Get lab.
+@required {name: any # The name of the lab.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=defaultStorageAccount)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}
+@desc Create or replace an existing lab. This operation can take a while to complete.
+@required {name: any # The name of the lab., lab: map # A lab.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}
+@desc Delete lab. This operation can take a while to complete.
+@required {name: any # The name of the lab.}
+@returns(200) OK
+@returns(202) Accepted
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}
+@desc Allows modifying tags of labs. All other properties will be ignored.
+@required {name: any # The name of the lab., lab: map # A lab.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/claimAnyVm
+@desc Claim a random claimable virtual machine in the lab. This operation can take a while to complete.
+@required {name: any # The name of the lab.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/createEnvironment
+@desc Create virtual machines in a lab. This operation can take a while to complete.
+@required {name: any # The name of the lab., labVirtualMachineCreationParameter: map # Properties for creating a virtual machine.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/exportResourceUsage
+@desc Exports the lab resource usage into a storage account This operation can take a while to complete.
+@required {name: any # The name of the lab., exportResourceUsageParameters: map # The parameters of the export operation.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/generateUploadUri
+@desc Generate a URI for uploading custom disk images to a Lab.
+@required {name: any # The name of the lab., generateUploadUriParameter: map # Properties for generating an upload URI.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/importVirtualMachine
+@desc Import a virtual machine into a different lab. This operation can take a while to complete.
+@required {name: any # The name of the lab., importLabVirtualMachineRequest: map # This represents the payload required to import a virtual machine from a different lab into the current one}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/listVhds
+@desc List disk images available for custom image creation.
+@required {name: any # The name of the lab.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules
+@desc List schedules in a resource group.
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=status)', $filter: any # The filter to apply to the operation. Example: '$filter=contains(name,'myName'), $top: any # The maximum number of resources to return from the operation. Example: '$top=10', $orderby: any # The ordering expression for the results, using OData notation. Example: '$orderby=name desc'}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}
+@desc Get schedule.
+@required {name: any # The name of the schedule.}
+@optional {$expand: any # Specify the $expand query. Example: 'properties($select=status)'}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}
+@desc Create or replace an existing schedule.
+@required {name: any # The name of the schedule., schedule: map # A schedule.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}
+@desc Delete schedule.
+@required {name: any # The name of the schedule.}
+@returns(200) OK
+@returns(204) No Content
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}
+@desc Allows modifying tags of schedules. All other properties will be ignored.
+@required {name: any # The name of the schedule., schedule: map # A schedule.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}/execute
+@desc Execute a schedule. This operation can take a while to complete.
+@required {name: any # The name of the schedule.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}/retarget
+@desc Updates a schedule's target resource Id. This operation can take a while to complete.
+@required {name: any # The name of the schedule., retargetScheduleProperties: map # Properties for retargeting a virtual machine schedule.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endgroup
+
+@end

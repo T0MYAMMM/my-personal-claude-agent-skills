@@ -1,0 +1,30 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api ApplicationInsightsManagementClient
+@base https://management.azure.com
+@version 2015-05-01
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ApiKeys
+@desc Gets a list of API keys of an Application Insights component.
+@required {resourceName: any # The name of the Application Insights component resource.}
+@returns(200) A list containing 0 or more API key definitions of an Application Insights component.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ApiKeys
+@desc Create an API Key of an Application Insights component.
+@required {resourceName: any # The name of the Application Insights component resource., APIKeyProperties: map # Properties that need to be specified to create an API key of a Application Insights component.}
+@returns(200) An object containing the API Key definition created by this POST call.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/APIKeys/{keyId}
+@desc Delete an API Key of an Application Insights component.
+@required {resourceName: any # The name of the Application Insights component resource., keyId: any # The API Key ID. This is unique within a Application Insights component.}
+@returns(200) The API Key that was successfully deleted.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/APIKeys/{keyId}
+@desc Get the API Key for this key id.
+@required {resourceName: any # The name of the Application Insights component resource., keyId: any # The API Key ID. This is unique within a Application Insights component.}
+@returns(200) The API Key for this key id.
+
+@end

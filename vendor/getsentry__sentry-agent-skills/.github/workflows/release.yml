@@ -1,0 +1,67 @@
+name: Release Skills Package
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create skills tarball
+        run: |
+          cd skills
+          tar -czvf ../sentry-agent-skills.tar.gz .
+
+      - name: Delete existing latest release
+        run: gh release delete latest --yes || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete latest tag
+        run: git push origin :refs/tags/latest || true
+
+      - name: Generate release body
+        id: release-body
+        run: |
+          SKILL_LIST=$(./scripts/generate-skill-list.sh)
+          # Use heredoc to handle multiline output
+          {
+            echo 'BODY<<RELEASE_EOF'
+            cat <<EOF
+          Automatically updated Sentry agent skills package.
+
+          ## Installation
+
+          Download and extract to your editor's skills directory:
+
+          \`\`\`bash
+          # Example for Claude Code (project-level)
+          mkdir -p .claude/skills
+          curl -L https://github.com/getsentry/sentry-agent-skills/releases/download/latest/sentry-agent-skills.tar.gz | tar -xz -C .claude/skills
+
+          # Or use sentry-wizard
+          npx @sentry/wizard@latest --skills
+          \`\`\`
+
+          ## Included Skills
+
+          $SKILL_LIST
+          EOF
+            echo 'RELEASE_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create latest release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest Skills
+          files: sentry-agent-skills.tar.gz
+          prerelease: false
+          make_latest: true
+          body: ${{ steps.release-body.outputs.BODY }}

@@ -1,0 +1,46 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api StorageManagementClient
+@base https://management.azure.com
+@version 2019-08-08-preview
+@auth OAuth2
+@common_fields {api-version: any # REST Api Version.}
+@endpoints 6
+@toc providers(1), subscriptions(5)
+
+@group providers
+@endpoint GET /providers/Microsoft.Storage.Admin/operations
+@desc Get the list of support rest operations.
+@returns(200) OK -- The list of operations has been returned.
+
+@endgroup
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Storage.Admin/locations/{location}/asyncOperations/{asyncOperationId}
+@desc Returns the async operation specified by asyncOperationId.
+@required {subscriptionId: any # Subscription Id., location: any # Resource location., asyncOperationId: any # Async Operation Id.}
+@returns(200) OK -- The async operation has been returned.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage.Admin/storageServices
+@desc Returns the storage services list under the specified resource group and subscription.
+@required {subscriptionId: any # Subscription Id., resourceGroup: any # Resource group name.}
+@returns(200) OK -- The list of storage services has been returned.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Storage.Admin/storageServices
+@desc Returns the storage services list under the specified subscription.
+@required {subscriptionId: any # Subscription Id.}
+@returns(200) OK -- The list of storage services has been returned.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage.Admin/storageServices/{serviceName}
+@desc Returns the specified storage service.
+@required {subscriptionId: any # Subscription Id., resourceGroup: any # Resource group name., serviceName: any # Storage service name.}
+@returns(200) OK -- The specified storage service has been returned.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Storage.Admin/storageServices/{serviceName}
+@desc Create the specified storage resource.
+@required {subscriptionId: any # Subscription Id., resourceGroup: any # Resource group name., serviceName: any # Storage service name.}
+@returns(200) OK -- The specified storage service has been created.
+
+@endgroup
+
+@end

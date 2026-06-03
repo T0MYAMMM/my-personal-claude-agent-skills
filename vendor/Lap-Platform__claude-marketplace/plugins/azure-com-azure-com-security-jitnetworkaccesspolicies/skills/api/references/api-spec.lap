@@ -1,0 +1,47 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Microsoft Defender for Cloud
+@base https://management.azure.com
+@version 2015-06-01-preview
+@auth OAuth2
+@endpoints 8
+@toc subscriptions(8)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/jitNetworkAccessPolicies
+@desc Policies for protecting resources using Just-in-Time access control.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/jitNetworkAccessPolicies
+@desc Policies for protecting resources using Just-in-Time access control for the subscription, location
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/jitNetworkAccessPolicies
+@desc Policies for protecting resources using Just-in-Time access control for the subscription, location
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/jitNetworkAccessPolicies
+@desc Policies for protecting resources using Just-in-Time access control for the subscription, location
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/jitNetworkAccessPolicies/{jitNetworkAccessPolicyName}
+@desc Policies for protecting resources using Just-in-Time access control for the subscription, location
+@required {jitNetworkAccessPolicyName: any # Name of a Just-in-Time access configuration policy.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/jitNetworkAccessPolicies/{jitNetworkAccessPolicyName}
+@desc Create a policy for protecting resources using Just-in-Time access control
+@required {jitNetworkAccessPolicyName: any # Name of a Just-in-Time access configuration policy., body: map}
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/jitNetworkAccessPolicies/{jitNetworkAccessPolicyName}
+@desc Delete a Just-in-Time access control policy.
+@required {jitNetworkAccessPolicyName: any # Name of a Just-in-Time access configuration policy.}
+@returns(200) OK - Resource was deleted
+@returns(204) No Content - Resource does not exist
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/jitNetworkAccessPolicies/{jitNetworkAccessPolicyName}/{jitNetworkAccessPolicyInitiateType}
+@desc Initiate a JIT access from a specific Just-in-Time policy configuration.
+@required {jitNetworkAccessPolicyName: any # Name of a Just-in-Time access configuration policy., jitNetworkAccessPolicyInitiateType: any # Type of the action to do on the Just-in-Time access policy., body: map}
+@returns(202) Accepted
+
+@end

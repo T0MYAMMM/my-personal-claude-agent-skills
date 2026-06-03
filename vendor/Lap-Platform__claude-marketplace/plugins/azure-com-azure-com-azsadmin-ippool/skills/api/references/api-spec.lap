@@ -1,0 +1,27 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api FabricAdminClient
+@base https://management.azure.com
+@version 2016-05-01
+@auth OAuth2
+@endpoints 3
+@toc subscriptions(3)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/ipPools/{ipPool}
+@desc Return the requested IP pool.
+@required {ipPool: any # IP pool name.}
+@returns(200) OK
+@errors {404: NOT FOUND}
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/ipPools/{ipPool}
+@desc Create an IP pool.  Once created an IP pool cannot be deleted.
+@required {ipPool: any # IP pool name., pool: map # IP pool object to send.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/ipPools
+@desc Returns a list of all IP pools at a certain location.
+@returns(200) OK
+@errors {404: NOT FOUND}
+
+@end

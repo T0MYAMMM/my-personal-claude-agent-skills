@@ -1,0 +1,79 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Form Recognizer Client
+@version 2.0-preview
+@auth ApiKey Ocp-Apim-Subscription-Key in header
+@endpoints 12
+@toc custom(8), prebuilt(2), layout(2)
+
+@group custom
+@endpoint POST /custom/models
+@desc Train Custom Model
+@required {trainRequest: map # Training request parameters.}
+@returns(201) Request is queued successfully.
+
+@endpoint GET /custom/models/{modelId}
+@desc Get Custom Model
+@required {modelId: any # Model identifier.}
+@optional {includeKeys: any # Include list of extracted keys in model information.}
+@returns(200) Success
+
+@endpoint DELETE /custom/models/{modelId}
+@desc Delete Custom Model
+@required {modelId: any # Model identifier.}
+@returns(204) Successfully marked model for deletion. Model artifacts will be removed within a predefined time period.
+
+@endpoint POST /custom/models/{modelId}/analyze
+@desc Analyze Form
+@required {modelId: any # Model identifier.}
+@optional {includeTextDetails: any # Include text lines and element references in the result., fileStream: map # .json, .pdf, .jpg, .png or .tiff type file stream.}
+@returns(202) Request is queued successfully.
+
+@endpoint GET /custom/models/{modelId}/analyzeResults/{resultId}
+@desc Get Analyze Form Result
+@required {modelId: any # Model identifier., resultId: any # Analyze operation result identifier.}
+@returns(200) Success
+
+@endpoint POST /custom/models/{modelId}/copy
+@desc Copy Custom Model
+@required {modelId: any # Model identifier., copyRequest: map # Copy request parameters.}
+@returns(202) Copy request is queued successfully.
+
+@endpoint GET /custom/models/{modelId}/copyResults/{resultId}
+@desc Get Custom Model Copy Result
+@required {modelId: any # Model identifier., resultId: any # Copy operation result identifier.}
+@returns(200) Success
+
+@endpoint POST /custom/models/copyAuthorization
+@desc Generate Copy Authorization
+@returns(201) Copy request is authorized successfully.
+
+@endgroup
+
+@group prebuilt
+@endpoint POST /prebuilt/receipt/analyze
+@desc Analyze Receipt
+@optional {includeTextDetails: any # Include text lines and element references in the result., fileStream: map # .json, .pdf, .jpg, .png or .tiff type file stream.}
+@returns(202) Request is queued successfully.
+
+@endpoint GET /prebuilt/receipt/analyzeResults/{resultId}
+@desc Get Analyze Receipt Result
+@required {resultId: any # Analyze operation result identifier.}
+@returns(200) Success
+
+@endgroup
+
+@group layout
+@endpoint POST /layout/analyze
+@desc Analyze Layout
+@optional {fileStream: map # .json, .pdf, .jpg, .png or .tiff type file stream.}
+@returns(202) Request is queued successfully.
+
+@endpoint GET /layout/analyzeResults/{resultId}
+@desc Get Analyze Layout Result
+@required {resultId: any # Analyze operation result identifier.}
+@returns(200) Success
+
+@endgroup
+
+@end

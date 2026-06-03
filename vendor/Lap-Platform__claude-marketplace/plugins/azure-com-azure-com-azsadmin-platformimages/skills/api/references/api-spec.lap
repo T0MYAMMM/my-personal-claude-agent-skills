@@ -1,0 +1,31 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Compute Admin Client
+@base https://management.azure.com
+@version 2015-12-01-preview
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute.Admin/locations/{location}/artifactTypes/platformImage
+@desc Returns all platform images.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Compute.Admin/locations/{location}/artifactTypes/platformImage/publishers/{publisher}/offers/{offer}/skus/{sku}/versions/{version}
+@desc Returns the requested platform image.
+@required {offer: any # Name of the offer., sku: any # Name of the SKU.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/providers/Microsoft.Compute.Admin/locations/{location}/artifactTypes/platformImage/publishers/{publisher}/offers/{offer}/skus/{sku}/versions/{version}
+@desc Creates a platform image.
+@required {offer: any # Name of the offer., sku: any # Name of the SKU., newImage: map # New platform image.}
+@returns(200) OK
+@returns(201) CREATED
+@returns(202) ACCEPTED
+
+@endpoint DELETE /subscriptions/{subscriptionId}/providers/Microsoft.Compute.Admin/locations/{location}/artifactTypes/platformImage/publishers/{publisher}/offers/{offer}/skus/{sku}/versions/{version}
+@desc Deletes a platform image matching publisher, offer, skus and version
+@required {offer: any # Name of the offer., sku: any # Name of the SKU.}
+@returns(200) OK
+
+@end

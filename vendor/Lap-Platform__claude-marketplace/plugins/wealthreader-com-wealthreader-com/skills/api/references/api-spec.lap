@@ -1,0 +1,28 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Wealthreader API — Legacy Placeholder (Not Official Documentation)
+@base https://virtserver.swaggerhub.com/Wealth-Reader/api/1.0.0
+@version 1.0.0
+@endpoints 3
+@toc root(1), docs(2)
+
+@group root
+@endpoint GET /
+@desc Landing (not official docs)
+@returns(200) {ok: bool, is_official_documentation: bool, language: str?, title: str, message: str, languages_supported: [str]?, seo: map?{headline: str, keywords: [str]}} # Placeholder response
+
+@endgroup
+
+@group docs
+@endpoint GET /docs
+@desc List supported language branches
+@returns(200) {languages: [str]} # Languages list
+
+@endpoint GET /docs/{lang}
+@desc Documentation notice by language (legacy placeholder)
+@required {lang: str(l/a/n/g/s) # Language branch}
+@returns(200) {ok: bool, is_official_documentation: bool, language: str?, title: str, message: str, languages_supported: [str]?, seo: map?{headline: str, keywords: [str]}} # Language-specific landing
+
+@endgroup
+
+@end

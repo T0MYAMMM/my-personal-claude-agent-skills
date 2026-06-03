@@ -1,0 +1,552 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api iQualify Management API
+@base https://api.iqualify.com/v1
+@version v1
+@auth ApiKey Authorization in header
+@endpoints 84
+@hint download_for_search
+@toc root(1), offerings(55), course-mappings(5), courses(9), org(1), users(13)
+
+@group root
+@endpoint GET /
+@desc List supported endpoints URLs
+@returns(200) Supported endpoints
+
+@endgroup
+
+@group offerings
+@endpoint GET /offerings/{offeringId}/analytics/pulses
+@desc Find all pulse IDs in the specified offering
+@required {offeringId: str # offering's id}
+@returns(200) Pulses' ids
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/analytics/pulses/responses
+@desc Find pulses by offeringId
+@required {offeringId: str # offering's id}
+@optional {pulseType: str(submit_text/MCQ/spatial_triangular/spatial_planar/spatial_linear) # Filter pulse responses by type., responseTime: any # Filter pulse responses by responseTime. Lower then (`lt`), lower then or equal (`lte`), greater then (`gt`) and greater then or equal (`gte`) operators are available. Example of filtering by time range __gte__2017-03-14T07:30:00Z__}
+@returns(200) All pulses' responses
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/analytics/pulses/{pulseId}/responses
+@desc Find pulses by offeringId and pulseId
+@required {offeringId: str # offering's id, pulseId: str # pulse's base id}
+@returns(200) Pulse data matching pulseId
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/analytics/marks/assignments
+@desc Find assessment marks
+@required {offeringId: str # offering's id}
+@returns(200) Assignments marks
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/analytics/marks/quizzes
+@desc Find quiz marks
+@required {offeringId: str # offering's id}
+@returns(200) Quizzes marks
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/analytics/learners-progress
+@desc Find learner progress in a specified offering
+@required {offeringId: str # offering's id}
+@returns(200) Learners progress
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/analytics/unit-reactions
+@desc Find unit reactions
+@required {offeringId: str # offering's id}
+@returns(200) Unit Reactions
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/analytics/submissions/assignments
+@desc Find submissions to assessments, including marks if any
+@required {offeringId: str # offering's id}
+@returns(200) Assignments submissions
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/analytics/social-notes
+@desc Find shared social notes in an offering
+@required {offeringId: str # offering's id}
+@returns(200) Offering social notes
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/analytics/activities/responses
+@desc Find open response activity attempts
+@required {offeringId: str # offering's id}
+@returns(200) Offering activity attempt open responses
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/analytics/submissions/open-response/{assessmentId}
+@desc Find submissions to a specified open response assessment, including marks if any
+@required {offeringId: str # offering's id, assessmentId: str # assessment's id}
+@returns(200) Responds with assignment submissions for the specified assignment.
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/analytics/submissions/{userEmail}/assignments/{assessmentId}
+@desc Find a learner's submission to a specified assessment, including marks if any
+@required {offeringId: str # offering's id, userEmail: str(email) # user's email, assessmentId: str # assessment's id}
+@returns(200) Responds with the learner's assessment submission and any marks for the submission.
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/groups
+@desc Find assessment groups
+@required {offeringId: str # offering's id}
+@returns(200) Succesful response
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint POST /offerings/{offeringId}/groups
+@desc Add an assessment group
+@required {offeringId: str # offering's id, title: str}
+@returns(201) {id: str, title: str, createdAt: str} # assessment group successfully added
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/groups/{groupId}/learners
+@desc Find learners in an assessment group
+@required {offeringId: str # offering's id, groupId: str # Assessment group id}
+@returns(200) Succesful response
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint POST /offerings/{offeringId}/groups/{groupId}/learners
+@desc Add a learner to an assessment group
+@required {offeringId: str # offering's id, groupId: str # Assessment group id}
+@optional {email: str}
+@returns(201) {id: str, avatarUrl: str, profile: map{displayName: str, mobile: str}, email: str(email), firstName: str, lastName: str, personId: str, lastAccessAt: str(date-time), firstAccessAt: str(date-time), metadata: map{tags: [str]}, invite: map{url: str}} # Succesful response
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint DELETE /offerings/{offeringId}/groups/{groupId}/learners/{userEmail}
+@desc Remove a learner from an assessment group
+@required {offeringId: str # offering's id, groupId: str # Assessment group id, userEmail: str(email) # user's email}
+@returns(204) user successfully removed from the assessment group
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/analytics/channels/{channelId}/posts
+@desc Find posts
+@required {offeringId: str # offering's id, channelId: str # channel's id}
+@returns(200) Successful response
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/analytics/channels/{channelId}/comments
+@desc Find comments
+@required {offeringId: str # offering's id, channelId: str # channel's id}
+@returns(200) Successful response
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/analytics/channels/{channelId}/replies
+@desc Find replies
+@required {offeringId: str # offering's id, channelId: str # channel's id}
+@returns(200) Successful response
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/channels
+@desc Find channels
+@required {offeringId: str # offering's id}
+@returns(200) Succesful response
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint POST /offerings/{offeringId}/channels
+@desc Add channel
+@required {offeringId: str # offering's id, title: str}
+@optional {isBroadcastOnly: bool=False}
+@returns(201) {id: str, title: str, isBroadcastOnly: bool} # channel successfully added
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PATCH /offerings/{offeringId}/channels/{channelId}
+@desc Update channel
+@required {offeringId: str # offering's id, channelId: str # channel's id}
+@optional {title: str, isBroadcastOnly: bool, privateSupport: bool, groupDiscussion: bool, group: map{autoAssign: bool}}
+@returns(200) {id: str, title: str, isBroadcastOnly: bool} # channel successfully updated
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint POST /offerings/{offeringId}/channels/{channelId}/learners
+@desc Add learners to a group channel
+@required {offeringId: str # offering's id, channelId: str # channel's id}
+@optional {email: str}
+@returns(204) Learner successfully added to the channel.
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint DELETE /offerings/{offeringId}/channels/{channelId}/learners
+@desc Remove learners from a group channel
+@required {offeringId: str # offering's id, channelId: str # channel's id}
+@optional {email: str}
+@returns(204) Learner successfully removed from the channel.
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/channels/{channelId}/learners
+@desc Find learners in a group channel
+@required {offeringId: str # offering's id, channelId: str # channel's id}
+@returns(200) {id: str, title: str, isBroadcastOnly: bool} # channel data
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endgroup
+
+@group course-mappings
+@endpoint GET /course-mappings
+@desc Find course mappings
+@returns(200) Course Mappings
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource.}
+
+@endpoint GET /course-mappings/externalcourse/{externalCourseId}
+@desc Find course mappings by externalCourseId
+@required {externalCourseId: str # external course's id}
+@returns(200) Course Mapping
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /course-mappings/{offeringId}
+@desc Find course mappings by offeringId
+@required {offeringId: str # offering's id}
+@returns(200) Course Mapping
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PUT /course-mappings/{offeringId}/{externalCourseId}
+@desc Add course mapping
+@required {offeringId: str # offering's id, externalCourseId: str # external course's id}
+@returns(200) Course Mapping
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint DELETE /course-mappings/{offeringId}/{externalCourseId}
+@desc Remove course mapping
+@required {offeringId: str # offering's id, externalCourseId: str # external course's id}
+@returns(200) Course Mapping
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endgroup
+
+@group courses
+@endpoint GET /courses
+@desc Find courses
+@returns(200) All courses (draft and published) in the organisation.
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource.}
+
+@endpoint GET /courses/{contentId}
+@desc Find course by contentId
+@required {contentId: str # The content Id}
+@returns(200) {id: str, name: str, createdAt: str(date-time), coverImageUrl: str, tasksEnabled: bool, metadata: any} # Course detail
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /courses/{contentId}/activations
+@desc Find activations for a contentId
+@required {contentId: str # The content Id}
+@returns(200) {id: str, name: str, end: str, start: str, learnersCount: str, info: str, metadata: map{rootContentId: str}} # Activation list.
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PUT /courses/{contentId}/metadata/tags
+@desc Update course tags
+@required {contentId: str # The content Id}
+@optional {tags: [str]}
+@returns(200) {id: str, name: str, createdAt: str(date-time), coverImageUrl: str, tasksEnabled: bool, metadata: any} # Course detail
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PUT /courses/{contentId}/metadata/category
+@desc Update course category
+@required {contentId: str # The content Id}
+@optional {category: str}
+@returns(200) {id: str, name: str, createdAt: str(date-time), coverImageUrl: str, tasksEnabled: bool, metadata: any} # Course detail
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PUT /courses/{contentId}/metadata/level
+@desc Update course level
+@required {contentId: str # The content Id}
+@optional {level: str}
+@returns(200) {id: str, name: str, createdAt: str(date-time), coverImageUrl: str, tasksEnabled: bool, metadata: any} # Course detail
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PUT /courses/{contentId}/metadata/topic
+@desc Update course topic
+@required {contentId: str # The content Id}
+@optional {topic: str}
+@returns(200) {id: str, name: str, createdAt: str(date-time), coverImageUrl: str, tasksEnabled: bool, metadata: any} # Course detail
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint POST /courses/{rootContentId}/permissions/{userEmail}
+@desc Update course access
+@required {rootContentId: str # The content Id, userEmail: str # The user email}
+@optional {isBuilder: bool=True, isReviewer: bool=False}
+@returns(201) {contentId: str} # user successfully added to the course with the specified permission.
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /courses/{contentId}/permissions
+@desc Find users who have access to the contentId provided
+@required {contentId: str # The content Id}
+@returns(200) {email: str, name: str, isBuilder: bool, isReviewer: bool} # List of users who have access to the content ID provided.
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endgroup
+
+@group offerings
+@endpoint GET /offerings
+@desc Find current, past and future offerings
+@returns(200) all offerings (current, past and future ones)
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource.}
+
+@endpoint POST /offerings
+@desc Create offering
+@required {start: str(date-time)}
+@optional {identifier: str, name: str, description: str, contentId: str # The identifier for a specific version of a course, rootContentId: str # Every time a course is republished it's assigned a new contentId. rootContentId is the first original contentId associated with a course., end: str(date-time), useRelativeDates: bool=False, trailerVideoUrl: str, isReadonly: bool, hasEarlyCloseOff: bool, earlyCloseOffDate: str(date-time), createDefaultChannels: bool=False, badge: map{title: str, description: str, requiresApproval: bool, badgeExpiry: map{expires: bool, expiryType: str, expirationDate: str(date-time), timeframeUnit: str, timeframeAmount: num}}, hiddenPageIds: [str] # An array of strings representing hidden page ids., metadata: map{category: str, topic: str, level: str, tags: [str]}, settings: map{allowSocialFeatures: bool, enablePrivateSupportChannel: bool}}
+@returns(201) {id: str, identifier: str, name: str, description: str, overview: str, contentId: str, useRelativeDates: bool, start: str(date-time), end: str(date-time), coverImageUrl: str, trailerVideoUrl: str, isReadonly: bool, studyPlan: map{filename: str, mimetype: str, size: num, url: str, createdAt: str(date-time)}, hasEarlyCloseOff: bool, earlyCloseOffDate: str(date-time), enrollmentLimit: num, price: num, currency: str, allowEnrollment: bool, settings: map{aggregateProgressScore: bool, allowSocialFeatures: bool, allowTasks: bool, enablePrivateSupportChannel: bool, strictStartDate: bool}, tasksEnabled: bool, metadata: map{rootContentId: str, category: str, topic: str, level: str, tags: [str]}} # offering created
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/summary
+@desc Offerings summary
+@optional {$top: str=50 # Returns only the first n results., $orderby: str # Sorts the results., $filter: str # Filters the results, based on a Boolean condition.}
+@returns(200) all offerings.
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource.}
+
+@endpoint GET /offerings/current
+@desc Find active offerings
+@returns(200) current offerings
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource.}
+
+@endpoint GET /offerings/past
+@desc Find past offerings
+@returns(200) past offerings
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource.}
+
+@endpoint GET /offerings/future
+@desc Find scheduled offerings
+@returns(200) future offerings
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource.}
+
+@endpoint GET /offerings/info/{textPattern}
+@desc Find offerings where info field matches the specified textPattern
+@required {textPattern: str # Text pattern to search for (minimum of 3 characters length).}
+@returns(200) Offerings
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}
+@desc Find offering by ID
+@required {offeringId: str # offering's id}
+@returns(200) {id: str, identifier: str, name: str, description: str, overview: str, contentId: str, useRelativeDates: bool, start: str(date-time), end: str(date-time), coverImageUrl: str, trailerVideoUrl: str, isReadonly: bool, studyPlan: map{filename: str, mimetype: str, size: num, url: str, createdAt: str(date-time)}, hasEarlyCloseOff: bool, earlyCloseOffDate: str(date-time), enrollmentLimit: num, price: num, currency: str, allowEnrollment: bool, settings: map{aggregateProgressScore: bool, allowSocialFeatures: bool, allowTasks: bool, enablePrivateSupportChannel: bool, strictStartDate: bool}, tasksEnabled: bool, metadata: map{rootContentId: str, category: str, topic: str, level: str, tags: [str]}} # offering
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PATCH /offerings/{offeringId}
+@desc Update offering
+@required {offeringId: str # offering's id}
+@optional {identifier: str, name: str, overview: str, description: str, contentId: str # The identifier for a specific version of a course, rootContentId: str # Every time a course is republished it is assigned a new contentId. rootContentId is the first original contentId associated with a course., start: str(date-time), end: str(date-time), useRelativeDates: bool, trailerVideoUrl: str, isReadonly: bool, hasEarlyCloseOff: bool, earlyCloseOffDate: str(date-time), badge: map{title: str, description: str, requiresApproval: bool, badgeExpiry: map{expires: bool, expiryType: str, expirationDate: str(date-time), timeframeUnit: str, timeframeAmount: num}}, metadata: map{category: str, topic: str, level: str, tags: [str]}}
+@returns(200) {id: str, identifier: str, name: str, description: str, overview: str, contentId: str, useRelativeDates: bool, start: str(date-time), end: str(date-time), coverImageUrl: str, trailerVideoUrl: str, isReadonly: bool, studyPlan: map{filename: str, mimetype: str, size: num, url: str, createdAt: str(date-time)}, hasEarlyCloseOff: bool, earlyCloseOffDate: str(date-time), enrollmentLimit: num, price: num, currency: str, allowEnrollment: bool, settings: map{aggregateProgressScore: bool, allowSocialFeatures: bool, allowTasks: bool, enablePrivateSupportChannel: bool, strictStartDate: bool}, tasksEnabled: bool, metadata: map{rootContentId: str, category: str, topic: str, level: str, tags: [str]}} # offering updated
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/badges
+@desc Find offering badges
+@required {offeringId: str # offering's id}
+@returns(200) {title: str, description: str, criterias: any, badgeExpiry: map{expires: bool, expiryType: str, expirationDate: str(date-time), timeframeUnit: str, timeframeAmount: num}, badgeUrl: str, openBadge: any} # badges
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PUT /offerings/{offeringId}/metadata/tags
+@desc Update offering tags metadata
+@required {offeringId: str # offering's id}
+@optional {tags: [str]}
+@returns(200) {id: str, identifier: str, name: str, description: str, overview: str, contentId: str, useRelativeDates: bool, start: str(date-time), end: str(date-time), coverImageUrl: str, trailerVideoUrl: str, isReadonly: bool, studyPlan: map{filename: str, mimetype: str, size: num, url: str, createdAt: str(date-time)}, hasEarlyCloseOff: bool, earlyCloseOffDate: str(date-time), enrollmentLimit: num, price: num, currency: str, allowEnrollment: bool, settings: map{aggregateProgressScore: bool, allowSocialFeatures: bool, allowTasks: bool, enablePrivateSupportChannel: bool, strictStartDate: bool}, tasksEnabled: bool, metadata: map{rootContentId: str, category: str, topic: str, level: str, tags: [str]}} # offering updated
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PUT /offerings/{offeringId}/metadata/category
+@desc Update offering category metadata
+@required {offeringId: str # offering's id}
+@optional {category: str}
+@returns(200) {id: str, identifier: str, name: str, description: str, overview: str, contentId: str, useRelativeDates: bool, start: str(date-time), end: str(date-time), coverImageUrl: str, trailerVideoUrl: str, isReadonly: bool, studyPlan: map{filename: str, mimetype: str, size: num, url: str, createdAt: str(date-time)}, hasEarlyCloseOff: bool, earlyCloseOffDate: str(date-time), enrollmentLimit: num, price: num, currency: str, allowEnrollment: bool, settings: map{aggregateProgressScore: bool, allowSocialFeatures: bool, allowTasks: bool, enablePrivateSupportChannel: bool, strictStartDate: bool}, tasksEnabled: bool, metadata: map{rootContentId: str, category: str, topic: str, level: str, tags: [str]}} # offering updated
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PUT /offerings/{offeringId}/metadata/topic
+@desc Update offering topic metadata
+@required {offeringId: str # offering's id}
+@optional {topic: str}
+@returns(200) {id: str, identifier: str, name: str, description: str, overview: str, contentId: str, useRelativeDates: bool, start: str(date-time), end: str(date-time), coverImageUrl: str, trailerVideoUrl: str, isReadonly: bool, studyPlan: map{filename: str, mimetype: str, size: num, url: str, createdAt: str(date-time)}, hasEarlyCloseOff: bool, earlyCloseOffDate: str(date-time), enrollmentLimit: num, price: num, currency: str, allowEnrollment: bool, settings: map{aggregateProgressScore: bool, allowSocialFeatures: bool, allowTasks: bool, enablePrivateSupportChannel: bool, strictStartDate: bool}, tasksEnabled: bool, metadata: map{rootContentId: str, category: str, topic: str, level: str, tags: [str]}} # offering updated
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PUT /offerings/{offeringId}/metadata/level
+@desc Update offering level metadata
+@required {offeringId: str # offering's id}
+@optional {level: str}
+@returns(200) {id: str, identifier: str, name: str, description: str, overview: str, contentId: str, useRelativeDates: bool, start: str(date-time), end: str(date-time), coverImageUrl: str, trailerVideoUrl: str, isReadonly: bool, studyPlan: map{filename: str, mimetype: str, size: num, url: str, createdAt: str(date-time)}, hasEarlyCloseOff: bool, earlyCloseOffDate: str(date-time), enrollmentLimit: num, price: num, currency: str, allowEnrollment: bool, settings: map{aggregateProgressScore: bool, allowSocialFeatures: bool, allowTasks: bool, enablePrivateSupportChannel: bool, strictStartDate: bool}, tasksEnabled: bool, metadata: map{rootContentId: str, category: str, topic: str, level: str, tags: [str]}} # offering updated
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/assessments
+@desc Find offering's assessments
+@required {offeringId: str # offering's id}
+@returns(200) offering's assessments
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PATCH /offerings/{offeringId}/assessments/{assessmentId}
+@desc Update assessment details
+@required {offeringId: str # offering's id, assessmentId: str # assessment's id}
+@optional {markType: str, markNumber: str, openDate: str(date-time), dueDate: str(date-time), content: str}
+@returns(200) {id: str, pid: str, title: str, type: str, content: str, points: str, hidden: bool, filename: str, maxAttempts: int(int32), durationMinutes: int(int32), totalQuestions: int(int32), totalThemes: int(int32), documents: [map], themes: [map], markType: str, markNumber: str, openDate: str(date-time), dueDate: str(date-time)} # assessment successfully updated
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PATCH /offerings/{offeringId}/assessments/{assessmentId}/{userEmail}
+@desc Update the due dates for a learner's quiz attempt
+@required {offeringId: str # offering's id, assessmentId: str # assessment's id, userEmail: str(email) # user's email}
+@optional {dueDate: str(date-time)}
+@returns(204) Successfully updated assessment due date.
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint DELETE /offerings/{offeringId}/assessments/{assessmentId}/documents/{documentId}
+@desc Remove assessment document
+@required {offeringId: str # offering's id, assessmentId: str # assessment's id, documentId: str # documents's id}
+@returns(204) assessment document successfully removed
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/learners/pending-submission
+@desc Find learners with assessments pending x days before due date within the specified offeringId
+@required {offeringId: str # offering's id}
+@optional {days: str # days to assessment due date. Default is 3 days}
+@returns(200) offering's learners
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/activities/openresponse
+@desc Find offering's activities
+@required {offeringId: str # offering's id}
+@returns(200) offering's learners
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/users
+@desc Find offering's users
+@required {offeringId: str # offering's id}
+@optional {facilitators: str(true/false)=true # If true, facilitators are included in the results., learners: str(true/false)=true # If true, learners are included in the results., markers: str(true/false)=true # If true, markers are included in the results.}
+@returns(200) offering's users
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint POST /offerings/{offeringId}/users
+@desc Adds user to the offering
+@required {offeringId: str # offering's id}
+@returns(201) user successfully added to the offering
+@returns(207) Partially successful response
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint DELETE /offerings/{offeringId}/users/{userEmail}
+@desc Removes user from the offering
+@required {offeringId: str # offering's id, userEmail: str(email) # user's email}
+@returns(204) user successfully removed from the offering
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/users/{markerEmail}/marks
+@desc Find Learners marked by a coach
+@required {offeringId: str # offering's id, markerEmail: str # marker's email}
+@returns(200) learners marked by the marker
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint POST /offerings/{offeringId}/users/{markerEmail}/marks
+@desc Add learners to be marked by a coach
+@required {offeringId: str # offering's id, markerEmail: str # marker's email}
+@returns(200) learners marked by the marker
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint DELETE /offerings/{offeringId}/users/{markerEmail}/marks
+@desc Remove learners from coach's marking list
+@required {offeringId: str # offering's id, markerEmail: str # marker's email}
+@returns(200) learners marked by the marker
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint POST /offerings/{offeringId}/users/{userEmail}/badges/award
+@desc Award badge
+@required {offeringId: str # offering's id, userEmail: str(email) # user's email}
+@returns(201) {awarded: bool, badgeId: str, badgeUrl: str} # Awarded badge response
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /offerings/{offeringId}/users/{userEmail}/submissions/open-response
+@desc Find learner's open response assessment submissions
+@required {offeringId: str # offering's id, userEmail: str(email) # user's email}
+@returns(200) user open response submission and mark details
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint DELETE /offerings/{offeringId}/users/{userEmail}/assessments/{assessmentId}
+@desc Reset user's assessment to draft state
+@required {offeringId: str # offering's id, userEmail: str(email) # user's email, assessmentId: str # assessment's id}
+@returns(204) User's assessment successfully moved to draft state.
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endgroup
+
+@group org
+@endpoint GET /org
+@desc Gets the current organisation
+@returns(200) {id: str, name: str} # organisation summary data
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endgroup
+
+@group users
+@endpoint GET /users/{userEmail}
+@desc Find user by email
+@required {userEmail: str(email) # user's email}
+@returns(200) {id: str, avatarUrl: str, profile: map{displayName: str, mobile: str}, email: str(email), firstName: str, lastName: str, personId: str, lastAccessAt: str(date-time), firstAccessAt: str(date-time), metadata: map{tags: [str]}, invite: map{url: str}} # user data
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PATCH /users/{userEmail}
+@desc Update user
+@required {userEmail: str(email) # user's email}
+@optional {firstName: str, lastName: str, email: str(email), personId: str, profile: map{displayName: str}, metadata: map{tags: [str]}, sendInvite: bool=True}
+@returns(200) {id: str, avatarUrl: str, profile: map{displayName: str, mobile: str}, email: str(email), firstName: str, lastName: str, personId: str, lastAccessAt: str(date-time), firstAccessAt: str(date-time), metadata: map{tags: [str]}, invite: map{url: str}} # user updated
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PUT /users/{userEmail}/suspend
+@desc Suspend user
+@required {userEmail: str(email) # user's email}
+@optional {suspended: bool}
+@returns(204) User suspended.
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /users/{userEmail}/offerings
+@desc Find user's offerings
+@required {userEmail: str(email) # user's email}
+@returns(200) user's offerings
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint POST /users/{userEmail}/offerings
+@desc Adds the user to the specified offerings as a learner
+@required {userEmail: str(email) # user's email}
+@returns(200) user's offerings
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /users/{userEmail}/offerings/{offeringId}/progress
+@desc Find learner's progress in a specified offering
+@required {userEmail: str(email) # user's email, offeringId: str # offering's id}
+@returns(200) {id: str, firstName: str, lastName: str, email: str, completion: str} # user's offerings
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint POST /users/{userEmail}/permissions/{permissionName}
+@desc Add permission to user
+@required {userEmail: str(email) # user's email, permissionName: str(builder/manager/insights/userAdmin) # permission name}
+@returns(200) {id: str, avatarUrl: str, profile: map{displayName: str, mobile: str}, email: str(email), firstName: str, lastName: str, personId: str, lastAccessAt: str(date-time), firstAccessAt: str(date-time), metadata: map{tags: [str]}, invite: map{url: str}} # permission successfully added to user
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /users/all/progress
+@desc Find learner progress in all offerings
+@optional {$top: str=50 # Returns only the first n results., $orderby: str # Sorts the results., $filter: str # Filters the results, based on a Boolean condition.}
+@returns(200) {top: int, data: any} # Learners progress
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource.}
+
+@endpoint GET /users/{userEmail}/progress
+@desc Find learner's progress in offerings
+@required {userEmail: str(email) # user's email}
+@returns(200) {id: str, firstName: str, lastName: str, email: str, personId: str, offerings: [map]} # Learner Progress
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint GET /users/{userEmail}/badges
+@desc Find user's badges
+@required {userEmail: str(email) # user's email}
+@returns(200) user's badges
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint PATCH /users/{userEmail}/transfer
+@desc Transfer a user between offerings
+@required {userEmail: str(email) # user's email}
+@optional {fromOfferingId: str, toOfferingId: str, sendInvite: bool}
+@returns(200) Updated user information
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint POST /users/{userEmail}/invite-email
+@desc Resend invitation email
+@required {userEmail: str(email) # user's email}
+@returns(204) successfully requested invitation e-mail sending
+@errors {401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endpoint POST /users
+@desc Add new user
+@optional {firstName: str, lastName: str, email: str(email), personId: str, profile: map{displayName: str}, metadata: map{tags: [str]}, sendInvite: bool=True}
+@returns(201) {id: str, avatarUrl: str, profile: map{displayName: str, mobile: str}, email: str(email), firstName: str, lastName: str, personId: str, lastAccessAt: str(date-time), firstAccessAt: str(date-time), metadata: map{tags: [str]}, invite: map{url: str}} # user added
+@errors {400: Bad Request, 401: No authorization token was found., 403: You are not allowed to access this resource., 404: Not Found}
+
+@endgroup
+
+@end

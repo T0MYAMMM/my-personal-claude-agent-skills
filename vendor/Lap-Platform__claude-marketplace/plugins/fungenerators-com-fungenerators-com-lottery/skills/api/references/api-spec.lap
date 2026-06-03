@@ -1,0 +1,28 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Random Lottery Number generator API
+@base https://api.fungenerators.com
+@version 1.5
+@auth Bearer bearer
+@endpoints 3
+@toc lottery(3)
+
+@endpoint GET /lottery/countries
+@desc Get the complete list of countries supported in the number generation API.
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /lottery/supported
+@desc Get the list of supported lottery games supported in the given country.
+@required {country: any # Country Name}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /lottery/draw
+@desc Generate random draw for a given lottery game.
+@required {game: any # Lottery Game Name}
+@optional {count: any # Number of draws (max 5 per request)}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@end

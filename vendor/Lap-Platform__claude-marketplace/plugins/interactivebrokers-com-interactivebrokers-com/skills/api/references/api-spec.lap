@@ -1,0 +1,136 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api IBKR 3rd Party Web API
+@base https://www.interactivebrokers.com/tradingapi/v1
+@version 1.0.0
+@auth ApiKey portal in header
+@endpoints 16
+@toc oauth(3), accounts(10), secdef(1), marketdata(2)
+
+@group oauth
+@endpoint POST /oauth/request_token
+@desc Obtain a request token
+@required {body: map # OAuth Parameters}
+@returns(200) OAuth token
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endpoint POST /oauth/access_token
+@desc Obtain a access token
+@required {body: map # OAuth Parameters}
+@returns(200) Access token and token secret
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endpoint POST /oauth/live_session_token
+@desc Obtain a live session token
+@required {body: map # OAuth Parameters}
+@returns(200) DH response
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endgroup
+
+@group accounts
+@endpoint GET /accounts
+@desc Brokerage Accounts
+@required {account: any # Account Number}
+@returns(200) An array of accounts
+@returns(202) Unsuccessfull response
+@returns(204) Unsuccessfull response
+@errors {401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endpoint GET /accounts/{account}/positions
+@desc Account Positions
+@required {account: any # Account Number}
+@returns(200) Returns a list of positions for the indicated account
+@returns(202) Unsuccessfull response
+@returns(204) Unsuccessfull response
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endpoint GET /accounts/{account}/summary
+@desc Account Values Summary
+@required {account: any # Account Number}
+@returns(200) Returns object for account summary with multiple properties.  A property is sufficed with -c if it provides commodity value, -s if it provides security value, and -c if its UKL segment value.  "These values correspond to the TWS Account Window: https://www.interactivebrokers.com/en/software/tws/usersguidebook/realtimeactivitymonitoring/account_window.htm"
+@returns(202) Unsuccessfull response
+@returns(204) Unsuccessfull response
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endpoint GET /accounts/{account}/orders
+@desc Open Orders
+@returns(200) Returns a list of orders for the indicated account
+@returns(202) Unsuccessfull response
+@returns(204) Unsuccessfull response
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endpoint POST /accounts/{account}/orders
+@desc Place Order
+@required {body: map # Order Parameters}
+@returns(200) Returns order status information
+@returns(202) Unsuccessfull response
+@returns(204) Unsuccessfull response
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endpoint GET /accounts/{account}/orders/{CustomerOrderId}
+@desc Return specific order info
+@returns(200) Returns order status information
+@returns(202) Unsuccessfull response
+@returns(204) Unsuccessfull response
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endpoint DELETE /accounts/{account}/orders/{CustomerOrderId}
+@desc Cancel Order
+@returns(200) Returns result of cancellation attempt
+@returns(202) Unsuccessfull response
+@returns(204) Unsuccessfull response
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endpoint PUT /accounts/{account}/orders/{CustomerOrderId}
+@desc Modify Order
+@required {body: map # Order Parameters}
+@returns(200) Result of order modification attempt
+@returns(202) Unsuccessfull response
+@returns(204) Unsuccessfull response
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endpoint POST /accounts/{account}/order_impact
+@desc Return margin impact info
+@required {body: map # Order Parameters}
+@returns(200) Order impact info
+@returns(202) Unsuccessfull response
+@returns(204) Unsuccessfull response
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endpoint GET /accounts/{account}/trades
+@desc Returns trades in account
+@optional {since: str # Start time specified in UTC. Allowed formats are "yyyy-MM-dd" or "yyyy-MM-dd'T'HH:mm:ss". Time is optional and is set to midnight if omitted, e.g. "00:00:00 hh:mm:ss".}
+@returns(200) List of Trades
+@returns(202) Unsuccessfull response
+@returns(204) Unsuccessfull response
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endgroup
+
+@group secdef
+@endpoint GET /secdef
+@desc Get security definition
+@required {body: map # Order Parameters}
+@returns(200) Financial Instrument Definition
+@returns(202) Unsuccessfull response
+@returns(204) Unsuccessfull response
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endgroup
+
+@group marketdata
+@endpoint GET /marketdata/snapshot
+@desc Market Data Snapshot
+@required {body: [map] # Contract. Allowed combinations are [type and symbol and currency], or [type, symbol, exchange, and currency], or [conid].}
+@returns(200) Financial Instrument Definition
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endpoint GET /marketdata/exchange_components
+@desc Exchange Components
+@returns(200) Exchange Components
+@errors {400: Unsuccessfull response, 401: Unsuccessfull response, 403: Unsuccessfull response, 408: Unsuccessfull response}
+
+@endgroup
+
+@end

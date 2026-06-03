@@ -1,0 +1,106 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api ApplicationClient
+@base https://management.azure.com
+@version 2018-06-01
+@auth OAuth2
+@common_fields {api-version: any # The API version to use for this operation.}
+@endpoints 15
+@toc providers(1), subscriptions(10), {applicationId}(4)
+
+@group providers
+@endpoint GET /providers/Microsoft.Solutions/operations
+@desc Lists all of the available Microsoft.Solutions REST API operations.
+@returns(200) OK. The request has succeeded.
+
+@endgroup
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}
+@desc Gets the managed application.
+@required {resourceGroupName: any # The name of the resource group. The name is case insensitive., applicationName: any # The name of the managed application., subscriptionId: any # The ID of the target subscription.}
+@returns(200) OK - Returns the managed application.
+@errors {404: Not Found}
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}
+@desc Deletes the managed application.
+@required {resourceGroupName: any # The name of the resource group. The name is case insensitive., applicationName: any # The name of the managed application., subscriptionId: any # The ID of the target subscription.}
+@returns(204) NoContent
+@returns(202) Accepted - Returns this status until the asynchronous operation has completed.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}
+@desc Creates a new managed application.
+@required {resourceGroupName: any # The name of the resource group. The name is case insensitive., applicationName: any # The name of the managed application., parameters: any # Parameters supplied to the create or update a managed application., subscriptionId: any # The ID of the target subscription.}
+@returns(200) Created - Returns information about the managed application, including provisioning status.
+@returns(201) Created - Returns information about the managed application, including provisioning status.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}
+@desc Updates an existing managed application. The only value that can be updated via PATCH currently is the tags.
+@required {resourceGroupName: any # The name of the resource group. The name is case insensitive., applicationName: any # The name of the managed application., subscriptionId: any # The ID of the target subscription.}
+@optional {parameters: any # Parameters supplied to update an existing managed application.}
+@returns(200) Created - Returns information about the managed application, including provisioning status.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applicationDefinitions/{applicationDefinitionName}
+@desc Gets the managed application definition.
+@required {resourceGroupName: any # The name of the resource group. The name is case insensitive., applicationDefinitionName: any # The name of the managed application definition., subscriptionId: any # The ID of the target subscription.}
+@returns(200) OK - Returns the managed application definition.
+@errors {404: Not Found}
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applicationDefinitions/{applicationDefinitionName}
+@desc Deletes the managed application definition.
+@required {resourceGroupName: any # The name of the resource group. The name is case insensitive., applicationDefinitionName: any # The name of the managed application definition to delete., subscriptionId: any # The ID of the target subscription.}
+@returns(204) NoContent
+@returns(200) OK
+@returns(202) Accepted - Returns this status until the asynchronous operation has completed.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applicationDefinitions/{applicationDefinitionName}
+@desc Creates a new managed application definition.
+@required {resourceGroupName: any # The name of the resource group. The name is case insensitive., applicationDefinitionName: any # The name of the managed application definition., parameters: any # Parameters supplied to the create or update an managed application definition., subscriptionId: any # The ID of the target subscription.}
+@returns(200) OK - Returns information about the managed application definition, including provisioning status.
+@returns(201) Created - Returns information about the managed application definition, including provisioning status.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applicationDefinitions
+@desc Lists the managed application definitions in a resource group.
+@required {resourceGroupName: any # The name of the resource group. The name is case insensitive., subscriptionId: any # The ID of the target subscription.}
+@returns(200) OK - Returns an array of managed application definitions.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications
+@desc Gets all the applications within a resource group.
+@required {resourceGroupName: any # The name of the resource group. The name is case insensitive., subscriptionId: any # The ID of the target subscription.}
+@returns(200) OK - Returns an array of applications.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Solutions/applications
+@desc Gets all the applications within a subscription.
+@required {subscriptionId: any # The ID of the target subscription.}
+@returns(200) OK - Returns an array of applications.
+
+@endgroup
+
+@group {applicationId}
+@endpoint GET /{applicationId}
+@desc Gets the managed application.
+@required {applicationId: any # The fully qualified ID of the managed application, including the managed application name and the managed application resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}}
+@returns(200) OK - Returns the managed application.
+@errors {404: Not Found}
+
+@endpoint DELETE /{applicationId}
+@desc Deletes the managed application.
+@required {applicationId: any # The fully qualified ID of the managed application, including the managed application name and the managed application resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}}
+@returns(204) NoContent
+@returns(202) Accepted - Returns this status until the asynchronous operation has completed.
+
+@endpoint PUT /{applicationId}
+@desc Creates a new managed application.
+@required {applicationId: any # The fully qualified ID of the managed application, including the managed application name and the managed application resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}, parameters: any # Parameters supplied to the create or update a managed application.}
+@returns(200) Created - Returns information about the managed application, including provisioning status.
+@returns(201) Created - Returns information about the managed application, including provisioning status.
+
+@endpoint PATCH /{applicationId}
+@desc Updates an existing managed application. The only value that can be updated via PATCH currently is the tags.
+@required {applicationId: any # The fully qualified ID of the managed application, including the managed application name and the managed application resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}}
+@optional {parameters: any # Parameters supplied to update an existing managed application.}
+@returns(200) Created - Returns information about the managed application, including provisioning status.
+
+@endgroup
+
+@end

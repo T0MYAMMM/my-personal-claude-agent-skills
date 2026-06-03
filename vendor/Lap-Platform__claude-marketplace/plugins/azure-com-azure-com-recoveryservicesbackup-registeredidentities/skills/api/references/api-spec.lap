@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api RecoveryServicesBackupClient
+@base https://management.azure.com
+@version 2016-06-01
+@auth OAuth2
+@endpoints 1
+@toc subscriptions(1)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/registeredIdentities/{identityName}
+@desc Unregisters the given container from your Recovery Services vault.
+@required {subscriptionId: any # The subscription ID., resourceGroupName: any # The name of the resource group associated with the Recovery Services vault., vaultName: any # The name of the Recovery Services vault., api-version: any # Client API version., identityName: any # Name of the protection container to unregister.}
+@returns(204) NoContent
+
+@end

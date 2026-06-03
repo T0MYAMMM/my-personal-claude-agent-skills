@@ -1,0 +1,16 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api SqlManagementClient
+@base https://management.azure.com
+@version 2018-06-01-preview
+@auth OAuth2
+@endpoints 1
+@toc subscriptions(1)
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/failover
+@desc Failovers an elastic pool.
+@required {resourceGroupName: any # The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal., serverName: any # The name of the server., elasticPoolName: any # The name of the elastic pool to failover., subscriptionId: any # The subscription ID that identifies an Azure subscription., api-version: any # The API version to use for the request.}
+@returns(200) Successfully completed elastic pool failover.
+@returns(202) Elastic pool failover is in progress.
+
+@end

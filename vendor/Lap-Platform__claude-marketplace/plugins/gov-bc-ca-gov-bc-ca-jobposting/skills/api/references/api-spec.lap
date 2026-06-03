@@ -1,0 +1,45 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api WorkBC Job Posting API
+@base https://workbcjobs.api.gov.bc.ca/v1
+@version 1.0.0
+@endpoints 5
+@toc majorProjects(1), jobTypes(1), regions(1), Industries(1), jobs(1)
+
+@group majorProjects
+@endpoint GET /majorProjects
+@desc Major Projects
+@returns(200) An array of major projects
+
+@endgroup
+
+@group jobTypes
+@endpoint GET /jobTypes
+@desc Job Types
+@returns(200) An array of job types
+
+@endgroup
+
+@group regions
+@endpoint GET /regions
+@desc Regions
+@returns(200) An array of regions
+
+@endgroup
+
+@group Industries
+@endpoint GET /Industries
+@desc Industries
+@returns(200) An array of industries and sub industries
+
+@endgroup
+
+@group jobs
+@endpoint POST /jobs
+@desc Job Feed
+@optional {lastRequestDate: str=2018-08-29 # The date of the last request. Only job postings changed or deleted after this time will be included in the response. Default is _today_ - 10 days., region: int(1/2)=1 # The unique id of a region within B.C. Only job postings located within the specified region will be included in the response. If not specified, the data is not filtered by region, city: str(Victoria/Vancouver)=Victoria # The name of a city within B.C. Only job postings located within the specified city will be included in the response. If not specified, the data is not filtered by city., jobTypes: int([1]/[2])=[1] # ID values for types of job to filter on. Only job postings matching all specified values will be included in the response. If not specified, the data is not filtered by job type., majorProjects: bool=True # When true, only include job postings that have a Major Project associated with them. When false, only include job postings that do not have a Major Project associated with them. If not specified, the data is not filtered by major project, unless the MajorProjectID parameter is used.}
+@returns(200) {Jobs: [map]} # A set of job records.
+
+@endgroup
+
+@end

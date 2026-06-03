@@ -1,0 +1,35 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AutomationManagement
+@base https://management.azure.com
+@version 2015-10-31
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(5)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}
+@desc Create a variable.
+@required {variableName: any # The variable name., parameters: any # The parameters supplied to the create or update variable operation.}
+@returns(200) OK
+@returns(201) Created
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}
+@desc Update a variable.
+@required {variableName: any # The variable name., parameters: any # The parameters supplied to the update variable operation.}
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}
+@desc Delete the variable.
+@required {variableName: any # The name of variable.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}
+@desc Retrieve the variable identified by variable name.
+@required {variableName: any # The name of variable.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables
+@desc Retrieve a list of variables.
+@returns(200) OK
+
+@end

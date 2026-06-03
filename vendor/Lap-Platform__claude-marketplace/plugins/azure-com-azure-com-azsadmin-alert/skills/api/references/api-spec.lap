@@ -1,0 +1,30 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api InfrastructureInsightsManagementClient
+@base https://management.azure.com
+@version 2016-05-01
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.InfrastructureInsights.Admin/regionHealths/{location}/alerts
+@desc Returns the list of all alerts in a given region.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.InfrastructureInsights.Admin/regionHealths/{location}/alerts/{alertName}
+@desc Returns the requested an alert.
+@required {alertName: any # Name of the alert.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.InfrastructureInsights.Admin/regionHealths/{location}/alerts/{alertName}
+@desc Closes the given alert.
+@required {alertName: any # Name of the alert., user: any # The username used to perform the operation., alert: map # Updated alert parameter.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.InfrastructureInsights.Admin/regionHealths/{location}/alerts/{alertName}/repair
+@desc Repairs an alert.
+@required {alertName: any # Name of the alert.}
+@returns(200) OK
+@returns(202) ACCEPTED
+
+@end

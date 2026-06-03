@@ -1,0 +1,35 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AutomationManagement
+@base https://management.azure.com
+@version 2018-06-30
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(5)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages/{packageName}
+@desc Delete the python 2 package by name.
+@required {packageName: any # The python package name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages/{packageName}
+@desc Retrieve the python 2 package identified by package name.
+@required {packageName: any # The python package name.}
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages/{packageName}
+@desc Create or Update the python 2 package identified by package name.
+@required {packageName: any # The name of python package., parameters: any # The create or update parameters for python package.}
+@returns(201) Created
+@returns(200) OK
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages/{packageName}
+@desc Update the python 2 package identified by package name.
+@required {packageName: any # The name of python package., parameters: any # The update parameters for python package.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages
+@desc Retrieve a list of python 2 packages.
+@returns(200) OK
+
+@end

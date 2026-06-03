@@ -1,0 +1,48 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api MariaDBManagementClient
+@base https://management.azure.com
+@version 2018-06-01
+@auth OAuth2
+@endpoints 7
+@toc subscriptions(7)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors/{advisorName}
+@desc Get a recommendation action advisor.
+@required {serverName: any # The name of the server., advisorName: any # The advisor name for recommendation action.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors
+@desc List recommendation action advisors.
+@required {serverName: any # The name of the server.}
+@returns(200) OK
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors/{advisorName}/createRecommendedActionSession
+@desc Create recommendation action session for the advisor.
+@required {serverName: any # The name of the server., advisorName: any # The advisor name for recommendation action., databaseName: any # The name of the database.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors/{advisorName}/recommendedActions/{recommendedActionName}
+@desc Retrieve recommended actions from the advisor.
+@required {serverName: any # The name of the server., advisorName: any # The advisor name for recommendation action., recommendedActionName: any # The recommended action name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors/{advisorName}/recommendedActions
+@desc Retrieve recommended actions from the advisor.
+@required {serverName: any # The name of the server., advisorName: any # The advisor name for recommendation action.}
+@optional {sessionId: any # The recommendation action session identifier.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.DBforMariaDB/locations/{locationName}/recommendedActionSessionsAzureAsyncOperation/{operationId}
+@desc Recommendation action session operation status.
+@required {locationName: any # The name of the location., operationId: any # The operation identifier.}
+@returns(200) OK.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.DBforMariaDB/locations/{locationName}/recommendedActionSessionsOperationResults/{operationId}
+@desc Recommendation action session operation result.
+@required {locationName: any # The name of the location., operationId: any # The operation identifier.}
+@returns(200) Created
+@returns(201) Created
+
+@end

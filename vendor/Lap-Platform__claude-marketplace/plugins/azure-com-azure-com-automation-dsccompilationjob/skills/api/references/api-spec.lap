@@ -1,0 +1,35 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AutomationManagement
+@base https://management.azure.com
+@version 2018-01-15
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(5)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{compilationJobName}
+@desc Creates the Dsc compilation job of the configuration.
+@required {compilationJobName: any # The DSC configuration Id., parameters: any # The parameters supplied to the create compilation job operation.}
+@returns(201) Created
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{compilationJobName}
+@desc Retrieve the Dsc configuration compilation job identified by job id.
+@required {compilationJobName: any # The DSC configuration Id.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs
+@desc Retrieve a list of dsc compilation jobs.
+@optional {$filter: any # The filter to apply on the operation.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{jobId}/streams
+@desc Retrieve all the job streams for the compilation Job.
+@required {jobId: any # The job id.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{jobId}/streams/{jobStreamId}
+@desc Retrieve the job stream identified by job stream id.
+@required {jobId: any # The job id., jobStreamId: any # The job stream id.}
+@returns(200) OK
+
+@end

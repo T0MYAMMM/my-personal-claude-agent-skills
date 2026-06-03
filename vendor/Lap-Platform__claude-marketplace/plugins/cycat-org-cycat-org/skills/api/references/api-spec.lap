@@ -1,0 +1,94 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api CyCAT.org API
+@version 0.9
+@endpoints 14
+@toc child(1), generate(1), info(1), list(2), lookup(1), namespace(3), parent(1), propose(1), relationships(2), search(1)
+
+@group child
+@endpoint GET /child/{uuid}
+@desc Get child UUID(s) from a specified project or publisher UUID.
+@returns(200) Success
+
+@endgroup
+
+@group generate
+@endpoint GET /generate/uuid
+@desc Generate an UUID version 4 RFC4122-compliant.
+@returns(200) Success
+
+@endgroup
+
+@group info
+@endpoint GET /info
+@desc Get information about the CyCAT backend services including status, overall statistics and version.
+@returns(200) Success
+
+@endgroup
+
+@group list
+@endpoint GET /list/project/{start}/{end}
+@desc List projects registered in CyCAT by pagination (start,end).
+@returns(200) Success
+
+@endpoint GET /list/publisher/{start}/{end}
+@desc List publishers registered in CyCAT by pagination (start,end).
+@returns(200) Success
+
+@endgroup
+
+@group lookup
+@endpoint GET /lookup/{uuid}
+@desc Lookup UUID registered in CyCAT.
+@returns(200) Success
+
+@endgroup
+
+@group namespace
+@endpoint GET /namespace/finduuid/{namespace}/{namespaceid}
+@desc Get all known UUID for a given namespace id.
+@returns(200) Success
+
+@endpoint GET /namespace/getall
+@desc List all known namespaces.
+@returns(200) Success
+
+@endpoint GET /namespace/getid/{namespace}
+@desc Get all ID from a given namespace.
+@returns(200) Success
+
+@endgroup
+
+@group parent
+@endpoint GET /parent/{uuid}
+@desc Get parent UUID(s) from a specified project or item UUID.
+@returns(200) Success
+
+@endgroup
+
+@group propose
+@endpoint POST /propose
+@desc Propose new resource to CyCAT.
+@returns(200) Success
+
+@endgroup
+
+@group relationships
+@endpoint GET /relationships/expanded/{uuid}
+@desc Get relationship(s) UUID from a specified UUID including the relationships meta information.
+@returns(200) Success
+
+@endpoint GET /relationships/{uuid}
+@desc Get relationship(s) UUID from a specified UUID.
+@returns(200) Success
+
+@endgroup
+
+@group search
+@endpoint GET /search/{searchquery}
+@desc Full-text search in CyCAT and return matching UUID.
+@returns(200) Success
+
+@endgroup
+
+@end

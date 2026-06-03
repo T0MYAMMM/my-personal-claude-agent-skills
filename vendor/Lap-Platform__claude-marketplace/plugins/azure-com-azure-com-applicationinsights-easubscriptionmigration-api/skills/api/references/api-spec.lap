@@ -1,0 +1,22 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api ApplicationInsightsManagementClient
+@base https://management.azure.com
+@version 2017-10-01
+@auth OAuth2
+@endpoints 3
+@toc subscriptions(3)
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/microsoft.insights/migrateToNewPricingModel
+@desc Enterprise Agreement Customer opted to use new pricing model.
+@returns(204) Success migrate to new pricing model for this subscription.
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/microsoft.insights/rollbackToLegacyPricingModel
+@desc Enterprise Agreement Customer roll back to use legacy pricing model.
+@returns(204) Success roll back to legacy pricing model for this subscription.
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/microsoft.insights/listMigrationdate
+@desc list date to migrate to new pricing model.
+@returns(200) Success list migrate date information for this subscription.
+
+@end

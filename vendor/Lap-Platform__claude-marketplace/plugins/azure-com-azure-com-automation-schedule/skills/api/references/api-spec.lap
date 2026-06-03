@@ -1,0 +1,36 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AutomationManagement
+@base https://management.azure.com
+@version 2015-10-31
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(5)
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules/{scheduleName}
+@desc Create a schedule.
+@required {scheduleName: any # The schedule name., parameters: any # The parameters supplied to the create or update schedule operation.}
+@returns(201) Created
+@returns(200) OK
+@errors {409: Conflict}
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules/{scheduleName}
+@desc Update the schedule identified by schedule name.
+@required {scheduleName: any # The schedule name., parameters: any # The parameters supplied to the update schedule operation.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules/{scheduleName}
+@desc Retrieve the schedule identified by schedule name.
+@required {scheduleName: any # The schedule name.}
+@returns(200) OK
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules/{scheduleName}
+@desc Delete the schedule identified by schedule name.
+@required {scheduleName: any # The schedule name.}
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules
+@desc Retrieve a list of schedules.
+@returns(200) OK
+
+@end

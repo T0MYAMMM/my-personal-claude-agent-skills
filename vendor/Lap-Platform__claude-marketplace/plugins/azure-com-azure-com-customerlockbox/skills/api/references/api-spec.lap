@@ -1,0 +1,52 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Customer Lockbox
+@base https://management.azure.com
+@version 2018-02-28-preview
+@auth OAuth2
+@endpoints 7
+@toc providers(4), subscriptions(3)
+
+@group providers
+@endpoint GET /providers/Microsoft.CustomerLockbox/operations
+@desc Lists all the available REST API operations.
+@required {api-version: any # The API version to be used with the HTTP request.}
+@returns(200) OK. Successfully retrieved operation list.
+
+@endpoint GET /providers/Microsoft.CustomerLockbox/tenantOptedIn/{tenantId}
+@desc Get Customer Lockbox request
+@required {tenantId: any # The Azure tenant ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000), api-version: any # The API version to be used with the HTTP request.}
+@returns(200) Retrieval of Opt-in status for Tenant successful.
+
+@endpoint POST /providers/Microsoft.CustomerLockbox/enableLockbox
+@desc Enable Tenant for Lockbox
+@required {api-version: any # The API version to be used with the HTTP request.}
+@returns(200) Enabling Tenant for Lockbox successful
+
+@endpoint POST /providers/Microsoft.CustomerLockbox/disableLockbox
+@desc Disable Tenant for Lockbox
+@required {api-version: any # The API version to be used with the HTTP request.}
+@returns(200) Disabling Tenant for Lockbox successful
+
+@endgroup
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.CustomerLockbox/requests/{requestId}
+@desc Get Customer Lockbox request
+@required {requestId: any # The Lockbox request ID., subscriptionId: any # The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000), api-version: any # The API version to be used with the HTTP request.}
+@returns(200) Retrieval of Customer Lockbox request successful.
+
+@endpoint POST /subscriptions/{subscriptionId}/providers/Microsoft.CustomerLockbox/requests/{requestId}/updateApproval
+@desc Update Customer Lockbox request approval status API
+@required {approval: map # The approval object to update request status., subscriptionId: any # The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000), requestId: any # The Lockbox request ID., api-version: any # The API version to be used with the HTTP request.}
+@returns(200) Update of Request Status successful
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.CustomerLockbox/requests
+@desc Lists all of the Lockbox requests in the given subscription.
+@required {subscriptionId: any # The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)}
+@optional {$filter: any # The $filter OData query parameter. Only filter by request status is supported, e.g $filter=properties/status eq 'Pending'}
+@returns(200) Successfully listed the Lockbox requests under the given subscription.
+
+@endgroup
+
+@end

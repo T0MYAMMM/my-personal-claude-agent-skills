@@ -1,0 +1,51 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api OpenAPI Generator Online
+@base https://api.openapi-generator.tech/
+@version 7.12.0
+@endpoints 7
+@toc api(7)
+
+@endpoint GET /api/gen/clients
+@desc Gets languages supported by the client generator
+@returns(200) successful operation
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found}
+
+@endpoint GET /api/gen/clients/{language}
+@desc Returns options for a client library
+@required {language: any # The target language for the client library}
+@returns(200) successful operation
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found}
+
+@endpoint POST /api/gen/clients/{language}
+@desc Generates a client library
+@required {generatorInput: map # Configuration for building the client library, language: any # The target language for the client library}
+@returns(200) successful operation
+@returns(201) Created
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found}
+
+@endpoint GET /api/gen/download/{fileId}
+@desc Downloads a pre-generated file
+@required {fileId: any # fileId}
+@returns(200) successful operation
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found}
+
+@endpoint GET /api/gen/servers
+@desc Gets languages supported by the server generator
+@returns(200) successful operation
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found}
+
+@endpoint GET /api/gen/servers/{framework}
+@desc Returns options for a server framework
+@required {framework: any # The target language for the server framework}
+@returns(200) successful operation
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found}
+
+@endpoint POST /api/gen/servers/{framework}
+@desc Generates a server library
+@required {framework: any # framework, generatorInput: map # parameters}
+@returns(200) successful operation
+@returns(201) Created
+@errors {401: Unauthorized, 403: Forbidden, 404: Not Found}
+
+@end

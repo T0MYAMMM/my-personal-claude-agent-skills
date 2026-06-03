@@ -1,0 +1,20 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Cosmos DB
+@base https://management.azure.com
+@version 2019-08-01-preview
+@auth OAuth2
+@endpoints 2
+@toc subscriptions(2)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources
+@desc Gets the private link resources that need to be created for a Cosmos DB account.
+@required {accountName: any # Cosmos DB database account name.}
+@returns(200) Successfully retrieved private link resources.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources/{groupName}
+@desc Gets the private link resources that need to be created for a Cosmos DB account.
+@required {accountName: any # Cosmos DB database account name., groupName: any # The name of the private link resource.}
+@returns(200) Successfully retrieved a specified private link resource.
+
+@end

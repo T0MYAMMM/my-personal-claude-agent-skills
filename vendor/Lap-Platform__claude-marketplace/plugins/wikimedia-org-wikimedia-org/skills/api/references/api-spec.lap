@@ -1,0 +1,28 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Math API
+@base https://wikimedia.org/api/rest_v1
+@version 1.0.0
+@auth ApiKey cookie in header
+@endpoints 3
+@toc media(3)
+
+@endpoint POST /media/math/check/{type}
+@desc Check and normalize a TeX formula.
+@required {type: str(tex/inline-tex/chem) # The input type of the given formula; can be tex or inline-tex}
+@returns(200) Information about the checked formula
+@errors {400: Invalid type}
+
+@endpoint GET /media/math/formula/{hash}
+@desc Get a previously-stored formula
+@required {hash: str # The hash string of the previous POST data}
+@returns(200) Information about the checked formula
+@errors {404: Data for the given hash cannot be found}
+
+@endpoint GET /media/math/render/{format}/{hash}
+@desc Get rendered formula in the given format.
+@required {format: str(svg/mml/png) # The output format; can be svg or mml, hash: str # The hash string of the previous POST data}
+@returns(200) The rendered formula
+@errors {404: Unknown format or hash ID}
+
+@end

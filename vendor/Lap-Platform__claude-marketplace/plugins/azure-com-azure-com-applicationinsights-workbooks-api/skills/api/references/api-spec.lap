@@ -1,0 +1,39 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api ApplicationInsightsManagementClient
+@base https://management.azure.com
+@version 2018-06-17-preview
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(5)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/workbooks
+@desc Get all Workbooks defined within a specified resource group and category.
+@required {category: any # Category of workbook to return., sourceId: any # Azure Resource Id that will fetch all related workbooks.}
+@optional {tags: any # Tags presents on each workbook returned., canFetchContent: any # Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks.}
+@returns(200) A list containing 0 or more workbook definitions.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/workbooks/{resourceName}
+@desc Get a single workbook by its resourceName.
+@required {resourceName: any # The name of the Application Insights component resource.}
+@returns(200) A workbook definition.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/workbooks/{resourceName}
+@desc Delete a workbook.
+@required {resourceName: any # The name of the Application Insights component resource.}
+@returns(201) The workbook has been successfully deleted.
+@returns(204) The resource doesn't exist.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/workbooks/{resourceName}
+@desc Create a new workbook.
+@required {resourceName: any # The name of the Application Insights component resource., sourceId: any # Azure Resource Id that will fetch all related workbooks., workbookProperties: any # Properties that need to be specified to create a new workbook.}
+@returns(200) The newly created workbook.
+@returns(201) The newly created workbook.
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/workbooks/{resourceName}
+@desc Updates a workbook that has already been added.
+@required {resourceName: any # The name of the Application Insights component resource., sourceId: any # Azure Resource Id that will fetch all related workbooks.}
+@optional {WorkbookUpdateParameters: any # Properties that need to be specified to create a new workbook.}
+@returns(200) The workbook definition updated.
+
+@end

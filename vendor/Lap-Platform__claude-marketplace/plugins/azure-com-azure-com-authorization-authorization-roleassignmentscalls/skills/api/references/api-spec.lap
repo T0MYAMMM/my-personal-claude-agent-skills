@@ -1,0 +1,79 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api AuthorizationManagementClient
+@base https://management.azure.com
+@version 2018-09-01-preview
+@auth OAuth2
+@endpoints 10
+@toc subscriptions(3), {scope}(4), {roleId}(3)
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/roleAssignments
+@desc Gets role assignments for a resource.
+@required {resourceProviderNamespace: any # The namespace of the resource provider., parentResourcePath: any # The parent resource identity., resourceType: any # The resource type of the resource., resourceName: any # The name of the resource to get role assignments for.}
+@optional {$filter: any # The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.}
+@returns(200) OK - Returns an array of role assignments.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/roleAssignments
+@desc Gets role assignments for a resource group.
+@optional {$filter: any # The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.}
+@returns(200) OK - Returns an array of role assignments.
+
+@endgroup
+
+@group {scope}
+@endpoint DELETE /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
+@desc Deletes a role assignment.
+@required {scope: any # The scope of the role assignment to delete., roleAssignmentName: any # The name of the role assignment to delete.}
+@returns(200) OK - Returns information about the role assignment.
+@returns(204) Role assignment already deleted or does not exist.
+
+@endpoint PUT /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
+@desc Creates a role assignment.
+@required {scope: any # The scope of the role assignment to create. The scope can be any REST resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription, '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}' for a resource., roleAssignmentName: any # A GUID for the role assignment to create. The name must be unique and different for each role assignment., parameters: any # Parameters for the role assignment.}
+@returns(201) Created - Returns information about the role assignment.
+
+@endpoint GET /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
+@desc Get the specified role assignment.
+@required {scope: any # The scope of the role assignment., roleAssignmentName: any # The name of the role assignment to get.}
+@returns(200) OK - Returns information about the role assignment.
+
+@endgroup
+
+@group {roleId}
+@endpoint DELETE /{roleId}
+@desc Deletes a role assignment.
+@required {roleId: any # The ID of the role assignment to delete.}
+@returns(200) OK - Returns information about the role assignment.
+@returns(204) Role assignment already deleted or does not exist.
+
+@endpoint PUT /{roleId}
+@desc Creates a role assignment by ID.
+@required {roleId: any # The ID of the role assignment to create., parameters: any # Parameters for the role assignment.}
+@returns(201) Created - Returns the role assignment.
+
+@endpoint GET /{roleId}
+@desc Gets a role assignment by ID.
+@required {roleId: any # The ID of the role assignment to get.}
+@returns(200) OK - Returns the role assignment.
+
+@endgroup
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleAssignments
+@desc Gets all role assignments for the subscription.
+@optional {$filter: any # The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.}
+@returns(200) OK - Returns an array of role assignments.
+
+@endgroup
+
+@group {scope}
+@endpoint GET /{scope}/providers/Microsoft.Authorization/roleAssignments
+@desc Gets role assignments for a scope.
+@required {scope: any # The scope of the role assignments.}
+@optional {$filter: any # The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.}
+@returns(200) OK - Returns an array of role assignments.
+
+@endgroup
+
+@end

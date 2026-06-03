@@ -1,0 +1,30 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api MonitorManagementClient
+@base https://management.azure.com
+@version 2017-05-01-preview
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/microsoft.insights/diagnosticSettings/{name}
+@desc Gets the active subscription diagnostic settings for the specified resource.
+@required {name: any # The name of the diagnostic setting.}
+@returns(200) Successful request to get more information about diagnostic setting.
+
+@endpoint PUT /subscriptions/{subscriptionId}/providers/microsoft.insights/diagnosticSettings/{name}
+@desc Creates or updates subscription diagnostic settings for the specified resource.
+@required {parameters: map # Parameters supplied to the operation., name: any # The name of the diagnostic setting.}
+@returns(200) Successful request to create a subscription diagnostic setting
+
+@endpoint DELETE /subscriptions/{subscriptionId}/providers/microsoft.insights/diagnosticSettings/{name}
+@desc Deletes existing subscription diagnostic settings for the specified resource.
+@required {name: any # The name of the diagnostic setting.}
+@returns(200) Successful request to remove a subscription diagnostic setting
+@returns(204) Successful request to remove a subscription diagnostic setting
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/microsoft.insights/diagnosticSettings
+@desc Gets the active subscription diagnostic settings list for the specified subscriptionId.
+@returns(200) Successful request to get more information about subscription diagnostic setting
+
+@end

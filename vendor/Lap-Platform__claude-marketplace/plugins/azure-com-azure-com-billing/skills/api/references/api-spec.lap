@@ -1,0 +1,646 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api BillingManagementClient
+@base https://management.azure.com
+@version 2019-10-01-preview
+@auth OAuth2
+@endpoints 119
+@hint download_for_search
+@toc providers(118), subscriptions(1)
+
+@group providers
+@endpoint GET /providers/Microsoft.Billing/billingAccounts
+@desc Lists the billing accounts that a user has access to.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@optional {$expand: any # May be used to expand the address, invoice sections and billing profiles.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}
+@desc Gets a billing account by its ID.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account.}
+@optional {$expand: any # May be used to expand the address, invoice sections and billing profiles.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint PATCH /providers/Microsoft.Billing/billingAccounts/{billingAccountName}
+@desc Updates the properties of a billing account. Currently, displayName and address can be updated. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., parameters: any # Request parameters that are provided to the update billing account operation.}
+@returns(200) OK. The request has succeeded.
+@returns(202) Accepted. Billing account update is in progress.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/listInvoiceSectionsWithCreateSubscriptionPermission
+@desc Lists the invoice sections for which the user has permission to create Azure subscriptions. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/paymentMethods
+@desc Lists the payment Methods for a billing account. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint POST /providers/Microsoft.Billing/validateAddress
+@desc Validates an address. Use the operation to validate an address before using it as a billing account or a billing profile address.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., address: any}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/availableBalance/default
+@desc The available credit balance for a billing profile. This is the balance that can be used for pay now to settle due or past due invoices. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions
+@desc Lists the instructions by billing profile id.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions/{instructionName}
+@desc Get the instruction by name. These are custom billing instructions and are only applicable for certain customers.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., instructionName: any # Instruction Name.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint PUT /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions/{instructionName}
+@desc Creates or updates an instruction. These are custom billing instructions and are only applicable for certain customers.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., instructionName: any # Instruction Name., parameters: map # The new instruction.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/paymentMethods
+@desc Lists the payment Methods for a billing profile. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/validateDetachPaymentMethodEligibility
+@desc Validates if the default payment method can be detached from the billing profile. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles
+@desc Lists the billing profiles that a user has access to. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account.}
+@optional {$expand: any # May be used to expand the invoice sections.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}
+@desc Gets a billing profile by its ID. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile.}
+@optional {$expand: any # May be used to expand the invoice sections.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint PUT /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}
+@desc Creates a billing profile. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., parameters: any # Request parameters that are provided to the create billing profile operation.}
+@returns(200) OK. The request has succeeded.
+@returns(202) Accepted
+
+@endpoint PATCH /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}
+@desc Updates the properties of a billing profile. Currently, displayName, poNumber, bill-to address and invoiceEmailOptIn can be updated. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., parameters: map # Request parameters supplied to the update billing profile operation.}
+@returns(200) OK. The request has succeeded.
+@returns(202) Accepted. Billing profile update is in progress.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/customers
+@desc Lists the customers that are billed to a billing profile. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile.}
+@optional {$filter: any # May be used to filter the list of customers., $skiptoken: any # Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections
+@desc Lists the invoice sections that a user has access to. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}
+@desc Gets an invoice section by its ID. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint PUT /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}
+@desc Creates an invoice section. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., parameters: any # Request parameters that are provided to the create invoice section operation.}
+@returns(200) OK. The request has succeeded.
+@returns(202) Accepted
+
+@endpoint PATCH /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}
+@desc Updates an invoice section. Currently, only displayName can be updated. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., parameters: map # Request parameters that are provided to the update invoice section operation.}
+@returns(200) OK. The request has succeeded.
+@returns(202) Accepted. InvoiceSection update is in progress.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers
+@desc Lists the customers that are billed to a billing account. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account.}
+@optional {$filter: any # May be used to filter the list of customers., $skiptoken: any # Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}
+@desc Gets a customer by its ID. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., customerName: any # The ID that uniquely identifies a customer.}
+@optional {$expand: any # May be used to expand enabledAzurePlans and resellers}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/billingPermissions
+@desc Lists the billing permissions the caller has for a customer.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., customerName: any # The ID that uniquely identifies a customer.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/billingSubscriptions
+@desc Lists the subscriptions for a customer. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., customerName: any # The ID that uniquely identifies a customer., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/billingSubscriptions/{billingSubscriptionName}
+@desc Gets a subscription by its ID. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., customerName: any # The ID that uniquely identifies a customer., billingSubscriptionName: any # The ID that uniquely identifies a subscription., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/products
+@desc Lists the products for a customer. These don't include products billed based on usage.The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., customerName: any # The ID that uniquely identifies a customer., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@optional {$filter: any # May be used to filter by product type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:).}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/products/{productName}
+@desc Gets a product by ID. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., customerName: any # The ID that uniquely identifies a customer., productName: any # The ID that uniquely identifies a product., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/transactions
+@desc Lists the billed and unbilled transactions by customer id for given start date and end date. Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is generated.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., customerName: any # The ID that uniquely identifies a customer., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., periodStartDate: any # The start date to fetch the transactions. The date should be specified in MM-DD-YYYY format., periodEndDate: any # The end date to fetch the transactions. The date should be specified in MM-DD-YYYY format.}
+@optional {$filter: any # May be used to filter by transaction type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:).}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/departments
+@desc Lists the departments that a user has access to. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account.}
+@optional {$expand: any # May be used to expand the enrollment accounts., $filter: any # May be used to filter by department name. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:).}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/departments/{departmentName}
+@desc Gets a department by ID. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., departmentName: any # The ID that uniquely identifies a department.}
+@optional {$expand: any # May be used to expand the enrollment accounts., $filter: any # May be used to filter by department name. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:).}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts
+@desc Lists the enrollment accounts for a billing account. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account.}
+@optional {$expand: any # May be used to expand the department., $filter: any # May be used to filter by account name. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:).}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}
+@desc Gets an enrollment account by ID. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., enrollmentAccountName: any # The ID that uniquely identifies an enrollment account.}
+@optional {$expand: any # May be used to expand the department., $filter: any # May be used to filter by account name. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:).}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices
+@desc Lists the invoices for a billing account for a given start date and end date. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement, Microsoft Customer Agreement or Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., periodStartDate: any # The start date to fetch the invoices. The date should be specified in MM-DD-YYYY format., periodEndDate: any # The end date to fetch the invoices. The date should be specified in MM-DD-YYYY format.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/downloadDocuments
+@desc Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip file.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., downloadUrls: [str] # An array of download urls for individual documents. The download url paths in the request body should match the path of the original request.}
+@returns(202) Accepted.
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}
+@desc Gets an invoice by billing account name and ID. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement, Microsoft Customer Agreement or Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., invoiceName: any # The ID that uniquely identifies an invoice.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/default/billingSubscriptions/{subscriptionId}/downloadDocuments
+@desc Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip file.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., subscriptionId: any # The ID that uniquely identifies an Azure subscription., downloadUrls: [str] # An array of download urls for individual documents. The download url paths in the request body should match the path of the original request.}
+@returns(202) Accepted.
+@returns(200) OK. The request has succeeded.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoices/{invoiceName}/pricesheet/default/download
+@desc Gets a URL to download the pricesheet for an invoice. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceName: any # The ID that uniquely identifies an invoice.}
+@returns(202) Accepted.
+@returns(200) OK. The request has succeeded.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/pricesheet/default/download
+@desc Gets a URL to download the current month's pricesheet for a billing profile. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.This API is hereby deprecated in favor of https://docs.microsoft.com/en-us/rest/api/cost-management/2022-02-01-preview/price-sheet/download-by-billing-profile. We highly recommend you move to the new preview version, as the csv file in the current preview version will have 500k max size that cannot scale with Azure product growth.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile.}
+@returns(202) Accepted.
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoices
+@desc Lists the invoices for a billing profile for a given start date and end date. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., periodStartDate: any # The start date to fetch the invoices. The date should be specified in MM-DD-YYYY format., periodEndDate: any # The end date to fetch the invoices. The date should be specified in MM-DD-YYYY format.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/downloadDocuments
+@desc Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip file.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., downloadUrls: [str] # An array of download urls for individual documents. The download url paths in the request body should match the path of the original request.}
+@returns(202) Accepted.
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoices/{invoiceName}
+@desc Gets an invoice by ID. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceName: any # The ID that uniquely identifies an invoice.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions
+@desc Lists the subscriptions for a billing account. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}/invoices
+@desc Lists the invoices for a subscription.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingSubscriptionName: any # The ID that uniquely identifies a subscription., periodStartDate: any # Invoice period start date., periodEndDate: any # Invoice period end date., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}/invoices/{invoiceName}
+@desc Gets an invoice by ID.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingSubscriptionName: any # The ID that uniquely identifies a subscription., invoiceName: any # The ID that uniquely identifies an invoice., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingSubscriptions
+@desc Lists the subscriptions that are billed to a billing profile. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingSubscriptions
+@desc Lists the subscriptions that are billed to an invoice section. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingSubscriptions/{billingSubscriptionName}
+@desc Gets a subscription by its ID. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., billingSubscriptionName: any # The ID that uniquely identifies a subscription., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingSubscriptions/{billingSubscriptionName}/transfer
+@desc Moves a subscription's charges to a new invoice section. The new invoice section must belong to the same billing profile as the existing invoice section. This operation is supported only for products that are purchased with a recurring charge and for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., billingSubscriptionName: any # The ID that uniquely identifies a subscription., parameters: map # Request parameters that are provided to the transfer product operation.}
+@returns(200) OK. The request has succeeded.
+@returns(202) Accepted. Billing Subscription transfer is in progress.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingSubscriptions/{billingSubscriptionName}/validateTransferEligibility
+@desc Validates if a subscription's charges can be moved to a new invoice section. This operation is supported only for products that are purchased with a recurring charge and for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., billingSubscriptionName: any # The ID that uniquely identifies a subscription., parameters: map # Request parameters that are provided to the validate transfer eligibility operation.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/products
+@desc Lists the products for a billing account. These don't include products billed based on usage. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@optional {$filter: any # May be used to filter by product type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:).}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/products
+@desc Lists the products for an invoice section. These don't include products billed based on usage. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@optional {$filter: any # May be used to filter by product type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:).}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/products/{productName}
+@desc Gets a product by ID. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., productName: any # The ID that uniquely identifies a product., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/products/{productName}/transfer
+@desc Moves a product's charges to a new invoice section. The new invoice section must belong to the same billing profile as the existing invoice section. This operation is supported only for products that are purchased with a recurring charge and for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., productName: any # The ID that uniquely identifies a product., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., parameters: any # Request parameters that are provided to the transfer product operation.}
+@returns(200) OK. The request has succeeded.
+@returns(202) Accepted
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/products/{productName}/validateTransferEligibility
+@desc Validates if a product's charges can be moved to a new invoice section. This operation is supported only for products that are purchased with a recurring charge and for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., productName: any # The ID that uniquely identifies a product., parameters: any # Request parameters that are provided to the validate transfer eligibility operation.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/transactions
+@desc Lists the billed and unbilled transactions by billing account name for given start and end date. Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed under pending invoice ID and do not include tax. Tax is added to the amount once an invoice is generated.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., periodStartDate: any # The start date to fetch the transactions. The date should be specified in MM-DD-YYYY format., periodEndDate: any # The end date to fetch the transactions. The date should be specified in MM-DD-YYYY format.}
+@optional {$filter: any # May be used to filter by transaction type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:).}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/transactions
+@desc Lists the billed and unbilled transactions by billing profile name for given start date and end date. Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is generated.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., periodStartDate: any # The start date to fetch the transactions. The date should be specified in MM-DD-YYYY format., periodEndDate: any # The end date to fetch the transactions. The date should be specified in MM-DD-YYYY format.}
+@optional {$filter: any # May be used to filter by transaction type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:).}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/transactions
+@desc Lists the billed and unbilled transactions by invoice section name for given start date and end date. Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is generated.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., periodStartDate: any # The start date to fetch the transactions. The date should be specified in MM-DD-YYYY format., periodEndDate: any # The end date to fetch the transactions. The date should be specified in MM-DD-YYYY format.}
+@optional {$filter: any # May be used to filter by transaction type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:).}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoices/{invoiceName}/transactions
+@desc Lists the transactions for an invoice. Transactions include purchases, refunds and Azure usage charges.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceName: any # The ID that uniquely identifies an invoice., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/transactions/{transactionName}
+@desc Gets a transaction by ID. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., transactionName: any # The ID that uniquely identifies a transaction., periodStartDate: any # The start date to fetch the transactions. The date should be specified in MM-DD-YYYY format., periodEndDate: any # The end date to fetch the transactions. The date should be specified in MM-DD-YYYY format., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/policies/default
+@desc Lists the policies for a billing profile. This operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint PUT /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/policies/default
+@desc Updates the policies for a billing profile. This operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., parameters: map # Request parameters that are provided to the update policies operation.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/policies/default
+@desc Lists the policies for a customer. This operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., customerName: any # The ID that uniquely identifies a customer., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint PUT /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/policies/default
+@desc Updates the policies for a customer. This operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., customerName: any # The ID that uniquely identifies a customer., parameters: map # Request parameters that are provided to the update policies operation.}
+@returns(200) OK. The request has succeeded.
+
+@endgroup
+
+@group subscriptions
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingProperty/default
+@desc Get the billing properties for a subscription. This operation is not supported for billing accounts with agreement type Enterprise Agreement.
+@required {subscriptionId: any # The ID that uniquely identifies an Azure subscription., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endgroup
+
+@group providers
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/products/{productName}/updateAutoRenew
+@desc Cancel auto renew for product by product id and invoice section name
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., productName: any # The ID that uniquely identifies a product., api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., body: map # Request parameters that are provided to the update auto renew operation.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/elevate
+@desc Gives the caller permissions on an invoice section based on their billing profile access.  The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section.}
+@returns(204) Elevated the caller's access to the invoice section.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/initiateTransfer
+@desc Sends a request to a user in another billing account to transfer billing ownership of their subscriptions. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., parameters: map # Request parameters that are provided to the initiate transfer operation.}
+@returns(200) Initiated transfer details.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/transfers/{transferName}
+@desc Gets a transfer request by ID. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., transferName: any # The ID that uniquely identifies a transfer request.}
+@returns(200) Details of transfer.
+
+@endpoint DELETE /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/transfers/{transferName}
+@desc Cancels a transfer request. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., transferName: any # The ID that uniquely identifies a transfer request.}
+@returns(200) Details of canceled transfer.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/transfers
+@desc Lists the transfer requests for an invoice section. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section.}
+@returns(200) List of transfers initiated from this invoice section.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/customers/{customerName}/initiateTransfer
+@desc Sends a request to a user in a customer's billing account to transfer billing ownership of their subscriptions. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., customerName: any # The ID that uniquely identifies a customer., parameters: map # Request parameters that are provided to the initiate transfer operation.}
+@returns(200) Initiated transfer details.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/customers/{customerName}/transfers/{transferName}
+@desc Gets a transfer request by ID. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., customerName: any # The ID that uniquely identifies a customer., transferName: any # The ID that uniquely identifies a transfer request.}
+@returns(200) Details of transfer.
+
+@endpoint DELETE /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/customers/{customerName}/transfers/{transferName}
+@desc Cancels a transfer request. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., customerName: any # The ID that uniquely identifies a customer., transferName: any # The ID that uniquely identifies a transfer request.}
+@returns(200) Details of canceled transfer.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/customers/{customerName}/transfers
+@desc Lists the transfer requests sent to a customer. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
+@required {billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., customerName: any # The ID that uniquely identifies a customer.}
+@returns(200) List of transfers initiated from this invoice section.
+
+@endpoint POST /providers/Microsoft.Billing/transfers/{transferName}/acceptTransfer
+@desc Accepts a transfer request.
+@required {transferName: any # The ID that uniquely identifies a transfer request., parameters: map # Request parameters that are provided to the accept transfer operation.}
+@returns(200) Details of the accepted transfer.
+
+@endpoint POST /providers/Microsoft.Billing/transfers/{transferName}/validateTransfer
+@desc Validates if a subscription or a reservation can be transferred. Use this operation to validate your subscriptions or reservation before using the accept transfer operation.
+@required {transferName: any # The ID that uniquely identifies a transfer request., parameters: map # Request parameters that are provided to the validate transfer operation.}
+@returns(200) Results of the transfer validation.
+
+@endpoint POST /providers/Microsoft.Billing/transfers/{transferName}/declineTransfer
+@desc Declines a transfer request.
+@required {transferName: any # The ID that uniquely identifies a transfer request.}
+@returns(200) Details of the declined transfer.
+
+@endpoint GET /providers/Microsoft.Billing/transfers/{transferName}
+@desc Gets a transfer request by ID. The caller must be the recipient of the transfer request.
+@required {transferName: any # The ID that uniquely identifies a transfer request.}
+@returns(200) Details of the transfers with given Id.
+
+@endpoint GET /providers/Microsoft.Billing/transfers
+@desc Lists the transfer requests received by the caller.
+@returns(200) List of transfers received by caller.
+
+@endpoint GET /providers/Microsoft.Billing/operations
+@desc Lists the available billing REST API operations.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingPermissions
+@desc Lists the billing permissions the caller has on a billing account.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingPermissions
+@desc Lists the billing permissions the caller has on an invoice section.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingPermissions
+@desc Lists the billing permissions the caller has on a billing profile.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/departments/{departmentName}/billingPermissions
+@desc Lists the billing permissions the caller has on a department.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., departmentName: any # The ID that uniquely identifies a department.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/billingPermissions
+@desc Lists the billing permissions the caller has on an enrollment account.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., enrollmentAccountName: any # The ID that uniquely identifies an enrollment account.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingRoleDefinitions/{billingRoleDefinitionName}
+@desc Gets the definition for a role on a billing account. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingRoleDefinitionName: any # The ID that uniquely identifies a role definition.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleDefinitions/{billingRoleDefinitionName}
+@desc Gets the definition for a role on an invoice section. The operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., billingRoleDefinitionName: any # The ID that uniquely identifies a role definition.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingRoleDefinitions/{billingRoleDefinitionName}
+@desc Gets the definition for a role on a billing profile. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., billingRoleDefinitionName: any # The ID that uniquely identifies a role definition.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/departments/{departmentName}/billingRoleDefinitions/{billingRoleDefinitionName}
+@desc Gets the definition for a role on a department. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., departmentName: any # The ID that uniquely identifies a department., billingRoleDefinitionName: any # The ID that uniquely identifies a role definition.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/billingRoleDefinitions/{billingRoleDefinitionName}
+@desc Gets the definition for a role on an enrollment account. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., enrollmentAccountName: any # The ID that uniquely identifies an enrollment account., billingRoleDefinitionName: any # The ID that uniquely identifies a role definition.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingRoleDefinitions
+@desc Lists the role definitions for a billing account. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement, Microsoft Customer Agreement or Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleDefinitions
+@desc Lists the role definitions for an invoice section. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingRoleDefinitions
+@desc Lists the role definitions for a billing profile. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/departments/{departmentName}/billingRoleDefinitions
+@desc Lists the role definitions for a department. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., departmentName: any # The ID that uniquely identifies a department.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/billingRoleDefinitions
+@desc Lists the role definitions for a enrollmentAccount. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., enrollmentAccountName: any # The ID that uniquely identifies an enrollment account.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingRoleAssignments/{billingRoleAssignmentName}
+@desc Gets a role assignment for the caller on a billing account. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement, Microsoft Customer Agreement or Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingRoleAssignmentName: any # The ID that uniquely identifies a role assignment.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint DELETE /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingRoleAssignments/{billingRoleAssignmentName}
+@desc Deletes a role assignment for the caller on a billing account. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingRoleAssignmentName: any # The ID that uniquely identifies a role assignment.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint PUT /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingRoleAssignments/{billingRoleAssignmentName}
+@desc Create or update a billing role assignment.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingRoleAssignmentName: any # The ID that uniquely identifies a role assignment., parameters: map # The new or updated billing role assignment.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleAssignments/{billingRoleAssignmentName}
+@desc Gets a role assignment for the caller on an invoice section. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., billingRoleAssignmentName: any # The ID that uniquely identifies a role assignment.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint DELETE /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleAssignments/{billingRoleAssignmentName}
+@desc Deletes a role assignment for the caller on an invoice section. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., billingRoleAssignmentName: any # The ID that uniquely identifies a role assignment.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingRoleAssignments/{billingRoleAssignmentName}
+@desc Gets a role assignment for the caller on a billing profile. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., billingRoleAssignmentName: any # The ID that uniquely identifies a role assignment.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint DELETE /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingRoleAssignments/{billingRoleAssignmentName}
+@desc Deletes a role assignment for the caller on a billing profile. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., billingRoleAssignmentName: any # The ID that uniquely identifies a role assignment.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/departments/{departmentName}/billingRoleAssignments/{billingRoleAssignmentName}
+@desc Gets a role assignment for the caller on a department. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., departmentName: any # The ID that uniquely identifies a department., billingRoleAssignmentName: any # The ID that uniquely identifies a role assignment.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint DELETE /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/departments/{departmentName}/billingRoleAssignments/{billingRoleAssignmentName}
+@desc Deletes a role assignment for the caller on a department. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., departmentName: any # The ID that uniquely identifies a department., billingRoleAssignmentName: any # The ID that uniquely identifies a role assignment.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint PUT /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/departments/{departmentName}/billingRoleAssignments/{billingRoleAssignmentName}
+@desc Create or update a billing role assignment.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., departmentName: any # The ID that uniquely identifies a department., billingRoleAssignmentName: any # The ID that uniquely identifies a role assignment., parameters: map # The new or updated billing role assignment.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/billingRoleAssignments/{billingRoleAssignmentName}
+@desc Gets a role assignment for the caller on a enrollment Account. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., enrollmentAccountName: any # The ID that uniquely identifies an enrollment account., billingRoleAssignmentName: any # The ID that uniquely identifies a role assignment.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint DELETE /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/billingRoleAssignments/{billingRoleAssignmentName}
+@desc Deletes a role assignment for the caller on a enrollment Account. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., enrollmentAccountName: any # The ID that uniquely identifies an enrollment account., billingRoleAssignmentName: any # The ID that uniquely identifies a role assignment.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint PUT /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/billingRoleAssignments/{billingRoleAssignmentName}
+@desc Create or update a billing role assignment.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., enrollmentAccountName: any # The ID that uniquely identifies an enrollment account., billingRoleAssignmentName: any # The ID that uniquely identifies a role assignment., parameters: map # The new or updated billing role assignment.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingRoleAssignments
+@desc Lists the role assignments for the caller on a billing account. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement, Microsoft Customer Agreement or Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/createBillingRoleAssignment
+@desc Adds a role assignment on a billing account. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., parameters: any # Request parameters that are provided to the create billing role assignment operation.}
+@returns(201) Role assignment is successfully created
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleAssignments
+@desc Lists the role assignments for the caller on an invoice section. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/createBillingRoleAssignment
+@desc Adds a role assignment on an invoice section. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., invoiceSectionName: any # The ID that uniquely identifies an invoice section., parameters: any # Request parameters that are provided to the create billing role assignment operation.}
+@returns(201) Role assignment is successfully created
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingRoleAssignments
+@desc Lists the role assignments for the caller on a billing profile. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint POST /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/createBillingRoleAssignment
+@desc Adds a role assignment on a billing profile. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., billingProfileName: any # The ID that uniquely identifies a billing profile., parameters: any # Request parameters that are provided to the create billing role assignment operation.}
+@returns(201) Role assignment is successfully created
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/departments/{departmentName}/billingRoleAssignments
+@desc Lists the role assignments for the caller on a billing profile. The operation is supported for billing accounts of type Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., departmentName: any # The ID that uniquely identifies a department.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/billingRoleAssignments
+@desc Lists the role assignments for the caller on a billing profile. The operation is supported for billing accounts of type Enterprise Agreement.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., enrollmentAccountName: any # The ID that uniquely identifies an enrollment account.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/agreements
+@desc Lists the agreements for a billing account.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account.}
+@optional {$expand: any # May be used to expand the participants.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/agreements/{agreementName}
+@desc Gets an agreement by ID.
+@required {api-version: any # The version of the API to be used with the client request. The current version is 2019-10-01-preview., billingAccountName: any # The ID that uniquely identifies a billing account., agreementName: any # The ID that uniquely identifies an agreement.}
+@optional {$expand: any # May be used to expand the participants.}
+@returns(200) OK. The request has succeeded.
+
+@endgroup
+
+@end

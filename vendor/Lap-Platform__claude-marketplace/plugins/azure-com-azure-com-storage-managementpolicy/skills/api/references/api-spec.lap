@@ -1,0 +1,26 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api StorageManagementClient
+@base https://management.azure.com
+@version 2018-03-01-preview
+@auth OAuth2
+@endpoints 3
+@toc subscriptions(3)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}
+@desc Gets the data policy rules associated with the specified storage account.
+@required {managementPolicyName: any # The name of the Storage Account Management Policy. It should always be 'default'}
+@returns(200) OK -- Get management policies successfully.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}
+@desc Sets the data policy rules associated with the specified storage account.
+@required {managementPolicyName: any # The name of the Storage Account Management Policy. It should always be 'default', properties: any # The data policy rules to set to a storage account.}
+@returns(200) OK -- Get management policies successfully.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}
+@desc Deletes the data policy rules associated with the specified storage account.
+@required {managementPolicyName: any # The name of the Storage Account Management Policy. It should always be 'default'}
+@returns(200) OK -- Delete management policies successfully.
+@returns(204) No Content -- The management policies does not exist.
+
+@end

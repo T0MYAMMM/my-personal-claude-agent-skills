@@ -1,0 +1,35 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api ApplicationInsightsManagementClient
+@base https://management.azure.com
+@version 2015-05-01
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(5)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration
+@desc Gets a list of Continuous Export configuration of an Application Insights component.
+@required {resourceName: any # The name of the Application Insights component resource.}
+@returns(200) A list containing 0 or more Continuous Export configuration definitions of an Application Insights component.
+
+@endpoint POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration
+@desc Create a Continuous Export configuration of an Application Insights component.
+@required {resourceName: any # The name of the Application Insights component resource., ExportProperties: map # Properties that need to be specified to create a Continuous Export configuration of a Application Insights component.}
+@returns(200) A list containing the Continuous Export configuration definition created by this POST call.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}
+@desc Delete a Continuous Export configuration of an Application Insights component.
+@required {resourceName: any # The name of the Application Insights component resource., exportId: any # The Continuous Export configuration ID. This is unique within a Application Insights component.}
+@returns(200) The Continuous Export configuration that was successfully deleted.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}
+@desc Get the Continuous Export configuration for this export id.
+@required {resourceName: any # The name of the Application Insights component resource., exportId: any # The Continuous Export configuration ID. This is unique within a Application Insights component.}
+@returns(200) The Continuous Export configuration for this export id.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}
+@desc Update the Continuous Export configuration for this export id.
+@required {resourceName: any # The name of the Application Insights component resource., exportId: any # The Continuous Export configuration ID. This is unique within a Application Insights component., ExportProperties: map # Properties that need to be specified to update the Continuous Export configuration.}
+@returns(200) The Continuous Export configuration that was successfully updated.
+
+@end

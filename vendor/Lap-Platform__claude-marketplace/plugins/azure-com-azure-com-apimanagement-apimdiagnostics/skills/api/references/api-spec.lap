@@ -1,0 +1,39 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api ApiManagementClient
+@base https://management.azure.com
+@version 2019-12-01-preview
+@auth OAuth2
+@endpoints 6
+@toc subscriptions(6)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/diagnostics
+@desc Lists all diagnostics of the API Management service instance.
+@optional {$filter: any # |   Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>}
+@returns(200) Paged Result response of diagnostics.
+
+@endpoint HEAD /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/diagnostics/{diagnosticId}
+@desc Gets the entity state (Etag) version of the Diagnostic specified by its identifier.
+@returns(200) Gets the entity tag of the diagnostic
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/diagnostics/{diagnosticId}
+@desc Gets the details of the Diagnostic specified by its identifier.
+@returns(200) The response body contains the specified Diagnostic entity.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/diagnostics/{diagnosticId}
+@desc Creates a new Diagnostic or updates an existing one.
+@required {parameters: any # Create parameters.}
+@returns(201) Diagnostic was successfully created.
+@returns(200) Diagnostic successfully updated
+
+@endpoint PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/diagnostics/{diagnosticId}
+@desc Updates the details of the Diagnostic specified by its identifier.
+@required {parameters: any # Diagnostic Update parameters.}
+@returns(204) The Diagnostic was successfully updated.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/diagnostics/{diagnosticId}
+@desc Deletes the specified Diagnostic.
+@returns(200) The Diagnostic was successfully deleted.
+@returns(204) The Diagnostic was successfully deleted.
+
+@end

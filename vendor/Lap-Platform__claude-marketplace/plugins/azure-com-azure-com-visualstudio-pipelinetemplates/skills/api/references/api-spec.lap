@@ -1,0 +1,15 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Visual Studio Projects Resource Provider Client
+@base https://management.azure.com
+@version 2018-08-01-preview
+@auth OAuth2
+@endpoints 1
+@toc providers(1)
+
+@endpoint GET /providers/microsoft.visualstudio/pipelineTemplates
+@desc PipelineTemplates_List
+@required {api-version: any # API Version}
+@returns(200) The operation succeeded. The response is a list of all pipeline templates which can be used to configure a CI/CD pipeline in a new or an existing Team Services project.
+
+@end

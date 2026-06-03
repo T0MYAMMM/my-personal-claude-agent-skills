@@ -1,0 +1,38 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api WebApplicationFirewallManagement
+@base https://management.azure.com
+@version 2019-10-01
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(5)
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies
+@desc Lists all of the protection policies within a resource group.
+@required {resourceGroupName: any # Name of the Resource group within the Azure subscription.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}
+@desc Retrieve protection policy with specified name within a resource group.
+@required {resourceGroupName: any # Name of the Resource group within the Azure subscription., policyName: any # The name of the Web Application Firewall Policy.}
+@returns(200) OK. The request has succeeded.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}
+@desc Create or update policy with specified rule set name within a resource group.
+@required {resourceGroupName: any # Name of the Resource group within the Azure subscription., policyName: any # The name of the Web Application Firewall Policy., parameters: any # Policy to be created.}
+@returns(200) OK. The request has succeeded.
+@returns(201) Created. The request has been fulfilled and a new protection policy has been created.
+@returns(202) Accepted. The request has been accepted for processing and the operation will complete asynchronously.
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}
+@desc Deletes Policy
+@required {resourceGroupName: any # Name of the Resource group within the Azure subscription., policyName: any # The name of the Web Application Firewall Policy.}
+@returns(200) Delete successful.
+@returns(202) Accepted. The request has been accepted for processing and the operation will complete asynchronously.
+@returns(204) No Content. The request has been accepted but the policy was not found.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallManagedRuleSets
+@desc Lists all available managed rule sets.
+@returns(200) Success. The operation returns a list of all available web application firewall managed rule sets.
+
+@end

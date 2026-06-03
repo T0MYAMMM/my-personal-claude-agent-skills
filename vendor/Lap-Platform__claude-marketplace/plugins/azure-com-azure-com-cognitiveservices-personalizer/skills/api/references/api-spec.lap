@@ -1,0 +1,103 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Personalizer Client
+@version v1.0
+@auth ApiKey Ocp-Apim-Subscription-Key in header
+@endpoints 17
+@toc configurations(5), evaluations(4), events(2), logs(2), model(3), rank(1)
+
+@group configurations
+@endpoint GET /configurations/service
+@desc Get Service Configuration.
+@returns(200) Success
+
+@endpoint PUT /configurations/service
+@desc Update Service Configuration.
+@required {config: map # The personalizer service configuration.}
+@returns(200) Success
+
+@endpoint GET /configurations/policy
+@desc Get Policy.
+@returns(200) Success
+
+@endpoint PUT /configurations/policy
+@desc Update Policy.
+@required {policy: map # The Learning settings.}
+@returns(200) Success
+
+@endpoint DELETE /configurations/policy
+@desc Reset Policy.
+@returns(200) Success
+
+@endgroup
+
+@group evaluations
+@endpoint GET /evaluations/{evaluationId}
+@desc Get Evaluation.
+@required {evaluationId: any # Id of the evaluation.}
+@returns(200) Success
+
+@endpoint DELETE /evaluations/{evaluationId}
+@desc Delete Evaluation.
+@required {evaluationId: any # Id of the evaluation to delete.}
+@returns(204) Success
+
+@endpoint GET /evaluations
+@desc List Evaluations.
+@returns(200) Success
+
+@endpoint POST /evaluations
+@desc Create Evaluation.
+@required {evaluation: map # The evaluation job definition.}
+@returns(201) Success
+
+@endgroup
+
+@group events
+@endpoint POST /events/{eventId}/reward
+@desc Post Reward.
+@required {eventId: any # The event id this reward applies to., reward: map # The reward should be a floating point number, typically between 0 and 1.}
+@returns(204) Success
+
+@endpoint POST /events/{eventId}/activate
+@desc Activate Event.
+@required {eventId: any # The event ID this activation applies to.}
+@returns(204) Success
+
+@endgroup
+
+@group logs
+@endpoint DELETE /logs
+@desc Deletes Logs.
+@returns(204) Success
+
+@endpoint GET /logs/properties
+@desc Get Log Properties.
+@returns(200) Success
+
+@endgroup
+
+@group model
+@endpoint GET /model
+@desc Get Model.
+@returns(200) Success
+
+@endpoint DELETE /model
+@desc Reset Model.
+@returns(204) Success
+
+@endpoint GET /model/properties
+@desc Get Model Properties.
+@returns(200) Success
+
+@endgroup
+
+@group rank
+@endpoint POST /rank
+@desc Post Rank.
+@required {rankRequest: map # A Personalizer request.}
+@returns(201) Success
+
+@endgroup
+
+@end

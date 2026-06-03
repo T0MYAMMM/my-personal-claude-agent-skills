@@ -1,0 +1,23 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Microsoft Defender for Cloud
+@base https://management.azure.com
+@version 2015-06-01-preview
+@auth OAuth2
+@endpoints 3
+@toc subscriptions(3)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/externalSecuritySolutions
+@desc Gets a list of external security solutions for the subscription.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/ExternalSecuritySolutions
+@desc Gets a list of external Security Solutions for the subscription and location.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/ExternalSecuritySolutions/{externalSecuritySolutionsName}
+@desc Gets a specific external Security Solution.
+@required {externalSecuritySolutionsName: any # Name of an external security solution.}
+@returns(200) OK
+
+@end

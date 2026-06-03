@@ -1,0 +1,304 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Contribly
+@base https://api.contribly.com/1
+@version 1.0.0
+@auth OAuth2
+@endpoints 44
+@hint download_for_search
+@toc artifact-formats(1), assignments(4), change-log(1), contribution-refinements(1), contribution-refinement-types(1), export(1), export-summary(1), exports(1), contributions(8), credentials(1), event-types(1), forms(4), form-responses(3), media(1), notifications(1), scopes(1), subscriptions(2), subscription-types(1), tags(3), tagsets(3), users(3), verify(1)
+
+@group artifact-formats
+@endpoint GET /artifact-formats
+@desc Artifact formats
+@returns(200) A list of artifact formats
+
+@endgroup
+
+@group assignments
+@endpoint GET /assignments
+@desc List assignments
+@optional {ownedBy: any # Restrict results to assignments owned by this user., page: any # Pagination page, pageSize: any # Pagination page size, q: any # Restrict results to assignments whose name or description matches this keyword., urlWords: any # Select an assignment by urlWords., open: any # Select open or closed assignments, alwaysOpen: any # Select assignments with no closing date., tag: any # Restrict results to assignments which are tagged with this tag., name: any # Restrict results to the assignment (or potentially assignments) with this exact name}
+@returns(200) A list of assignments
+
+@endpoint POST /assignments
+@desc Create a new assignment
+@required {body: map # Assignment object to be created}
+@returns(200) Assignment created
+@errors {400: The new assignment vailed to validate. Check the response body for details., 500: Failed to create the new assignment due to an unexpected error.}
+
+@endpoint DELETE /assignments/{id}
+@desc Delete this assignment and all of it's contributions
+@required {id: any # Id of the assignment to return}
+@returns(200) Assignment deleted
+@errors {403: Not permitted to delete this assignment., 404: Not found}
+
+@endpoint GET /assignments/{id}
+@desc Get a single assigment by id
+@required {id: any # Id of the assignment to return}
+@returns(200) Assignment found
+@errors {404: Not found}
+
+@endgroup
+
+@group change-log
+@endpoint GET /change-log
+@desc Recent changes
+@returns(200) A list of change log items
+
+@endgroup
+
+@group contribution-refinements
+@endpoint GET /contribution-refinements
+@desc List contribution refinement options
+@optional {assignment: any # Restrict results to contributions submitted to this assignment., country: any # Limit results to contributions which have a publicly visible location within the given country (specified by two letter country code)., createdBefore: any # Limit results to contributions created before this date time., createdAfter: any # Limit results to contributions created after this date time., geohash: any # Restrict results to contributions which have specified a location which falls within this geohash (or comma seperated list of multiple geohashes), hasLocation: any # Restrict results to contributions which have a publicly visible location., latLong: any # Limit results to contributions with location near this latitude and longitude (comma seperated lat/long pair). Also see radius, radius: any # When limiting result by location with the latLong parameter, specify the radius in kilometers., mediaType: any # Restrict results to contributions which include a media file of the given type (ie. image / video), ownedBy: any # Restrict results to contributions which are fall under the jurisdiction by this user., q: any # Restrict results to contributions whose headline text matches this keyword., urlWords: any # Locate a specific contribution by URL words, user: any # Restrict results to contributions by this user identified by id., refinements: any # Comma seperated list of refinement names., refinementSize: any # Number of refinement options to return.}
+@returns(200) A map of refinement names to lists of options
+
+@endgroup
+
+@group contribution-refinement-types
+@endpoint GET /contribution-refinement-types
+@desc List valid contribution refinement types
+@returns(200) An array of refinement types. These are the possible values of the get contribution refinements parameter.
+
+@endgroup
+
+@group export
+@endpoint POST /export
+@desc Export contributions.
+@optional {assignment: any # Restrict results to contributions submitted to this assignment., country: any # Limit results to contributions which have a publicly visible location within the given country (specified by two letter country code)., createdBefore: any # Limit results to contributions created before this date time., createdAfter: any # Limit results to contributions created after this date time., geohash: any # Restrict results to contributions which have specified a location which falls within this geohash (or comma seperated list of multiple geohashes), hasLocation: any # Restrict results to contributions which have a publicly visible location., latLong: any # Limit results to contributions with location near this latitude and longitude (comma seperated lat/long pair). Also see radius, radius: any # When limiting result by location with the latLong parameter, specify the radius in kilometers., mediaType: any # Restrict results to contributions which include a media file of the given type (ie. image / video), ownedBy: any # Restrict results to contributions which are fall under the jurisdiction by this user., q: any # Restrict results to contributions whose headline text matches this keyword., urlWords: any # Locate a specific contribution by URL words, user: any # Restrict results to contributions by this user identified by id., tagged: any # Should exported media files be tagged with metadata. Deprecated; use format instead., combined: any # Included a combined file with all contribution text., individual: any # Include individual text files for each contribution., format: any # Media format to export; none, fullsize, tagged or original., json: any # Include raw JSON for each contribution.}
+@returns(202) An export job describing the state of an export job.
+
+@endgroup
+
+@group export-summary
+@endpoint POST /export-summary
+@desc Export contributions preflight summary.
+@optional {assignment: any # Restrict results to contributions submitted to this assignment., country: any # Limit results to contributions which have a publicly visible location within the given country (specified by two letter country code)., createdBefore: any # Limit results to contributions created before this date time., createdAfter: any # Limit results to contributions created after this date time., geohash: any # Restrict results to contributions which have specified a location which falls within this geohash (or comma seperated list of multiple geohashes), hasLocation: any # Restrict results to contributions which have a publicly visible location., latLong: any # Limit results to contributions with location near this latitude and longitude (comma seperated lat/long pair). Also see radius, radius: any # When limiting result by location with the latLong parameter, specify the radius in kilometers., mediaType: any # Restrict results to contributions which include a media file of the given type (ie. image / video), ownedBy: any # Restrict results to contributions which are fall under the jurisdiction by this user., q: any # Restrict results to contributions whose headline text matches this keyword., urlWords: any # Locate a specific contribution by URL words, user: any # Restrict results to contributions by this user identified by id.}
+@returns(200) A summary of the number of contributions, media files and approximate total size of media files.
+
+@endgroup
+
+@group exports
+@endpoint GET /exports/{id}
+@desc Get a single export job; poll to follow export progress.
+@required {id: any # Id of the export job to return}
+@returns(200) Successful
+@errors {404: Not found}
+
+@endgroup
+
+@group contributions
+@endpoint GET /contributions
+@desc List contributions
+@optional {assignment: any # Restrict results to contributions submitted to this assignment., country: any # Limit results to contributions which have a publicly visible location within the given country (specified by two letter country code)., createdBefore: any # Limit results to contributions created before this date time., createdAfter: any # Limit results to contributions created after this date time., createdDay: any # Limit results to contributions created on this day., createdMonth: any # Limit results to contributions created during this month., geohash: any # Restrict results to contributions which have specified a location which falls within this geohash (or comma seperated list of multiple geohashes), hasLocation: any # Restrict results to contributions which have a publicly visible location., latLong: any # Limit results to contributions with location near this latitude and longitude (comma seperated lat/long pair). Also see radius, radius: any # When limiting result by location with the latLong parameter, specify the radius in kilometers., mediaType: any # Restrict results to contributions which include a media file of the given type (ie. image / video), ownedBy: any # Restrict results to contributions which are fall under the jurisdiction by this user., q: any # Restrict results to contributions whose headline text matches this keyword., urlWords: any # Locate a specific contribution by URL words, user: any # Restrict results to contributions by this user identified by id., ids: any # Restrict results to a list of specific contributions identified by a comma seperated list of ids., format: any # Select output format. 'json' or 'rss'. Defaults to JSON.}
+@returns(200) A list of contributions
+
+@endpoint POST /contributions
+@desc Create a new contribution
+@required {body: map # Contribution object to be created}
+@returns(200) Contribution created
+
+@endpoint GET /contributions/{id}
+@desc Get a single contribution by id
+@required {id: any # Id of the contribution to return}
+@returns(200) Successful
+@errors {404: Not found}
+
+@endpoint DELETE /contributions/{id}
+@desc Delete this contribution
+@required {id: any # Id of the contribution to delete}
+@returns(200) The deletion request has been accepted and will be processed in the background.
+@errors {403: The currently authorised user is not allowed to delete this contribution., 404: Not found}
+
+@endpoint POST /contributions/{id}/flag
+@desc Raise a flag against this contribution
+@required {id: any # Id of the contribution to flag, body: map # Flag to be created}
+@returns(200) Flag created
+
+@endpoint POST /contributions/{id}/like
+@desc Allows a user to mark a contribution as liked
+@required {id: any # Id of the contribution}
+@returns(200) The updated like count for this contribution.
+
+@endpoint GET /contributions/{id}/likes
+@desc List users who have liked this contributions
+@required {id: any # Id of the contribution}
+@returns(200) A list of user ids.
+
+@endpoint POST /contributions/{id}/moderate
+@desc Perform a moderation action on this contribution
+@required {id: any # Id of the contribution to moderate, body: map # A moderation action}
+@returns(200) The moderation action was successfully applied
+@errors {400: The submission falied to validate. Check the response body for details., 401: The request was not correctly authorised., 403: You do not have permission to perform this moderation action., 500: An unexpected error occurred.}
+
+@endgroup
+
+@group credentials
+@endpoint GET /credentials
+@desc List the credentials associated with the authenticated user.
+@returns(200) A list of credentials associated with this user.
+@errors {401: Not authorised}
+
+@endgroup
+
+@group event-types
+@endpoint GET /event-types
+@desc Event types
+@returns(200) A list of event types
+
+@endgroup
+
+@group forms
+@endpoint GET /forms
+@desc List forms
+@required {ownedBy: any # Restrict results to forms owned by this user.}
+@returns(200) A list of forms
+
+@endpoint POST /forms
+@desc Create a form
+@required {body: map # Form object to be created}
+@returns(200) Form created
+
+@endpoint GET /forms/{id}
+@desc Get a single form by id
+@required {id: any # Id of the form to return}
+@returns(200) Form found
+@errors {404: Not found}
+
+@endpoint DELETE /forms/{id}
+@desc Delete this form and all of it's responses.
+@required {id: any # Id of the form to delete}
+@returns(200) Form deleted
+@errors {404: Not found}
+
+@endgroup
+
+@group form-responses
+@endpoint POST /form-responses
+@desc Submit a response to a form
+@required {body: map # Form response}
+@returns(200) Form response saved
+
+@endpoint GET /form-responses
+@desc List form responses
+@optional {user: any # Restrict results to responses submitted by this user., form: any # Restrict results to responses submitted to this form., contribution: any # Restrict results to responses relating to this contribution.}
+@returns(200) A list of form responses
+
+@endpoint GET /form-responses/{id}
+@desc Get a single form response by id
+@required {id: any # Id of the assignment to return}
+@returns(200) Form response found
+@errors {404: Not found}
+
+@endgroup
+
+@group media
+@endpoint POST /media
+@desc Submit a new media file
+@required {body: str(byte) # Binary media file}
+@returns(200) Media created
+
+@endgroup
+
+@group notifications
+@endpoint GET /notifications/contributions/{id}/preview
+@required {id: any # Id of the contribution to preview a notification for, message: any # Type of message to preview.}
+@returns(200) Notification preview
+
+@endgroup
+
+@group scopes
+@endpoint GET /scopes
+@desc Scopes
+@returns(200) A list of scopes
+
+@endgroup
+
+@group subscriptions
+@endpoint GET /subscriptions
+@desc List subscriptions for the authorised user.
+@required {body: map # Subscription to be created}
+@returns(200) A list of notification subscriptions
+
+@endpoint DELETE /subscriptions/{id}
+@desc Delete a subscription.
+@required {id: any # Id of the subscription to delete}
+@returns(200) The subscription has been successfully deleted.
+
+@endgroup
+
+@group subscription-types
+@endpoint GET /subscription-types
+@desc Subscription types
+@returns(200) A list of subscription event types
+
+@endgroup
+
+@group tags
+@endpoint GET /tags
+@desc List tags
+@optional {ownedBy: any # Restrict results to those owned by this user., tagSet: any # Restrict results to tags belonging to this tag set., urlWords: any # Restrict results by urlWords. Should be used with ownedBy when searching for one of your own tags.}
+@returns(200) A list of tags
+
+@endpoint POST /tags
+@desc Create a new tag
+@required {body: map # Tag object to be created}
+@returns(200) Tag created
+@errors {400: The new tag submission failed to validate. Check the response body for details., 500: Failed to create the new tag due to an unexcepted error.}
+
+@endpoint GET /tags/{id}
+@desc Retrieve a single tag by id
+@required {id: any # Id of the tag to return}
+@returns(200) The tag
+@errors {404: Not found}
+
+@endgroup
+
+@group tagsets
+@endpoint GET /tagsets
+@desc List tag sets
+@optional {ownedBy: any # Restrict results to those owned by this user., urlWords: any # Restrict results by urlWords. Should be used with ownedBy when searching for one of your own tag sets.}
+@returns(200) A list of tag sets
+
+@endpoint POST /tagsets
+@desc Create a new tag set
+@required {body: map # Tag set to be created}
+@returns(200) Tagset created
+
+@endpoint GET /tagsets/{id}
+@desc Retrieve a single tag set by id
+@required {id: any # Id of the tag set to return}
+@returns(200) The tag set
+@errors {404: Not found}
+
+@endgroup
+
+@group users
+@endpoint GET /users
+@desc List users
+@optional {assignment: any # Restrict results to the users who have contributed to this assignment., country: any # Restrict results to the users who have submitted a contribution with a public location located within this country., minimumContributions: any # Restrict results to the users who have submitted at least this many contributions., linkedProfile: any # Restrict results to the users who a linked profile of this type., ownedBy: any # Restrict results to the users who are owned by of this owner., submittedBefore: any # Limit results to users who have submitted at least one contribution before this date time., submittedAfter: any # Limit results to users who have submitted at least one contribution after this date time., username: any # Restrict results to the user with this username.}
+@returns(200) A list of users
+
+@endpoint GET /users/{id}
+@desc Retrieve a single user by id
+@required {id: any # Id of the user to return}
+@returns(200) Successful
+@errors {404: Not found}
+
+@endpoint GET /users/{id}/linked/{type}
+@desc Retrieve a users linked profile by type
+@required {id: any # Id of the user to return, type: any # Type of the linked profile to fetch}
+@returns(200) Successful
+@errors {404: Not found}
+
+@endgroup
+
+@group verify
+@endpoint POST /verify
+@desc Verify token and return details of the owning user
+@returns(200) Token is valid
+
+@endgroup
+
+@end

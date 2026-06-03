@@ -1,0 +1,23 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Name Generation API
+@base https://api.fungenerators.com
+@version 1.5
+@auth Bearer bearer
+@endpoints 2
+@toc name(2)
+
+@endpoint GET /name/categories
+@desc Get available name generation categories.
+@optional {start: any # start, limit: any # limit}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@endpoint GET /name/generate
+@desc Generated names in the given category
+@required {category: any # Category to generator names from}
+@optional {suggest: any # Suggestion string if supported by this category generator., start: any # start. Controls pagination. Relevant only if suggestion is supported, limit: any # limit. Controls pagination limit. Relevant only if suggestion is supported, variation: any # Variation if supported ( male/female/any )}
+@returns(200) 200  response
+@errors {401: 401  response}
+
+@end

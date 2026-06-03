@@ -1,0 +1,23 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api Microsoft Defender for Cloud
+@base https://management.azure.com
+@version 2015-06-01-preview
+@auth OAuth2
+@endpoints 3
+@toc subscriptions(3)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/topologies
+@desc Gets a list that allows to build a topology view of a subscription.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/topologies
+@desc Gets a list that allows to build a topology view of a subscription and location.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/topologies/{topologyResourceName}
+@desc Gets a specific topology component.
+@required {topologyResourceName: any # Name of a topology resources collection.}
+@returns(200) OK
+
+@end

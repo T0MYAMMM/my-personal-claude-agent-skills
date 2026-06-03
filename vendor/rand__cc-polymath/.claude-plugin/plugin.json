@@ -1,0 +1,85 @@
+{
+  "name": "cc-polymath",
+  "version": "4.0.0",
+  "description": "Efficient skill management system with progressive discovery — 410+ production-ready skills across 33+ domains",
+  "author": {
+    "name": "rand"
+  },
+  "homepage": "https://github.com/rand/cc-polymath",
+  "repository": "https://github.com/rand/cc-polymath",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "gateway",
+    "progressive-loading",
+    "diagrams",
+    "mermaid",
+    "ml",
+    "api",
+    "database",
+    "testing",
+    "infrastructure",
+    "mathematics",
+    "debugging",
+    "frontend",
+    "backend",
+    "rust",
+    "python",
+    "zig",
+    "cryptography",
+    "networking",
+    "engineering",
+    "mobile",
+    "cloud",
+    "devops",
+    "security",
+    "performance",
+    "observability",
+    "pyo3",
+    "dspy",
+    "mcp",
+    "agentic",
+    "prompt-engineering",
+    "git-workflows",
+    "code-review",
+    "context-efficient",
+    "distributed-systems",
+    "formal-methods",
+    "containers"
+  ],
+  "skills": "./skills",
+  "commands": "./commands",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'cc-polymath v4.0.0 loaded (410+ skills, 23 gateways). Use /skills to discover relevant skills. Root: ${CLAUDE_PLUGIN_ROOT}'"
+          }
+        ]
+      },
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'cc-polymath: Skills remain available after compaction. Use /skills to rediscover.'"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": "Explore",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'cc-polymath skills available in this subagent context.'"
+          }
+        ]
+      }
+    ]
+  }
+}

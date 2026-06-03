@@ -1,0 +1,29 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api DeploymentAdminClient
+@base https://management.azure.com
+@version 2019-01-01
+@auth OAuth2
+@endpoints 4
+@toc subscriptions(4)
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productPackages
+@desc Returns an array of product packages.
+@returns(200) OK
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productPackages/{packageId}
+@desc Retrieves the specific product package details.
+@returns(200) OK
+
+@endpoint PUT /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productPackages/{packageId}
+@desc Creates a new product package.
+@required {ProductPackageParameters: map # The parameters required to create a new product package.}
+@returns(200) OK
+@returns(202) Accepted
+
+@endpoint DELETE /subscriptions/{subscriptionId}/providers/Microsoft.Deployment.Admin/locations/global/productPackages/{packageId}
+@desc Deletes a product package.
+@returns(200) OK
+@returns(204) No Content
+
+@end

@@ -1,0 +1,53 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api RecoveryServicesBackupClient
+@base https://management.azure.com
+@version 2017-07-01
+@auth OAuth2
+@common_fields {api-version: any # Client Api Version., subscriptionId: any # The subscription Id.}
+@endpoints 8
+@toc Subscriptions(8)
+
+@endpoint POST /Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupPreValidateProtection
+@desc It will validate followings
+@required {azureRegion: any # Azure region to hit Api, parameters: map # Enable backup validation request on Virtual Machine}
+@returns(200) OK
+
+@endpoint POST /Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupStatus
+@desc Get the container backup status
+@required {azureRegion: any # Azure region to hit Api, parameters: map # Container Backup Status Request}
+@returns(200) OK
+
+@endpoint POST /Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupValidateFeatures
+@desc It will validate if given feature with resource properties is supported in service
+@required {azureRegion: any # Azure region to hit Api, parameters: map # Feature support request object}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}
+@desc Provides the details of the protection intent up item. This is an asynchronous operation. To know the status of the operation,
+@required {vaultName: any # The name of the recovery services vault., resourceGroupName: any # The name of the resource group where the recovery services vault is present., fabricName: any # Fabric name associated with the backed up item., intentObjectName: any # Backed up item name whose details are to be fetched.}
+@returns(200) OK
+
+@endpoint PUT /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}
+@desc Create Intent for Enabling backup of an item. This is a synchronous operation.
+@required {vaultName: any # The name of the recovery services vault., resourceGroupName: any # The name of the resource group where the recovery services vault is present., fabricName: any # Fabric name associated with the backup item., intentObjectName: any # Intent object name., parameters: any # resource backed up item}
+@returns(200) OK
+
+@endpoint DELETE /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}
+@desc Used to remove intent from an item
+@required {vaultName: any # The name of the recovery services vault., resourceGroupName: any # The name of the resource group where the recovery services vault is present., fabricName: any # Fabric name associated with the intent., intentObjectName: any # Intent to be deleted.}
+@returns(204) NoContent
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectionIntents
+@desc Provides a pageable list of all intents that are present within a vault.
+@required {vaultName: any # The name of the recovery services vault., resourceGroupName: any # The name of the resource group where the recovery services vault is present.}
+@optional {$filter: any # OData filter options., $skipToken: any # skipToken Filter.}
+@returns(200) OK
+
+@endpoint GET /Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupUsageSummaries
+@desc Fetches the backup management usage summaries of the vault.
+@required {vaultName: any # The name of the recovery services vault., resourceGroupName: any # The name of the resource group where the recovery services vault is present.}
+@optional {$filter: any # OData filter options., $skipToken: any # skipToken Filter.}
+@returns(200) OK
+
+@end

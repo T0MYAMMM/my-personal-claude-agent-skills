@@ -1,0 +1,38 @@
+@lap v0.3
+# Machine-readable API spec. Each @endpoint block is one API call.
+@api NetworkManagementClient
+@base https://management.azure.com
+@version 2019-02-01
+@auth OAuth2
+@endpoints 5
+@toc subscriptions(5)
+
+@endpoint DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/interfaceEndpoints/{interfaceEndpointName}
+@desc Deletes the specified interface endpoint.
+@required {resourceGroupName: any # The name of the resource group., interfaceEndpointName: any # The name of the interface endpoint.}
+@returns(202) Accepted and the operation will complete asynchronously.
+@returns(204) Delete successful.
+@returns(200) Delete successful.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/interfaceEndpoints/{interfaceEndpointName}
+@desc Gets the specified interface endpoint by resource group.
+@required {resourceGroupName: any # The name of the resource group., interfaceEndpointName: any # The name of the interface endpoint.}
+@optional {$expand: any # Expands referenced resources.}
+@returns(200) Request successful. The operation returns the resulting InterfaceEndpoint resource.
+
+@endpoint PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/interfaceEndpoints/{interfaceEndpointName}
+@desc Creates or updates an interface endpoint in the specified resource group.
+@required {resourceGroupName: any # The name of the resource group., interfaceEndpointName: any # The name of the interface endpoint., parameters: any # Parameters supplied to the create or update interface endpoint operation}
+@returns(200) Update successful. The operation returns the resulting InterfaceEndpoint resource.
+@returns(201) Create successful. The operation returns the resulting InterfaceEndpoint resource.
+
+@endpoint GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/interfaceEndpoints
+@desc Gets all interface endpoints in a resource group.
+@required {resourceGroupName: any # The name of the resource group.}
+@returns(200) Request successful. The operation returns a list of InterfaceEndpoint resources.
+
+@endpoint GET /subscriptions/{subscriptionId}/providers/Microsoft.Network/interfaceEndpoints
+@desc Gets all interface endpoints in a subscription.
+@returns(200) Request successful. The operation returns a list of InterfaceEndpoint resources.
+
+@end
